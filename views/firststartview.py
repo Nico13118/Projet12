@@ -18,4 +18,10 @@ class FirstStartView:
 
         console.print(cadre, justify="left")
 
+    def get_username_view(self):
+        username = Prompt.ask("[bold green]Username[/bold green]")
+        return username
 
+    def get_password_view(self):
+        mdp = Prompt.ask("[bold green]Password[/bold green]", password=True)
+        return mdp
