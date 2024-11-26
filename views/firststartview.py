@@ -25,3 +25,15 @@ class FirstStartView:
     def get_password_view(self):
         mdp = Prompt.ask("[bold green]Password[/bold green]", password=True)
         return mdp
+
+    def error_username_password_view(self):
+        console.clear()
+        cadre = Panel(
+            "\n[red blink]Erreur !! Identifiant ou mot de passe incorrect...[/red blink]\n\n"
+            "[red]Veuillez recommencer.[/red]",
+            title="[blue] Epic Events[/blue]",  # Titre du cadre (optionnel)
+            expand=True,  # Le cadre prend toute la largeur du terminal
+            border_style="red",  # Style de la bordure
+        )
+        console.print(cadre, justify="left")
+        
