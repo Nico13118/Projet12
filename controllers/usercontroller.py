@@ -1,4 +1,5 @@
 from sqlalchemy import create_engine
+from sqlalchemy.exc import OperationalError
 from urllib.parse import quote
 
 
@@ -12,6 +13,5 @@ class UserController:
             engine = create_engine(f'mysql+pymysql://{username}:{password2}@localhost')
             with engine.connect() as connection:
                 return True
-        except ValueError:
+        except OperationalError:
             return False
-        
