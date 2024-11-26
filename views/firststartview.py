@@ -36,4 +36,17 @@ class FirstStartView:
             border_style="red",  # Style de la bordure
         )
         console.print(cadre, justify="left")
-        
+
+    def display_message_database_view(self):
+        console.clear()
+        cadre = Panel(
+            "\n[red blink]Création de la base de données...[/red blink]\n\n"
+            "[bold wihte]Veuillez saisir le nom de votre base de données que vous souhaitez utiliser.[/bold wihte]\n"
+            "[bold wihte]Le nom peut être composé de lettres (majuscules et minuscules) et de chiffres.[/bold wihte]\n"
+            "[red]Seul le caractère underscore '_' est autorisé comme caractère spécial. Les autres caractères[/red]\n"
+            "[red]spéciaux, ainsi que les espaces, sont interdits.[/red]",
+            title="[blue] Epic Events[/blue]",
+            expand=True,
+            border_style="red",
+        )
+        console.print(cadre, justify="left")
