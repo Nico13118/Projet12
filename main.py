@@ -1,8 +1,9 @@
-
+from controllers.maincontroller import MainController
 
 
 def main():
-    pass
+    main_controller = MainController()
+    main_controller.run()
 
 
 if __name__ == "__main__":
