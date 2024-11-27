@@ -38,7 +38,7 @@ class FirstStartController:
             x = re.findall(r"[+@=\\/*!^:;,><#-]", input_database_name)
             if x:
                 # Si erreur, afficher un message d'erreur
-                self.first_start_v.display_message_error_database(x)
+                self.first_start_v.display_message_error_database_view(x)
             else:
                 # Sinon, controle et remplacment les espaces dans le nom par des underscores si présent
                 database_name = re.sub(r"\s", "_", input_database_name)
@@ -49,7 +49,7 @@ class FirstStartController:
         return database_name
 
     def check_user_response_controller(self, database_name):
-        get_confirm = self.first_start_v.get_confirm_created_database(database_name)
+        get_confirm = self.first_start_v.get_confirm_created_database_view(database_name)
         x = get_confirm.upper()
         if x in YES_RESPONSE:
             return True

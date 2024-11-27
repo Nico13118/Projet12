@@ -50,3 +50,32 @@ class FirstStartView:
             border_style="red",
         )
         console.print(cadre, justify="left")
+
+    def get_database_name_view(self):
+        database_name = Prompt.ask("[green]Entrer le nom de la base de données [/green]")
+        return database_name
+
+    def get_confirm_created_database_view(self, database_name):
+        user_response = Prompt.ask(f"[green]Confirmer que vous souhaitez utiliser [red]{database_name!r}[/red] comme "
+                                   f"base de données ? ('Y', 'N')[/green]")
+        return user_response
+
+
+    def display_message_error_database_view(self, x):
+        cadre = Panel(
+            "\n[red blink]Erreur lors de la saisie du nom de la database.[/red blink]\n\n"
+            f"[red]Vous ne pouvez pas utiliser le(s) caractère()s suivant(s): {x}[red]",
+            title="[blue] Epic Events[/blue]",
+            expand=True,
+            border_style="red",
+        )
+        console.print(cadre, justify="left")
+
+    def input_error_view(self):
+        cadre = Panel(
+            "\n[red]Erreur de saisie, veuillez recommencer.[/red ]\n\n",
+            title="[blue] Epic Events[/blue]",  # Titre du cadre (optionnel)
+            expand=True,  # Le cadre prend toute la largeur du terminal
+            border_style="red",  # Style de la bordure
+        )
+        console.print(cadre, justify="left")
