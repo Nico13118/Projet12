@@ -1,13 +1,15 @@
 import re
-
 YES_RESPONSE = ["Y", "YES", "O", "OUI"]
 NO_RESPONSE = ["N", "NO", 'NON']
 
 
 class FirstStartController:
-    def __init__(self, first_start_view, usercontroller):
+    def __init__(self, first_start_view, usercontroller, jsoncontroller, databasecontroller, tablecontroller):
         self.first_start_v = first_start_view
         self.user_c = usercontroller
+        self.json_c = jsoncontroller
+        self.database_c = databasecontroller
+        self.table_c = tablecontroller
 
     def first_start_controller(self):
         self.first_start_v.first_connection_message_view()  # Affichage panneau d'information
@@ -15,8 +17,9 @@ class FirstStartController:
         username = username_password[0]
         password = username_password[1]
         database_name = self.get_database_name_controller()  # L'utilisateur saisi le nom de la bdd.
-        # Envoyer user_name, password et database_name pour création de la bdd
-        print(username, password, database_name)
+        self.json_c.create_json_info_file_controller(database_name)  # Création du fichier json
+        self.database_c.create_databases_controller(username, password, database_name)  # Création de la bdd
+        self.table_c.create_table_all_controller(username, password, database_name)  # Création de toutes les tables
 
     def username_password_controller(self):
         while True:
