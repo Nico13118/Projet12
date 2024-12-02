@@ -79,3 +79,16 @@ class FirstStartView:
             border_style="red",  # Style de la bordure
         )
         console.print(cadre, justify="left")
+
+    def display_message_create_user_gestion_view(self):
+        console.clear()
+        cadre = Panel(
+            "\n[red blink]Création d'un utilisateur MySQL'...[/red blink]\n\n"
+            "[bold wihte]Veuillez saisir les informations de l'utilisateur qui aura les droits[/bold wihte]\n"
+            "[bold wihte]de créer, modifier ou supprimer des utilisateurs dans l'application.[/bold wihte]\n",
+            title="[blue] Epic Events[/blue]",
+            expand=True,
+            border_style="red",
+        )
+        console.print(cadre, justify="left")
+
