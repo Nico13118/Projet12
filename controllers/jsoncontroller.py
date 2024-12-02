@@ -3,7 +3,7 @@ import json
 import time
 from models.jsonmodel import JsonModel
 
-project_root = os.getcwd()
+project_root = os.path.dirname(os.path.dirname(__file__))
 
 
 class JsonController:
@@ -18,3 +18,8 @@ class JsonController:
 
         with open(f'{project_root}/info.json', 'w') as file_json:
             json.dump([result_json], file_json)
+
+    def get_database_name_in_json_file(self):
+        with open(f"{project_root}/info.json", "r") as f:
+            info = json.load(f)
+            return info[0]['name']
