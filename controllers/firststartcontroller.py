@@ -20,6 +20,8 @@ class FirstStartController:
         self.json_c.create_json_info_file_controller(database_name)  # Création du fichier json
         self.database_c.create_databases_controller(username, password, database_name)  # Création de la bdd
         self.table_c.create_table_all_controller(username, password, database_name)  # Création de toutes les tables
+        self.first_start_v.display_message_create_user_gestion_view()  # Panneau d'information création user Gestion
+        self.user_c.start_create_user_controller(username, password)
 
     def username_password_controller(self):
         while True:
