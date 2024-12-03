@@ -52,4 +52,20 @@ class DatabaseController:
                                     f"TO {info_username}@localhost"))
             connection.execute(text(f"GRANT SELECT, UPDATE ON {database_name}.event "
                                     f"TO {info_username}@localhost"))
+            connection.execute(text("FLUSH PRIVILEGES"))
 
+    def save_collaborator_sup_in_mysql_controller(self, username_admin, password_admin,
+                                                  info_username, info_password):
+        """
+        Le support doit pouvoir :
+        Event : Afficher et mettre à jour les évènements >> SELECT, UPDATE.
+        """
+        pass_admin = quote(password_admin)
+        database_name = self.json_c.get_database_name_in_json_file()
+        engine = create_engine(f'mysql+pymysql://{username_admin}:{pass_admin}@localhost/{database_name}')
+        with engine.connect() as connection:
+            connection.execute(text(f"CREATE USER {info_username}@localhost IDENTIFIED BY {info_password}"))
+            connection.execute(text(f"GRANT SELECT, UPDATE ON {database_name}.event "
+                                    f"TO {info_username}@localhost"))
+            connection.execute(text("FLUSH PRIVILEGES"))
+            
