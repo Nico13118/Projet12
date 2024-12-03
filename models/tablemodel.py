@@ -1,6 +1,6 @@
-from sqlalchemy import ForeignKey, String, DateTime, Enum
+from sqlalchemy import ForeignKey, String, DateTime
 from sqlalchemy.sql import func
-from typing import Optional, Literal, List
+from typing import Optional, List
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
@@ -75,8 +75,8 @@ class Customer(Base):
     _event: Mapped[List['Event']] = relationship(back_populates='customer')
 
     def __repr__(self) -> str:
-        return f"<Customer full_name={self.name} {self.first_name}"
-        # f"Commercial: {self.collaborator.name} {self.collaborator.first_name}>"
+        return f"<Customer full_name={self.name} {self.first_name} " \
+               f"Commercial: {self.collaborator.name} {self.collaborator.first_name}>"
 
 
 class Contract(Base):
