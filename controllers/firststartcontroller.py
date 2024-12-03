@@ -21,7 +21,8 @@ class FirstStartController:
         self.database_c.create_databases_controller(username, password, database_name)  # Création de la bdd
         self.table_c.create_table_all_controller(username, password, database_name)  # Création de toutes les tables
         self.first_start_v.display_message_create_user_gestion_view()  # Panneau d'information création user Gestion
-        self.user_c.start_create_user_controller(username, password)
+        self.user_c.start_create_user_controller(username, password)  # Création de l'utilisateur
+        self.first_start_v.display_message_end_of_setting_view()
 
     def username_password_controller(self):
         while True:
