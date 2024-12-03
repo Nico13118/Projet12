@@ -39,9 +39,11 @@ class UserController:
             self.database_c.save_collaborator_com_in_mysql_controller(username_admin, password_admin,
                                                                       info_username, info_password)
         if role_id == 2:
-            pass
+            self.database_c.save_collaborator_ges_in_mysql_controller(username_admin, password_admin,
+                                                                      info_username, info_password)
         if role_id == 3:
-            pass
+            self.database_c.save_collaborator_sup_in_mysql_controller(username_admin, password_admin,
+                                                                      info_username, info_password)
 
     def get_role_id_controller(self, info_role):
         role = ""
@@ -91,7 +93,7 @@ class UserController:
 
     def get_username_controller(self, name, first_name):
         lower_name = name.lower()
-        lower_first_name = first_name()
+        lower_first_name = first_name.lower()
         username = f"{lower_name}_{lower_first_name}"
         return username
 
