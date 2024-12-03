@@ -92,3 +92,13 @@ class FirstStartView:
         )
         console.print(cadre, justify="left")
 
+    def display_message_end_of_setting_view(self):
+        console.clear()
+        cadre = Panel(
+            "\n[red blink]Fin du paramétrage de base...[/red blink]\n\n"
+            "[bold wihte]Vous pouvez maintenant vous connecter à l'application.[/bold wihte]\n",
+            title="[blue] Epic Events[/blue]",
+            expand=True,
+            border_style="green",
+        )
+        console.print(cadre, justify="left")
