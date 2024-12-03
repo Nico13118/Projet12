@@ -32,3 +32,24 @@ class DatabaseController:
                                     f"TO {info_username}@localhost"))
             connection.execute(text(f"GRANT INSERT ON {database_name}.event TO {info_username}@localhost"))
             connection.execute(text("FLUSH PRIVILEGES"))
+
+    def save_collaborator_ges_in_mysql_controller(self, username_admin, password_admin,
+                                                  info_username, info_password):
+        """
+        La gestion doit pouvoir :
+        Collaborator : Créer, mettre à jour et supprimer des collaborateurs >> SELECT, INSERT, UPDATE, DELETE.
+        Contract : Créer et modifier tous les contrats >> INSERT, UPDATE.
+        Event : Afficher et modifier des évènements SELECT, UPDATE.
+        """
+        pass_admin = quote(password_admin)
+        database_name = self.json_c.get_database_name_in_json_file()
+        engine = create_engine(f'mysql+pymysql://{username_admin}:{pass_admin}@localhost/{database_name}')
+        with engine.connect() as connection:
+            connection.execute(text(f"CREATE USER {info_username}@localhost IDENTIFIED BY {info_password}"))
+            connection.execute(text(f"GRANT SELECT, INSERT, UPDATE, DELETE ON {database_name}.collaborator "
+                                    f"TO {info_username}@localhost"))
+            connection.execute(text(f"GRANT INSERT, UPDATE ON {database_name}.contract "
+                                    f"TO {info_username}@localhost"))
+            connection.execute(text(f"GRANT SELECT, UPDATE ON {database_name}.event "
+                                    f"TO {info_username}@localhost"))
+
