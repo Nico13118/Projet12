@@ -25,7 +25,7 @@ class DatabaseController:
         database_name = self.json_c.get_database_name_in_json_file()
         engine = create_engine(f'mysql+pymysql://{username_admin}:{pass_admin}@localhost/{database_name}')
         with engine.connect() as connection:
-            connection.execute(text(f"CREATE USER {info_username}@localhost IDENTIFIED BY {info_password}"))
+            connection.execute(text(f"CREATE USER '{info_username}'@'localhost' IDENTIFIED BY '{info_password}'"))
             connection.execute(text(f"GRANT SELECT, INSERT, UPDATE ON {database_name}.customer "
                                     f"TO {info_username}@localhost"))
             connection.execute(text(f"GRANT SELECT, INSERT, UPDATE ON {database_name}.contract "
@@ -45,7 +45,7 @@ class DatabaseController:
         database_name = self.json_c.get_database_name_in_json_file()
         engine = create_engine(f'mysql+pymysql://{username_admin}:{pass_admin}@localhost/{database_name}')
         with engine.connect() as connection:
-            connection.execute(text(f"CREATE USER {info_username}@localhost IDENTIFIED BY {info_password}"))
+            connection.execute(text(f"CREATE USER '{info_username}'@'localhost' IDENTIFIED BY '{info_password}'"))
             connection.execute(text(f"GRANT SELECT, INSERT, UPDATE, DELETE ON {database_name}.collaborator "
                                     f"TO {info_username}@localhost"))
             connection.execute(text(f"GRANT INSERT, UPDATE ON {database_name}.contract "
@@ -64,8 +64,7 @@ class DatabaseController:
         database_name = self.json_c.get_database_name_in_json_file()
         engine = create_engine(f'mysql+pymysql://{username_admin}:{pass_admin}@localhost/{database_name}')
         with engine.connect() as connection:
-            connection.execute(text(f"CREATE USER {info_username}@localhost IDENTIFIED BY {info_password}"))
+            connection.execute(text(f"CREATE USER '{info_username}'@'localhost' IDENTIFIED BY '{info_password}'"))
             connection.execute(text(f"GRANT SELECT, UPDATE ON {database_name}.event "
                                     f"TO {info_username}@localhost"))
             connection.execute(text("FLUSH PRIVILEGES"))
-            
