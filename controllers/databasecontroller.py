@@ -31,28 +31,45 @@ class DatabaseController:
             connection.execute(text(f"GRANT SELECT, INSERT, UPDATE ON {database_name}.contract "
                                     f"TO {info_username}@localhost"))
             connection.execute(text(f"GRANT INSERT ON {database_name}.event TO {info_username}@localhost"))
-            connection.execute(text("FLUSH PRIVILEGES"))
 
     def save_collaborator_ges_in_mysql_controller(self, username_admin, password_admin,
                                                   info_username, info_password):
         """
-        La gestion doit pouvoir :
-        Collaborator : Créer, mettre à jour et supprimer des collaborateurs >> SELECT, INSERT, UPDATE, DELETE.
-        Contract : Créer et modifier tous les contrats >> INSERT, UPDATE.
-        Event : Afficher et modifier des évènements SELECT, UPDATE.
+
+        :param username_admin:
+        :param password_admin:
+        :param info_username:
+        :param info_password:
+        :return:
         """
         pass_admin = quote(password_admin)
         database_name = self.json_c.get_database_name_in_json_file()
         engine = create_engine(f'mysql+pymysql://{username_admin}:{pass_admin}@localhost/{database_name}')
         with engine.connect() as connection:
+
+            " Permet d'enregistrer un User MySQL"
             connection.execute(text(f"CREATE USER '{info_username}'@'localhost' IDENTIFIED BY '{info_password}'"))
+
+            " Configuration des droits de l'utilisateur Gestion pour manipuler les User MSQL."
+            connection.execute(text(f"GRANT CREATE USER, DROP ON *.* TO {info_username}@localhost"))
+            connection.execute(text(f"GRANT SELECT, UPDATE ON mysql.user TO {info_username}@localhost"))
+
+            " Configuration des droits de l'utilisateur Gestion pour manipuler les tables."
             connection.execute(text(f"GRANT SELECT, INSERT, UPDATE, DELETE ON {database_name}.collaborator "
                                     f"TO {info_username}@localhost"))
-            connection.execute(text(f"GRANT INSERT, UPDATE ON {database_name}.contract "
+            connection.execute(text(f"GRANT SELECT, INSERT, UPDATE ON {database_name}.customer "
                                     f"TO {info_username}@localhost"))
-            connection.execute(text(f"GRANT SELECT, UPDATE ON {database_name}.event "
+            connection.execute(text(f"GRANT SELECT, INSERT, UPDATE ON {database_name}.contract "
                                     f"TO {info_username}@localhost"))
-            connection.execute(text("FLUSH PRIVILEGES"))
+            connection.execute(text(f"GRANT SELECT, INSERT, UPDATE ON {database_name}.event "
+                                    f"TO {info_username}@localhost"))
+
+            "Pour que l'utilisateur Gestion puisse accorder des droits à d'autres collaborateur 'Gestion compris"
+            connection.execute(text(f"GRANT GRANT OPTION ON {database_name}.customer TO {info_username}@localhost"))
+            connection.execute(text(f"GRANT GRANT OPTION ON {database_name}.contract TO {info_username}@localhost"))
+            connection.execute(text(f"GRANT GRANT OPTION ON {database_name}.event TO {info_username}@localhost"))
+            connection.execute(text(f"GRANT GRANT OPTION ON *.* TO {info_username}@localhost"))
+            connection.execute(text(f"GRANT GRANT OPTION ON mysql.user TO {info_username}@localhost"))
 
     def save_collaborator_sup_in_mysql_controller(self, username_admin, password_admin,
                                                   info_username, info_password):
