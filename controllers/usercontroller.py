@@ -13,6 +13,12 @@ class UserController:
         self.database_c = databasecontroller
 
     def test_username_password_controller(self, username_admin, password_admin):
+        """
+        Fonction qui permet de tester les identifiants de connexion d'un compte MySQL.
+        : param username_admin :
+        : param password_admin :
+        : return : True / False
+        """
         pass_admin = quote(password_admin)
         try:
             engine = create_engine(f'mysql+pymysql://{username_admin}:{pass_admin}@localhost')
@@ -46,75 +52,116 @@ class UserController:
                                                                       info_username, info_password)
 
     def get_role_id_controller(self, info_role):
-        role = ""
+        """
+        Fonction qui retourne le role_id selon le role reçu en paramètre.
+        : param info_role:
+        : return: role_id
+        """
+        role_id = ""
         if info_role == "COM":
-            role = 1
+            role_id = 1
         elif info_role == "GES":
-            role = 2
+            role_id = 2
         elif info_role == "SUP":
-            role = 3
-        return role
+            role_id = 3
+        return role_id
 
     def search_is_alpha_controller(self, user_input1):
+        """
+        Fonction qui permet de vérifier que la saisie ne contient que des lettres
+        : param user_input1:
+        :return: True / False
+        """
         user_input2 = re.sub(r"\s", "", user_input1)
         x = user_input2.isalpha()
         return x
 
     def get_name_controller(self):
+        """
+        Fonction qui permet de contrôler la saisie utilisateur concernant le champ name.
+
+        :return: name
+        """
         while True:
-            user_input = self.user_v.get_name_view()  # Récupère la saisie de l'utilisateur
-            if user_input:  # Vérifie que la saisie n'est pas vide
-                if self.search_is_alpha_controller(user_input):  # Vérifie que la saisie contient que des lettres
+            name = self.user_v.get_name_view()  # Récupère la saisie de l'utilisateur
+            if name:  # Vérifie que la saisie n'est pas vide
+                if self.search_is_alpha_controller(name):  # Vérifie que la saisie contient que des lettres
                     break
                 else:
                     self.user_v.error_message_field_contains_number()
             else:
                 self.user_v.error_message_empty_field_view()
-        return user_input
+        return name
 
     def get_first_name_controller(self):
+        """
+        Fonction qui permet de contrôler la saisie utilisateur concernant le champ first_name.
+
+        :return: first_name
+        """
         while True:
-            user_input = self.user_v.get_first_name_view()  # Récupère la saisie de l'utilisateur
-            if user_input:  # Vérifie que la saisie n'est pas vide
-                if self.search_is_alpha_controller(user_input):  # Vérifie que la saisie contient que des lettres
+            first_name = self.user_v.get_first_name_view()  # Récupère la saisie de l'utilisateur
+            if first_name:  # Vérifie que la saisie n'est pas vide
+                if self.search_is_alpha_controller(first_name):  # Vérifie que la saisie contient que des lettres
                     break
             else:
                 self.user_v.display_message_error_field_view()
-        return user_input
+        return first_name
 
     def get_email_controller(self):
+        """
+        Fonction qui permet de contrôler la saisie utilisateur concernant le champ email.
+
+        :return: email
+        """
         while True:
-            user_input = self.user_v.get_email_view()  # Récupère la saisie de l'utilisateur
-            if user_input:  # Vérifie que la saisie n'est pas vide
+            email = self.user_v.get_email_view()  # Récupère la saisie de l'utilisateur
+            if email:  # Vérifie que la saisie n'est pas vide
                 break
             else:
                 self.user_v.display_message_error_field_view()
-        return user_input
+        return email
 
     def get_username_controller(self, name, first_name):
+        """
+        Fonction qui permet de créer un username.
+        Name et first_name sont modifiés en minuscule puis concaténé avec un undescore qui permet la séparation.
+
+        :return: user_name
+        """
         lower_name = name.lower()
         lower_first_name = first_name.lower()
         username = f"{lower_name}_{lower_first_name}"
         return username
 
     def get_password_controller(self):
+        """
+        Fonction qui permet de contrôler la saisie utilisateur concernant le champ password.
+
+        :return: password
+        """
         while True:
-            user_input = self.user_v.get_password_view()  # Récupère la saisie de l'utilisateur
-            if user_input:
+            password = self.user_v.get_password_view()  # Récupère la saisie de l'utilisateur
+            if password:
                 break
             else:
                 self.user_v.display_message_error_field_view()
-        return user_input
+        return password
 
     def get_role_controller(self):
+        """
+        Fonction qui permet de contrôler la saisie utilisateur concernant le champ role.
+
+        :return: role
+        """
         while True:
-            user_input = self.user_v.get_role_view()  # Récupère la saisie de l'utilisateur
-            if user_input:
-                user_input = user_input.upper()
-                if user_input in ROLE:
+            role = self.user_v.get_role_view()  # Récupère la saisie de l'utilisateur
+            if role:
+                role = role.upper()
+                if role in ROLE:
                     break
                 else:
                     self.user_v.display_message_error_choices_view()
             else:
                 self.user_v.display_message_error_field_view()
-        return user_input
+        return role
