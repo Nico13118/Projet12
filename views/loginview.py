@@ -11,12 +11,12 @@ class LoginView:
         comment s'authentifier
         """
         cadre = Panel(
-            "\n[bold green]Pour vous connecter, vous devez saisir le nom et prénom de l'utilisateur et mot de passe."
-            "[/bold green]\n"
-            "\n[bold green]Format attendu: dupont_henry[/bold green]\n",
-            title="[blue] Epic Events Connexion[/blue]",  # Titre du cadre (optionnel)
+            "\n[bright_cyan]Pour vous connecter, vous devez saisir le nom et prénom de l'utilisateur et mot de passe."
+            "[/bright_cyan]\n"
+            "\n[bright_cyan]Format attendu: dupont_henry[bright_cyan]\n",
+            title="[deep_sky_blue1] Epic Events Connexion[deep_sky_blue1]",  # Titre du cadre (optionnel)
             expand=True,  # Le cadre prend toute la largeur du terminal
-            border_style="green",  # Style de la bordure
+            border_style="spring_green1",  # Style de la bordure
         )
         console.print(cadre, justify="left")
 
@@ -26,7 +26,7 @@ class LoginView:
 
         :return: username
         """
-        username = Prompt.ask("[bold green]Username [/bold green]")
+        username = Prompt.ask("[bright_cyan]Username [bright_cyan]")
         return username
 
     def get_password_view(self):
@@ -35,6 +35,6 @@ class LoginView:
 
         :return: password
         """
-        password = Prompt.ask("[bold green]Password [/bold green]")
+        password = Prompt.ask("[bright_cyan]Password [bright_cyan]")
         return password
 
