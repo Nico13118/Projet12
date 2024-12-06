@@ -1,5 +1,4 @@
 from sqlalchemy import create_engine
-from sqlalchemy.exc import OperationalError
 from urllib.parse import quote
 import re
 
@@ -12,21 +11,6 @@ class UserController:
         self.table_c = tablecontroller
         self.database_c = databasecontroller
         self.check_user_input_c = checkuserinputcontroller
-
-    def test_username_password_controller(self, username_admin, password_admin):
-        """
-        Fonction qui permet de tester les identifiants de connexion d'un compte MySQL.
-        : param username_admin :
-        : param password_admin :
-        : return : True / False
-        """
-        pass_admin = quote(password_admin)
-        try:
-            engine = create_engine(f'mysql+pymysql://{username_admin}:{pass_admin}@localhost')
-            with engine.connect() as connection:
-                return True
-        except OperationalError:
-            return False
 
     def start_create_user_controller(self, username_admin, password_admin):
         info_name = self.get_name_controller()
