@@ -7,10 +7,11 @@ ROLE = ["COM", "GES", "SUP"]
 
 
 class UserController:
-    def __init__(self, userview, tablecontroller, databasecontroller):
+    def __init__(self, userview, tablecontroller, databasecontroller, checkuserinputcontroller):
         self.user_v = userview
         self.table_c = tablecontroller
         self.database_c = databasecontroller
+        self.check_user_input_c = checkuserinputcontroller
 
     def test_username_password_controller(self, username_admin, password_admin):
         """
@@ -55,8 +56,9 @@ class UserController:
     def get_role_id_controller(self, info_role):
         """
         Fonction qui retourne le role_id selon le role reçu en paramètre.
+
         : param info_role:
-        : return: role_id
+        :return: role_id
         """
         role_id = ""
         if info_role == "COM":
@@ -67,16 +69,6 @@ class UserController:
             role_id = 3
         return role_id
 
-    def search_is_alpha_controller(self, user_input1):
-        """
-        Fonction qui permet de vérifier que la saisie ne contient que des lettres
-        : param user_input1:
-        :return: True / False
-        """
-        user_input2 = re.sub(r"\s", "", user_input1)
-        x = user_input2.isalpha()
-        return x
-
     def get_name_controller(self):
         """
         Fonction qui permet de contrôler la saisie utilisateur concernant le champ name.
@@ -86,7 +78,8 @@ class UserController:
         while True:
             name = self.user_v.get_name_view()  # Récupère la saisie de l'utilisateur
             if name:  # Vérifie que la saisie n'est pas vide
-                if self.search_is_alpha_controller(name):  # Vérifie que la saisie contient que des lettres
+                # Vérifie que la saisie contient que des lettres
+                if self.check_user_input_c.search_is_alpha_controller(name):
                     break
                 else:
                     self.user_v.error_message_field_contains_number()
@@ -103,7 +96,8 @@ class UserController:
         while True:
             first_name = self.user_v.get_first_name_view()  # Récupère la saisie de l'utilisateur
             if first_name:  # Vérifie que la saisie n'est pas vide
-                if self.search_is_alpha_controller(first_name):  # Vérifie que la saisie contient que des lettres
+                # Vérifie que la saisie contient que des lettres
+                if self.check_user_input_c.search_is_alpha_controller(first_name):
                     break
             else:
                 self.user_v.display_message_error_field_view()
