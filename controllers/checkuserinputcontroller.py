@@ -1,3 +1,4 @@
+import re
 YES_RESPONSE = ["Y", "YES", "O", "OUI"]
 NO_RESPONSE = ["N", "NO", 'NON']
 
@@ -36,4 +37,14 @@ class CheckUserInputController:
         :return: True / False
         """
         x = user_input.isdigit()
+        return x
+
+    def search_is_alpha_controller(self, user_input1):
+        """
+        Fonction qui permet de vérifier que la saisie ne contient que des lettres
+        : param user_input1:
+        :return: True / False
+        """
+        user_input2 = re.sub(r"\s", "", user_input1)
+        x = user_input2.isalpha()
         return x
