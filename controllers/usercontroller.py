@@ -30,8 +30,9 @@ class UserController:
     def start_create_user_controller(self, username_admin, password_admin):
         info_name = self.get_name_controller()
         info_first_name = self.get_first_name_controller()
+        name_first_name = f"{info_name} {info_first_name}"
         info_email = self.get_email_controller()
-        info_username = self.get_username_controller(info_name, info_first_name)
+        info_username = self.get_username_controller(name_first_name)
         info_password = self.get_password_controller()
         info_role = self.get_role_controller()
 
@@ -122,16 +123,16 @@ class UserController:
                 self.user_v.display_message_error_field_view()
         return email
 
-    def get_username_controller(self, name, first_name):
+    def get_username_controller(self, name_first_name):
         """
         Fonction qui permet de créer un username.
-        Name et first_name sont modifiés en minuscule puis concaténé avec un undescore qui permet la séparation.
+        Name et first_name sont modifiés en minuscule en ajoutant un undescore si présence d'un espace dans le nom
+        et prénom.
 
         :return: user_name
         """
-        lower_name = name.lower()
-        lower_first_name = first_name.lower()
-        username = f"{lower_name}_{lower_first_name}"
+        name_first_name_lower = name_first_name.lower()
+        username = re.sub(r"\s", "_", name_first_name_lower)
         return username
 
     def get_password_controller(self):
