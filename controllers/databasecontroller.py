@@ -1,10 +1,26 @@
 from sqlalchemy import create_engine, text
 from urllib.parse import quote
+from sqlalchemy.exc import OperationalError
 
 
 class DatabaseController:
     def __init__(self, jsoncontroller):
         self.json_c = jsoncontroller
+
+    def test_username_password_controller(self, username_admin, password_admin):
+        """
+        Fonction qui permet de tester les identifiants de connexion d'un compte MySQL.
+        : param username_admin :
+        : param password_admin :
+        : return : True / False
+        """
+        pass_admin = quote(password_admin)
+        try:
+            engine = create_engine(f'mysql+pymysql://{username_admin}:{pass_admin}@localhost')
+            with engine.connect() as connection:
+                return True
+        except OperationalError:
+            return False
 
     def create_databases_controller(self, username, password1, database_name):
         password2 = quote(password1)
@@ -84,4 +100,3 @@ class DatabaseController:
             connection.execute(text(f"CREATE USER '{info_username}'@'localhost' IDENTIFIED BY '{info_password}'"))
             connection.execute(text(f"GRANT SELECT, UPDATE ON {database_name}.event "
                                     f"TO {info_username}@localhost"))
-            connection.execute(text("FLUSH PRIVILEGES"))
