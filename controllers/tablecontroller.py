@@ -46,19 +46,33 @@ class TableController:
             session.add_all([com, ges, sup])
             session.commit()
 
-    def get_info_collaborator(self, username_collab, password_collab):
+    def get_information_for_single_collaborator_controller(self, username_collab, password_collab):
         """
         Fonction qui permet de retourner les informations d'un seul collaborateur.
         Recherche avec username.
 
-        :param username_collab:
-        :param password_collab:
+        :param username_collab
+        :param password_collab
         :return: result
         """
         password = quote(password_collab)
         database_name = self.json_c.get_database_name_in_json_file()
         engine = create_engine(f'mysql+pymysql://{username_collab}:{password}@localhost/{database_name}')
         with engine.connect() as connection:
-            result = connection.execute(text(f"select * from collaborator where username = '{username_collab}'"))
+            result = connection.execute(text(f"SELECT * FROM collaborator WHERE username = '{username_collab}'"))
             return result
 
+    def get_information_for_all_collaborators_controller(self, username_collab, password_collab):
+        """
+        Fonction qui permet de retourner la liste complète des collaborateurs.
+         
+        :param username_collab:
+        :param password_collab:
+        :return:
+        """
+        password = quote(password_collab)
+        database_name = self.json_c.get_database_name_in_json_file()
+        engine = create_engine(f'mysql+pymysql://{username_collab}:{password}@localhost/{database_name}')
+        with engine.connect() as connection:
+            result = connection.execute(text(f"SELECT * FROM collaborator"))
+            return result
