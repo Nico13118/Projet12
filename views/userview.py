@@ -2,7 +2,7 @@ from rich.prompt import Prompt
 from rich.panel import Panel
 from rich.console import Console
 from rich.table import Table
-
+from rich.text import Text
 console = Console()
 
 
@@ -57,12 +57,13 @@ class UserView:
     def display_list_collaborator(self, result):
         table = Table(title="[bright_blue]Epic Events\nListe des collaborateurs[/bright_blue]", style="spring_green1")
         table.add_column("[bright_blue]ID[/bright_blue]", justify="center", style="bright_cyan")
-        table.add_column("[bright_blue]Nom / Prénom[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Nom[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Prénom[/bright_blue]", justify="left", style="bright_cyan")
         table.add_column("[bright_blue]email[/bright_blue]", justify="left", style="bright_cyan")
         table.add_column("[bright_blue]Username[/bright_blue]", justify="left", style="bright_cyan")
         table.add_column("[bright_blue]Role ID[/bright_blue]", justify="center", style="bright_cyan")
         for row in result:
-            table.add_row(f"{row.id}", f"{row.name} {row.first_name}", f"{row.email}", f"{row.username}",
+            table.add_row(f"{row.id}", f"{row.name}", f"{row.first_name}", f"{row.email}", f"{row.username}",
                           f"{row.role_id}")
         console.print(table)
 
@@ -72,10 +73,15 @@ class UserView:
         return user_input
 
     def display_error_message_edit_collaborator_list(self):
-        cadre = Panel(
-            "\n[red]Vous devez saisir les valeurs suivantes [Y/N].[/red ]\n\n",
-            title="[deep_sky_blue1] Epic Events[/deep_sky_blue1]",  # Titre du cadre (optionnel)
-            expand=True,  # Le cadre prend toute la largeur du terminal
-            border_style="spring_green1",  # Style de la bordure
-        )
-        console.print(cadre, justify="left")
+        text = Text("Vous devez saisir les valeurs suivantes [Y/N].")
+        text.stylize("bold red")
+        console.print(text)
+
+    def get_collaborator_id_view(self):
+        user_input = Prompt.ask("[bright_cyan]Veuillez saisir l'id du collaborateur [/bright_cyan]")
+        return user_input
+
+    def display_error_message_choice_view(self):
+        text = Text("Choix invalide, veuillez recommencer.")
+        text.stylize("bold red")
+        console.print(text)
