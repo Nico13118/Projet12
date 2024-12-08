@@ -79,11 +79,14 @@ class DatabaseController:
                                     f"TO {info_username}@localhost"))
             connection.execute(text(f"GRANT SELECT, INSERT, UPDATE ON {database_name}.event "
                                     f"TO {info_username}@localhost"))
+            connection.execute(text(f"GRANT SELECT ON {database_name}.role "
+                                    f"TO {info_username}@localhost"))
 
             "Pour que l'utilisateur Gestion puisse accorder des droits à d'autres collaborateur 'Gestion compris"
             connection.execute(text(f"GRANT GRANT OPTION ON {database_name}.customer TO {info_username}@localhost"))
             connection.execute(text(f"GRANT GRANT OPTION ON {database_name}.contract TO {info_username}@localhost"))
             connection.execute(text(f"GRANT GRANT OPTION ON {database_name}.event TO {info_username}@localhost"))
+            connection.execute(text(f"GRANT GRANT OPTION ON {database_name}.role TO {info_username}@localhost"))
             connection.execute(text(f"GRANT GRANT OPTION ON *.* TO {info_username}@localhost"))
             connection.execute(text(f"GRANT GRANT OPTION ON mysql.user TO {info_username}@localhost"))
 
