@@ -65,7 +65,7 @@ class TableController:
     def get_information_for_all_collaborators_controller(self, username_collab, password_collab):
         """
         Fonction qui permet de retourner la liste complète des collaborateurs.
-         
+
         :param username_collab:
         :param password_collab:
         :return:
@@ -76,3 +76,15 @@ class TableController:
         with engine.connect() as connection:
             result = connection.execute(text(f"SELECT * FROM collaborator"))
             return result
+
+    def get_single_collaborator_info_with_id_controller(self, user_id, username_admin, password_admin):
+        password = quote(password_admin)
+        database_name = self.json_c.get_database_name_in_json_file()
+        engine = create_engine(f'mysql+pymysql://{username_admin}:{password}@localhost/{database_name}')
+        with engine.connect() as connection:
+            result_user = connection.execute(text(f"SELECT * FROM collaborator JOIN role ON collaborator.role_id = "
+                                                  f"role.id WHERE collaborator.id = '{user_id}'"))
+            return result_user
+
+    def edit_collaborator_fields(self):
+        pass
