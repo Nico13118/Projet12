@@ -15,12 +15,12 @@ class Base(DeclarativeBase):
 class Role(Base):
     __tablename__ = 'role'
     id: Mapped[int] = mapped_column(autoincrement=True, primary_key=True)
-    name: Mapped[str] = mapped_column(String(3), nullable=False)  # nullable=False >> Le champ ne peut pas être vide
+    role_name: Mapped[str] = mapped_column(String(3), nullable=False)  # nullable=False >> Le champ ne peut pas être vide
     # Role >> Collaborator : One-to-Many : Un rôle peut avoir plusieurs collaborateurs.
     collab: Mapped[List['Collaborator']] = relationship(back_populates='role')
 
     def __repr__(self) -> str:
-        return f"<Role name={self.name}>"
+        return f"<Role name={self.role_name}>"
 
 
 class Collaborator(Base):
