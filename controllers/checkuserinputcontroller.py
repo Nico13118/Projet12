@@ -32,7 +32,7 @@ class CheckUserInputController:
     def check_user_input_isdigit(self, user_input):
         """
         Fonction qui contrôle que la saisie de l'utilisateur soit bien un chiffre.
-        
+
         :param user_input:
         :return: True / False
         """
@@ -48,3 +48,7 @@ class CheckUserInputController:
         user_input2 = re.sub(r"\s", "", user_input1)
         x = user_input2.isalpha()
         return x
+
+    def check_user_input_of_edit_collaborator_information_menu(self, result_choice):
+        if 1 <= result_choice <= 6:
+            return True
