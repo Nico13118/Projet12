@@ -9,6 +9,13 @@ class TableController:
         self.json_c = jsoncontroller
 
     def create_table_all_controller(self, username_admin, password_admin, database_name):
+        """
+        Fonction qui permet de créer toutes les tables.
+
+        :param username_admin:
+        :param password_admin:
+        :param database_name:
+        """
         pass_admin = quote(password_admin)
         engine = create_engine(f'mysql+pymysql://{username_admin}:{pass_admin}@localhost/{database_name}')
         Base.metadata.create_all(bind=engine, tables=None, checkfirst=False)
@@ -16,11 +23,23 @@ class TableController:
 
     def save_collaborator_in_table_controller(self, username_collab, password_collab, info_name, info_first_name,
                                               info_email, info_username, info_password, role):
+        """
+        Fonction qui permet d'enregistrer un collaborateur dans la table.
+
+        :param username_collab:
+        :param password_collab:
+        :param info_name:
+        :param info_first_name:
+        :param info_email:
+        :param info_username:
+        :param info_password:
+        :param role:
+        """
         database_name = self.json_c.get_database_name_in_json_file()  # Récupère le nom de la base de données
         password = quote(password_collab)
         engine = create_engine(f'mysql+pymysql://{username_collab}:{password}@localhost/{database_name}')
         with Session(engine) as session:
-            commercial = Collaborator(
+            collaborator = Collaborator(
                 name=info_name,
                 first_name=info_first_name,
                 email=info_email,
@@ -28,10 +47,18 @@ class TableController:
                 password=info_password,
                 role_id=role
             )
-            session.add(commercial)
+            session.add(collaborator)
             session.commit()
 
     def add_roles_in_the_table(self, username_admin, pass_admin, database_name):
+        """
+        Fonction qui permet d'enregistrer les rôles dans la table.
+
+        :param username_admin:
+        :param pass_admin:
+        :param database_name:
+        :return:
+        """
         engine = create_engine(f'mysql+pymysql://{username_admin}:{pass_admin}@localhost/{database_name}')
         with Session(engine) as session:
             com = Role(
@@ -68,7 +95,7 @@ class TableController:
 
         :param username_collab:
         :param password_collab:
-        :return:
+        :return: result
         """
         password = quote(password_collab)
         database_name = self.json_c.get_database_name_in_json_file()
@@ -78,6 +105,14 @@ class TableController:
             return result
 
     def get_single_collaborator_info_with_id_controller(self, user_id, username_admin, password_admin):
+        """
+        Fonction qui permet de récupérer les informations d'un utilisateur avec son ID.
+
+        :param user_id :
+        :param username_admin :
+        :param password_admin :
+        :return: result_user
+        """
         password = quote(password_admin)
         database_name = self.json_c.get_database_name_in_json_file()
         engine = create_engine(f'mysql+pymysql://{username_admin}:{password}@localhost/{database_name}')
@@ -86,5 +121,21 @@ class TableController:
                                                   f"role.id WHERE collaborator.id = '{user_id}'"))
             return result_user
 
-    def edit_collaborator_fields(self):
-        pass
+    def edit_collaborator_fields_controller(self, user_id, new_value, username_admin, password_admin, field):
+        """
+        Fonction qui permet de mettre à jour un champ concernant un collaborateur.
+
+        :param user_id :
+        :param new_value :
+        :param username_admin :
+        :param password_admin :
+        :param field:
+        :return: True
+        """
+        password = quote(password_admin)
+        database_name = self.json_c.get_database_name_in_json_file()
+        engine = create_engine(f'mysql+pymysql://{username_admin}:{password}@localhost/{database_name}')
+        with engine.connect() as connection:
+            connection.execute(text(f"UPDATE collaborator SET {field} = '{new_value}' WHERE id = {user_id}"))
+            connection.commit()
+            return True
