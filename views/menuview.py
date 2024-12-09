@@ -2,6 +2,7 @@ from rich.prompt import Prompt
 from rich.panel import Panel
 from rich.console import Console
 from rich.text import Text
+from rich.table import Table
 import os
 console = Console()
 
@@ -24,6 +25,23 @@ class MenuView:
         )
         console.print(cadre, justify="left")
 
+    def display_edit_menu_of_a_collaborator_view(self, infos):
+        table = Table(title="[bright_blue]Epic Events\nModifier les informations d'un collaborateur.[/bright_blue]",
+                      style="spring_green1")
+        table.add_column("[bright_blue]Choix[/bright_blue]", justify="center", style="bright_cyan")
+        table.add_column("[bright_blue]Actions[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Infos collaborateur[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Identifiant de connexion[/bright_blue]", justify="center", style="bright_cyan")
+        for info in infos:
+            table.add_row(" ", " ", " ", f"{info.username}")
+            table.add_row("1", "Modifier le nom", f"{info.name}")
+            table.add_row("2", "Modifier le prénom ", f"{info.first_name}")
+            table.add_row("3", "Modifier l'email", f"{info.email}")
+            table.add_row("4", "Modifier le role", f"{info.role_name}")
+            table.add_row("5", "Quitter", "")
+
+        console.print(table)
+
     def display_menu_commercial_view(self):
         cadre = Panel(
             "\n[bright_cyan]1) Enregistrer un nouveau client[/bright_cyan]\n"
@@ -41,13 +59,14 @@ class MenuView:
         )
         console.print(cadre, justify="left")
 
-    def display_error_message_view(self):
+    def display_error_message_choice_view(self):
+        """Fonction déplacée dans userview, faire les changements dans le code"""
         text = Text("Choix invalide, veuillez recommencer.")
         text.stylize("bold red")
         console.print(text)
 
     def get_user_input_view(self):
-        user_input = Prompt.ask("[bright_cyan]Faite votre choix [/bright_cyan]")
+        user_input = Prompt.ask("[bright_cyan]Faite votre choix[/bright_cyan]")
         return int(user_input)
 
     def clear_terminal_view(self):
