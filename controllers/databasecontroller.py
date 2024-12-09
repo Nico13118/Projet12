@@ -23,6 +23,12 @@ class DatabaseController:
             return False
 
     def create_databases_controller(self, username, password1, database_name):
+        """
+        Fonction qui permet de créer une base de données.
+        :param username:
+        :param password1:
+        :param database_name:
+        """
         password2 = quote(password1)
         engine = create_engine(f'mysql+pymysql://{username}:{password2}@localhost')
         with engine.connect() as connection:
@@ -31,11 +37,13 @@ class DatabaseController:
     def save_collaborator_com_in_mysql_controller(self, username_admin, password_admin,
                                                   info_username, info_password):
         """
-        Le commercial doit pouvoir :
-        Customer : Créer ou mettre à jour des clients. >> Table customer SELECT, INSERT, UPDATE
-        Contract : Modifier / Mettre à jour les contrats >> Table contract SELECT, INSERT, UPDATE
-        Event :  Créer un évènement INSERT,
+        Fonction qui permet d'enregistrer un nouveau collaborateur (Commercial) dans la base MySQL.
+        Attributions de droits concernant son rôle.
 
+        :param username_admin :
+        :param password_admin :
+        :param info_username :
+        :param info_password :
         """
         pass_admin = quote(password_admin)
         database_name = self.json_c.get_database_name_in_json_file()
@@ -51,12 +59,13 @@ class DatabaseController:
     def save_collaborator_ges_in_mysql_controller(self, username_admin, password_admin,
                                                   info_username, info_password):
         """
+        Fonction qui permet de créer un nouveau collaborateur (Gestion) dans la base MySQL.
+        Attributions de droits selon son rôle.
 
-        :param username_admin:
-        :param password_admin:
-        :param info_username:
-        :param info_password:
-        :return:
+        :param username_admin :
+        :param password_admin :
+        :param info_username :
+        :param info_password :
         """
         pass_admin = quote(password_admin)
         database_name = self.json_c.get_database_name_in_json_file()
@@ -93,8 +102,13 @@ class DatabaseController:
     def save_collaborator_sup_in_mysql_controller(self, username_admin, password_admin,
                                                   info_username, info_password):
         """
-        Le support doit pouvoir :
-        Event : Afficher et mettre à jour les évènements >> SELECT, UPDATE.
+        Fonction qui permet d'enregistrer un collaborateur (Support) dans la base MySQL.
+        Attributions de droits selon son rôle.
+
+        :param username_admin :
+        :param password_admin :
+        :param info_username :
+        :param info_password :
         """
         pass_admin = quote(password_admin)
         database_name = self.json_c.get_database_name_in_json_file()
@@ -103,3 +117,18 @@ class DatabaseController:
             connection.execute(text(f"CREATE USER '{info_username}'@'localhost' IDENTIFIED BY '{info_password}'"))
             connection.execute(text(f"GRANT SELECT, UPDATE ON {database_name}.event "
                                     f"TO {info_username}@localhost"))
+
+    def change_username_in_mysql_controller(self, username_admin, password_admin, old_username, new_username):
+        """
+        Fonction qui permet de modifier identifiant de connexion (username) d'un collaborateur dans la base MySQL.
+        
+        :param username_admin:
+        :param password_admin:
+        :param old_username:
+        :param new_username:
+        """
+        password = quote(password_admin)
+        engine = create_engine(f'mysql+pymysql://{username_admin}:{password}@localhost')
+        with engine.connect() as connection:
+            connection.execute(text(f"UPDATE mysql.user SET user='{new_username}' WHERE user='{old_username}' "))
+            connection.commit()
