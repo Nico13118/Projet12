@@ -81,7 +81,7 @@ class UserMenuController:
                                                                                                     username_admin,
                                                                                                     password_admin)
             # Affichage d'un menu avec plusieurs choix et les infos du collaborateur
-            self.user_view.display(result_collaborator_info)
+            self.menu_view.display_edit_menu_of_a_collaborator_view(result_collaborator_info)
             # Demande à l'utilisateur quel champ modifier
             result_choice = self.ask_user_which_field_to_edit()
 
