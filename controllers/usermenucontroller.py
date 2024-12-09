@@ -75,8 +75,6 @@ class UserMenuController:
         :param username_admin : Correspond à l'utilisateur qui procède aux modifications.
         :param password_admin : Correspond à l'utilisateur qui procède aux modifications.
         """
-        info_field = ""
-        result_input = ""
         while True:
             self.menu_view.clear_terminal_view()
             result_collaborator_info = self.table_c.get_single_collaborator_info_with_id_controller(user_id,
@@ -89,29 +87,48 @@ class UserMenuController:
 
             if result_choice == 1:  # Modifier le nom
                 result_input = self.user_c.get_name_controller()
-                info_field = "name"
-            elif result_choice == 2:  # Modifier le prénom
-                result_input = self.user_c.get_first_name_controller()
-                info_field = "first_name"
-            elif result_choice == 3:  # Modifier l'email
-                result_input = self.user_c.get_email_controller()
-                info_field = "email"
-            elif result_choice == 4:  # Modifier username
+                #  Enregistre le nouveau nom dans la table
+                self.table_c.edit_collaborator_fields_controller(user_id, result_input, username_admin,
+                                                                 password_admin, field='name')
+                # Récupère l'ancien username
                 old_username = self.get_old_username_controller(user_id, username_admin, password_admin)
+                # Fonction qui récupère le nom et prénom pour créer le nouveau username.
                 new_username = self.create_new_username_controller(user_id, username_admin, password_admin)
-                result_input = new_username
-                info_field = "username"
                 if new_username != old_username:
+                    # On change username dans mysql
                     self.database_c.change_username_in_mysql_controller(username_admin, password_admin,
                                                                         old_username, new_username)
-            elif result_choice == 5:  # Modifier le role
+                    # On enregistre dans la table le nouveau username
+                    result_input = new_username
+                    self.table_c.edit_collaborator_fields_controller(user_id, result_input, username_admin,
+                                                                     password_admin, field="username")
+            elif result_choice == 2:  # Modifier le prénom
+                result_input = self.user_c.get_first_name_controller()
+                #  Enregistre le nouveau prénom
+                self.table_c.edit_collaborator_fields_controller(user_id, result_input, username_admin,
+                                                                 password_admin, field='first_name')
+                # Récupère l'ancien username
+                old_username = self.get_old_username_controller(user_id, username_admin, password_admin)
+                # Fonction qui récupère le nom et précom pour créer le nouveau username.
+                new_username = self.create_new_username_controller(user_id, username_admin, password_admin)
+                if new_username != old_username:
+                    # On change username dans mysql
+                    self.database_c.change_username_in_mysql_controller(username_admin, password_admin,
+                                                                        old_username, new_username)
+                    # On enregistre dans la table le nouveau username
+                    result_input = new_username
+                    self.table_c.edit_collaborator_fields_controller(user_id, result_input, username_admin,
+                                                                     password_admin, field="username")
+            elif result_choice == 3:  # Modifier l'email
+                result_input = self.user_c.get_email_controller()
+                self.table_c.edit_collaborator_fields_controller(user_id, result_input, username_admin,
+                                                                 password_admin, field="email")
+
+            elif result_choice == 4:  # Modifier le role
                 self.change_collaborator_role(user_id, username_admin, password_admin)
 
-            elif result_choice == 6:
+            elif result_choice == 5:
                 break
-
-            self.table_c.edit_collaborator_fields_controller(user_id, result_input, username_admin,
-                                                             password_admin, field=info_field)
 
     def change_collaborator_role(self, user_id, username_admin, password_admin):
         username_delete = ""
