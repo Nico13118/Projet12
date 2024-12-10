@@ -50,5 +50,5 @@ class CheckUserInputController:
         return x
 
     def check_user_input_of_edit_collaborator_information_menu(self, result_choice):
-        if 1 <= result_choice <= 6:
+        if 1 <= result_choice <= 5:
             return True
