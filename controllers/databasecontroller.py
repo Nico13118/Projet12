@@ -55,6 +55,7 @@ class DatabaseController:
             connection.execute(text(f"GRANT SELECT, INSERT, UPDATE ON {database_name}.contract "
                                     f"TO {info_username}@localhost"))
             connection.execute(text(f"GRANT INSERT ON {database_name}.event TO {info_username}@localhost"))
+            connection.commit()
 
     def save_collaborator_ges_in_mysql_controller(self, username_admin, password_admin,
                                                   info_username, info_password):
@@ -76,8 +77,10 @@ class DatabaseController:
             connection.execute(text(f"CREATE USER '{info_username}'@'localhost' IDENTIFIED BY '{info_password}'"))
 
             " Configuration des droits de l'utilisateur Gestion pour manipuler les User MSQL."
-            connection.execute(text(f"GRANT CREATE USER, DROP ON *.* TO {info_username}@localhost"))
-            connection.execute(text(f"GRANT SELECT, UPDATE ON mysql.user TO {info_username}@localhost"))
+            connection.execute(text(f"GRANT RELOAD, CREATE USER, DROP ON *.* TO {info_username}@localhost"))
+            connection.execute(text(f"GRANT SELECT, UPDATE, DROP ON mysql.user TO {info_username}@localhost"))
+            connection.execute(text(f"GRANT SELECT, UPDATE, DROP ON mysql.tables_priv "
+                                    f"TO {info_username}@localhost"))
 
             " Configuration des droits de l'utilisateur Gestion pour manipuler les tables."
             connection.execute(text(f"GRANT SELECT, INSERT, UPDATE, DELETE ON {database_name}.collaborator "
@@ -98,6 +101,7 @@ class DatabaseController:
             connection.execute(text(f"GRANT GRANT OPTION ON {database_name}.role TO {info_username}@localhost"))
             connection.execute(text(f"GRANT GRANT OPTION ON *.* TO {info_username}@localhost"))
             connection.execute(text(f"GRANT GRANT OPTION ON mysql.user TO {info_username}@localhost"))
+            connection.execute(text(f"GRANT GRANT OPTION ON mysql.tables_priv TO {info_username}@localhost"))
 
     def save_collaborator_sup_in_mysql_controller(self, username_admin, password_admin,
                                                   info_username, info_password):
@@ -120,15 +124,25 @@ class DatabaseController:
 
     def change_username_in_mysql_controller(self, username_admin, password_admin, old_username, new_username):
         """
-        Fonction qui permet de modifier identifiant de connexion (username) d'un collaborateur dans la base MySQL.
-        
-        :param username_admin:
-        :param password_admin:
-        :param old_username:
-        :param new_username:
+        Fonction qui permet de modifier un identifiant de connexion (username) d'un collaborateur dans la base MySQL.
+
+        :param username_admin :
+        :param password_admin :
+        :param old_username :
+        :param new_username :
         """
         password = quote(password_admin)
         engine = create_engine(f'mysql+pymysql://{username_admin}:{password}@localhost')
         with engine.connect() as connection:
-            connection.execute(text(f"UPDATE mysql.user SET user='{new_username}' WHERE user='{old_username}' "))
+            connection.execute(text(f"UPDATE mysql.user SET User='{new_username}' WHERE User='{old_username}'"))
+            connection.execute(text(f"UPDATE mysql.tables_priv SET User='{new_username}' WHERE User='{old_username}'"))
+            connection.execute(text(f"FLUSH PRIVILEGES"))
+            connection.commit()
+
+    def delete_a_mysql_user_controller(self, username_admin, password_admin, username_delete):
+        password = quote(password_admin)
+        engine = create_engine(f'mysql+pymysql://{username_admin}:{password}@localhost')
+        with engine.connect() as connection:
+            connection.execute(text(f"DROP USER '{username_delete}'@'localhost'"))
+            connection.execute(text(f"FLUSH PRIVILEGES"))
             connection.commit()
