@@ -7,7 +7,6 @@ from controllers.usermenucontroller import UserMenuController
 from controllers.usercontroller import UserController
 from controllers.checkuserinputcontroller import CheckUserInputController
 from views.firststartview import FirstStartView
-from views.loginview import LoginView
 from views.menuview import MenuView
 from views.userview import UserView
 from views.errormessagesview import ErrorMessagesView
@@ -21,7 +20,7 @@ class MainController:
         self.table_c = TableController(self.json_c)
         self.user_c = UserController(UserView(), ErrorMessagesView(), self.table_c, self.database_c,
                                      self.check_user_input_c)
-        self.login_c = LoginController(LoginView(), FirstStartView(), self.user_c, self.database_c)
+        self.login_c = LoginController(UserView(), ErrorMessagesView(), self.user_c, self.database_c)
 
         self.user_menu_c = UserMenuController(MenuView(), ErrorMessagesView(), UserView(), self.table_c, self.user_c,
                                               self.check_user_input_c, self.database_c)
