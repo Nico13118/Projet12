@@ -13,7 +13,7 @@ class ErrorMessagesView:
         text.stylize("bold red")
         console.print(text)
 
-    def display_error_message_edit_collaborator_list(self):
+    def display_error_message_of_values_yes_and_no(self):
         """
         Fonction qui permet d'afficher un message d'erreur indiquant à l'utilisateur de saisir
         les valeurs attendues.
