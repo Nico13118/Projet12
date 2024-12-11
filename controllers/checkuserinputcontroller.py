@@ -1,6 +1,7 @@
 import re
 YES_RESPONSE = ["Y", "YES", "O", "OUI"]
 NO_RESPONSE = ["N", "NO", 'NON']
+ROLE = ["COM", "GES", "SUP"]
 
 
 class CheckUserInputController:
@@ -52,3 +53,8 @@ class CheckUserInputController:
     def check_user_input_of_edit_collaborator_information_menu(self, result_choice):
         if 1 <= result_choice <= 5:
             return True
+
+    def check_user_input_role_controller(self, role):
+        role = role.upper()
+        if role in ROLE:
+            return role
