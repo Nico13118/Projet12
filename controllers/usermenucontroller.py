@@ -1,8 +1,9 @@
 class UserMenuController:
-    def __init__(self, menuview, userview, tablecontroller, usercontroller, checkuserinputcontroller,
+    def __init__(self, menuview, errormessagesview, userview, tablecontroller, usercontroller, checkuserinputcontroller,
                  databasecontroller):
         self.menu_view = menuview
         self.user_view = userview
+        self.error_messages_v = errormessagesview
         self.table_c = tablecontroller
         self.user_c = usercontroller
         self.check_user_input_c = checkuserinputcontroller
@@ -26,7 +27,7 @@ class UserMenuController:
     def get_menu_gestion_controller(self, username, password):
         error = False
         while True:
-            self.menu_view.clear_terminal_view()
+            self.user_view.clear_terminal_view()
             self.menu_view.display_menu_gestion_view()
             if error:
                 self.menu_view.display_error_message_view()
@@ -76,7 +77,7 @@ class UserMenuController:
         :param password_admin : Correspond à l'utilisateur qui procède aux modifications.
         """
         while True:
-            self.menu_view.clear_terminal_view()
+            self.user_view.clear_terminal_view()
             result_collaborator_info = self.table_c.get_single_collaborator_info_with_id_controller(user_id,
                                                                                                     username_admin,
                                                                                                     password_admin)
@@ -158,7 +159,7 @@ class UserMenuController:
                 username_admin, password_admin, username_delete, password_delete)
 
     def register_new_collaborator_controller(self, username, password):
-        self.menu_view.clear_terminal_view()
+        self.user_view.clear_terminal_view()
         self.menu_view.display_message_create_new_collaborator()
         self.user_c.start_create_user_controller(username, password)
 
@@ -171,7 +172,7 @@ class UserMenuController:
         :param password:
         :return:
         """
-        self.menu_view.clear_terminal_view()
+        self.user_view.clear_terminal_view()
         result = self.table_c.get_information_for_all_collaborators_controller(username, password)
         self.user_view.display_list_collaborator(result)
 
@@ -190,7 +191,7 @@ class UserMenuController:
             elif response == "N":
                 break
             else:
-                self.user_view.display_error_message_edit_collaborator_list()
+                self.error_messages_v.display_error_message_edit_collaborator_list()
 
     def ask_user_to_select_collaborator_controller(self, username, password):
         """
@@ -215,9 +216,9 @@ class UserMenuController:
                 if collaborator_info:
                     return user_id
                 else:
-                    self.user_view.display_error_message_choice_view()
+                    self.error_messages_v.display_error_message_choice_view()
             else:
-                self.user_view.display_error_message_choice_view()
+                self.error_messages_v.display_error_message_choice_view()
 
     def ask_user_which_field_to_edit(self):
         """
@@ -232,7 +233,7 @@ class UserMenuController:
             if result_check:
                 break
             else:
-                self.user_view.display_error_message_choice_view()
+                self.error_messages_v.display_error_message_choice_view()
         return result_choice
 
     def create_new_username_controller(self, user_id, username_admin, password_admin):
