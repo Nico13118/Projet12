@@ -1,13 +1,10 @@
-from sqlalchemy import create_engine
-from urllib.parse import quote
 import re
-
-ROLE = ["COM", "GES", "SUP"]
 
 
 class UserController:
-    def __init__(self, userview, tablecontroller, databasecontroller, checkuserinputcontroller):
+    def __init__(self, userview, errormessagesview, tablecontroller, databasecontroller, checkuserinputcontroller):
         self.user_v = userview
+        self.error_messages_v = errormessagesview
         self.table_c = tablecontroller
         self.database_c = databasecontroller
         self.check_user_input_c = checkuserinputcontroller
@@ -66,9 +63,9 @@ class UserController:
                 if self.check_user_input_c.search_is_alpha_controller(name):
                     break
                 else:
-                    self.user_v.error_message_field_contains_number()
+                    self.error_messages_v.error_message_field_contains_number()
             else:
-                self.user_v.error_message_empty_field_view()
+                self.error_messages_v.error_message_empty_field_view()
         return name
 
     def get_first_name_controller(self):
@@ -129,18 +126,19 @@ class UserController:
 
     def get_role_controller(self):
         """
-        Fonction qui permet de contrôler la saisie utilisateur concernant le champ role.
+        Fonction qui permet de récupérer la saisie utilisateur concernant le champ role.
+        La saisie est ensuite envoyée pour y être contrôlée.
 
-        :return: role
+        :return: info_role
         """
         while True:
             role = self.user_v.get_role_view()  # Récupère la saisie de l'utilisateur
             if role:
-                role = role.upper()
-                if role in ROLE:
+                info_role = self.check_user_input_c.check_user_input_role_controller(role)
+                if info_role:
                     break
                 else:
                     self.user_v.display_message_error_choices_view()
             else:
                 self.user_v.display_message_error_field_view()
-        return role
+        return info_role
