@@ -21,3 +21,12 @@ class ErrorMessagesView:
         text = Text("Erreur !! Vous devez saisir les valeurs suivantes [Y/N].")
         text.stylize("bold red")
         console.print(text)
+
+    def display_error_message_choice_view(self):
+        """
+        Fonction qui permet d'afficher un message d'erreur lorsque l'utilisateur saisi
+        une valeur inatendue.
+        """
+        text = Text("Choix invalide, veuillez recommencer.")
+        text.stylize("bold red")
+        console.print(text)
