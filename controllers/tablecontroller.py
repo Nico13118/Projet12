@@ -54,21 +54,20 @@ class TableController:
         """
         Fonction qui permet d'enregistrer les rôles dans la table.
 
-        :param username_admin:
-        :param pass_admin:
-        :param database_name:
-        :return:
+        :param username_admin :
+        :param pass_admin :
+        :param database_name :
         """
         engine = create_engine(f'mysql+pymysql://{username_admin}:{pass_admin}@localhost/{database_name}')
         with Session(engine) as session:
             com = Role(
-                name="COM"
+                role_name="COM"
             )
             ges = Role(
-                name="GES"
+                role_name="GES"
             )
             sup = Role(
-                name="SUP"
+                role_name="SUP"
             )
             session.add_all([com, ges, sup])
             session.commit()
