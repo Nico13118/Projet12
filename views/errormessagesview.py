@@ -48,3 +48,12 @@ class ErrorMessagesView:
         text = Text("Le champ doit contenir que des lettres majuscules et minuscules, veuillez recommencer.")
         text.stylize("bold red")
         console.print(text)
+
+    def error_message_choices_com_ges_sup_view(self):
+        """
+        Fonction qui permet d'afficher un message d'erreur indiquant à l'utilisateur de saisir
+        les valeurs [COM/GES/SUP]
+        """
+        text = Text("Vous devez saisir les valeurs suivantes [COM/GES/SUP].")
+        text.stylize("bold red")
+        console.print(text)
