@@ -72,6 +72,7 @@ class UserMenuController:
         Fonction qui va gérer un menu afin de procéder à la modification d'informations d'un collaborateur.
         Selon le choix de l'utilisateur, d'autres fonctions sont appelés pour effectuer les changements.
         Les choix concernent la modification : nom, prénom, email, username et rôle
+
         :param user_id : Concerne l'id de l'utilisateur qui va recevoir les modifications.
         :param username_admin : Correspond à l'utilisateur qui procède aux modifications.
         :param password_admin : Correspond à l'utilisateur qui procède aux modifications.
@@ -191,7 +192,7 @@ class UserMenuController:
             elif response == "N":
                 break
             else:
-                self.error_messages_v.display_error_message_edit_collaborator_list()
+                self.error_messages_v.display_error_message_of_values_yes_and_no()
 
     def ask_user_to_select_collaborator_controller(self, username, password):
         """
