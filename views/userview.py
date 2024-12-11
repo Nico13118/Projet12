@@ -45,6 +45,10 @@ class UserView:
         password = Prompt.ask("[bright_cyan]Password [/bright_cyan]")
         return password
 
+    def get_login_password_view(self):
+        password = Prompt.ask("[bright_cyan]Password [/bright_cyan]", password=True)
+        return password
+
     def get_role_view(self):
         role = Prompt.ask("[bright_cyan]Saisir le role du collaborateur [COM/GES/SUP] [/bright_cyan]")
         return role
@@ -71,3 +75,15 @@ class UserView:
         user_input = Prompt.ask("[bright_cyan]Veuillez saisir l'id du collaborateur [/bright_cyan]")
         return user_input
 
+    def display_list_customer_view(self, result_customer):
+        table = Table(title="[bright_blue]Epic Events\nListe des clients[/bright_blue]", style="spring_green1")
+        table.add_column("[bright_blue]Code client[/bright_blue]", justify="center", style="bright_cyan")
+        table.add_column("[bright_blue]Nom complet[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Email[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Nom de l'entreprise[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Date de création[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Dernière mise à jour[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Contact commercial[/bright_blue]", justify="left", style="bright_cyan")
+        for row in result_customer:
+            table.add_row(f"{row.id}", f"{row.name} {row.first_name}", f"{row.email}", f"{row.company_name}",
+                          f"{row.created_date}", f"{row.update_date}", f"{row.collaborator_id}")
