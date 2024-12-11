@@ -81,7 +81,7 @@ class UserController:
                 if self.check_user_input_c.search_is_alpha_controller(first_name):
                     break
             else:
-                self.user_v.display_message_error_field_view()
+                self.error_messages_v.error_message_empty_field_view()
         return first_name
 
     def get_email_controller(self):
@@ -95,7 +95,7 @@ class UserController:
             if email:  # Vérifie que la saisie n'est pas vide
                 break
             else:
-                self.user_v.display_message_error_field_view()
+                self.error_messages_v.error_message_empty_field_view()
         return email
 
     def get_username_controller(self, name_first_name):
@@ -121,7 +121,7 @@ class UserController:
             if password:
                 break
             else:
-                self.user_v.display_message_error_field_view()
+                self.error_messages_v.error_message_empty_field_view()
         return password
 
     def get_role_controller(self):
@@ -138,7 +138,7 @@ class UserController:
                 if info_role:
                     break
                 else:
-                    self.user_v.display_message_error_choices_view()
+                    self.error_messages_v.error_message_choices_com_ges_sup_view()
             else:
-                self.user_v.display_message_error_field_view()
+                self.error_messages_v.error_message_empty_field_view()
         return info_role
