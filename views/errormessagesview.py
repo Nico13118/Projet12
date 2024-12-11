@@ -30,3 +30,12 @@ class ErrorMessagesView:
         text = Text("Choix invalide, veuillez recommencer.")
         text.stylize("bold red")
         console.print(text)
+
+    def error_message_empty_field_view(self):
+        """
+        Fonction qui permet d'afficher un message d'erreur lorsque l'utilisateur valide
+        un champ vide.
+        """
+        text = Text("Le champ ne peut être vide, veuillez recommencer.")
+        text.stylize("bold red")
+        console.print(text)
