@@ -9,21 +9,20 @@ console = Console()
 
 class MenuView:
     def display_menu_gestion_view(self):
-        cadre = Panel(
-            "\n[bright_cyan]1) Enregistrer un nouveau collaborateur[/bright_cyan]\n"
-            "\n[bright_cyan]2) Afficher la liste des collaborateurs[/bright_cyan]\n"    
-            "\n[bright_cyan]3) Créer un contrat[/bright_cyan]\n"
-            "\n[bright_cyan]4) Afficher la liste des contrats[/bright_cyan]\n"
-            "\n[bright_cyan]5) Afficher la liste des évènements (non associé)[/bright_cyan]\n"
-            "\n[bright_cyan]6) Afficher tous les clients (Lecture seule)[/bright_cyan]\n"  
-            "\n[bright_cyan]7) Afficher tous les contrats (Lecture seule)[/bright_cyan]\n"
-            "\n[bright_cyan]8) Afficher tous les évènements (Lecture seule)[/bright_cyan]\n"
-            "\n[bright_cyan]9) Quitter l'application [/bright_cyan]\n",
-            title="[deep_sky_blue1] Epic Events Menu Gestion[/deep_sky_blue1]",  # Titre du cadre (optionnel)
-            expand=True,  # Le cadre prend toute la largeur du terminal
-            border_style="spring_green1",  # Style de la bordure
-        )
-        console.print(cadre, justify="left")
+        table = Table(title="[deep_sky_blue1] Epic Events - Gestion[/deep_sky_blue1]", style="spring_green1")
+        table.add_column("[bright_blue]Choix[/bright_blue]", justify="center", style="bright_cyan")
+        table.add_column("[bright_blue]Actions[/bright_blue]", justify="left", style="bright_cyan")
+        
+        table.add_row("1", "Enregistrer un nouveau collaborateur\n")
+        table.add_row("2", "Liste des collaborateurs et modification\n")
+        table.add_row("3", "Liste des clients et création de contrat\n")
+        table.add_row("4", "Liste des contrats et modification\n")
+        table.add_row("5", "Liste des événements non attribués et modification\n")
+        table.add_row("6", "Liste des événements attribués et modification\n")
+        table.add_row("7", "Afficher tous les événements (Lecture seule)\n")
+        table.add_row("8", "Quitter l'application\n")
+
+        console.print(table)
 
     def display_edit_menu_of_a_collaborator_view(self, infos):
         table = Table(title="[bright_blue]Epic Events\nModifier les informations d'un collaborateur.[/bright_blue]",
