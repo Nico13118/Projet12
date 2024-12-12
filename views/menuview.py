@@ -19,8 +19,11 @@ class MenuView:
         table.add_row("\n4", "\nListe des contrats et modification")
         table.add_row("\n5", "\nListe des événements non attribués et modification")
         table.add_row("\n6", "\nListe des événements attribués et modification")
-        table.add_row("\n7", "\nAfficher tous les événements (Lecture seule)")
-        table.add_row("\n8", "\nQuitter l'application\n")
+        table.add_row("\n7", "\nListe des événements")
+        table.add_row("\n8", "\nListe des collaborateurs")
+        table.add_row("\n9", "\nListe des clients")
+        table.add_row("\n10", "\nListe des contrats")
+        table.add_row("\n11", "\nQuitter l'application\n")
 
         console.print(table)
 
@@ -48,12 +51,29 @@ class MenuView:
 
         table.add_row("\n1", "\nEnregistrer un nouveau client")
         table.add_row("\n2", "\nListe des clients et modification")
-        table.add_row("\n3", "\nListe des contrats et modification")
-        table.add_row("\n4", "\nVisualiser les contrats")
+        table.add_row("\n3", "\nListe des contrats non signés et modification")
+        table.add_row("\n4", "\nListe des contrats non soldé et modification")
         table.add_row("\n5", "\nCréer un événement")
-        table.add_row("\n8", "\nQuitter l'application\n")
+        table.add_row("\n6", "\nListe des événements")
+        table.add_row("\n7", "\nListe des collahborateurs")
+        table.add_row("\n8", "\nListe des clients")
+        table.add_row("\n9", "\nListe des contrats")
+        table.add_row("\n10", "\nQuitter l'application\n")
 
         console.print(table)
+
+    def display_menu_support_view(self):
+        table = Table(title="[deep_sky_blue1] Epic Events - Service Support[/deep_sky_blue1]", style="spring_green1")
+        table.add_column("[bright_blue]Choix[/bright_blue]", justify="center", style="bright_cyan")
+        table.add_column("[bright_blue]Actions[/bright_blue]", justify="left", style="bright_cyan")
+
+        table.add_row("\n1", "\nListe des événements et modification")
+        table.add_row("\n2", "\nListe des événements")
+        table.add_row("\n3", "\nListe des collahborateurs")
+        table.add_row("\n4", "\nListe des clients")
+        table.add_row("\n5", "\nListe des contrats")
+        table.add_row("\n6", "\nQuitter l'application\n")
+
 
     def clear_terminal_view(self):
         os.system("cls")
