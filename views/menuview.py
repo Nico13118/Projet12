@@ -9,18 +9,18 @@ console = Console()
 
 class MenuView:
     def display_menu_gestion_view(self):
-        table = Table(title="[deep_sky_blue1] Epic Events - Gestion[/deep_sky_blue1]", style="spring_green1")
+        table = Table(title="[deep_sky_blue1] Epic Events - Service Gestion[/deep_sky_blue1]", style="spring_green1")
         table.add_column("[bright_blue]Choix[/bright_blue]", justify="center", style="bright_cyan")
         table.add_column("[bright_blue]Actions[/bright_blue]", justify="left", style="bright_cyan")
         
-        table.add_row("1", "Enregistrer un nouveau collaborateur\n")
-        table.add_row("2", "Liste des collaborateurs et modification\n")
-        table.add_row("3", "Liste des clients et création de contrat\n")
-        table.add_row("4", "Liste des contrats et modification\n")
-        table.add_row("5", "Liste des événements non attribués et modification\n")
-        table.add_row("6", "Liste des événements attribués et modification\n")
-        table.add_row("7", "Afficher tous les événements (Lecture seule)\n")
-        table.add_row("8", "Quitter l'application\n")
+        table.add_row("\n1", "\nEnregistrer un nouveau collaborateur")
+        table.add_row("\n2", "\nListe des collaborateurs et modification")
+        table.add_row("\n3", "\nListe des clients et création de contrat")
+        table.add_row("\n4", "\nListe des contrats et modification")
+        table.add_row("\n5", "\nListe des événements non attribués et modification")
+        table.add_row("\n6", "\nListe des événements attribués et modification")
+        table.add_row("\n7", "\nAfficher tous les événements (Lecture seule)")
+        table.add_row("\n8", "\nQuitter l'application\n")
 
         console.print(table)
 
@@ -42,21 +42,18 @@ class MenuView:
         console.print(table)
 
     def display_menu_commercial_view(self):
-        cadre = Panel(
-            "\n[bright_cyan]1) Enregistrer un nouveau client[/bright_cyan]\n"
-            "\n[bright_cyan]2) Afficher ma liste de clients[/bright_cyan]\n"  
-            "\n[bright_cyan]3) Afficher les contrats signé[/bright_cyan]\n"  
-            "\n[bright_cyan]4) Afficher les contrats non signé[/bright_cyan]\n"
-            "\n[bright_cyan]5) Afficher les contrats non réglé[/bright_cyan]\n"
-            "\n[bright_cyan]6) Afficher tous les clients (Lecture seule)[/bright_cyan]\n"
-            "\n[bright_cyan]7) Afficher tous les contrats (Lecture seule)[/bright_cyan]\n"
-            "\n[bright_cyan]8) Afficher tous les évènements (Lecture seule)[/bright_cyan]\n"
-            "\n[bright_cyan]9) Quitter l'application [/bright_cyan]\n",
-            title="[deep_sky_blue1] Epic Events Menu Commercial[/deep_sky_blue1]",  # Titre du cadre (optionnel)
-            expand=True,  # Le cadre prend toute la largeur du terminal
-            border_style="spring_green1",  # Style de la bordure
-        )
-        console.print(cadre, justify="left")
+        table = Table(title="[deep_sky_blue1] Epic Events - Service Commercial[/deep_sky_blue1]", style="spring_green1")
+        table.add_column("[bright_blue]Choix[/bright_blue]", justify="center", style="bright_cyan")
+        table.add_column("[bright_blue]Actions[/bright_blue]", justify="left", style="bright_cyan")
+
+        table.add_row("\n1", "\nEnregistrer un nouveau client")
+        table.add_row("\n2", "\nListe des clients et modification")
+        table.add_row("\n3", "\nListe des contrats et modification")
+        table.add_row("\n4", "\nVisualiser les contrats")
+        table.add_row("\n5", "\nCréer un événement")
+        table.add_row("\n8", "\nQuitter l'application\n")
+
+        console.print(table)
 
     def clear_terminal_view(self):
         os.system("cls")
