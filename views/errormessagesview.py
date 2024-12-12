@@ -57,3 +57,9 @@ class ErrorMessagesView:
         text = Text("Vous devez saisir les valeurs suivantes [COM/GES/SUP].")
         text.stylize("bold red")
         console.print(text)
+
+    def display_message_error_database_view(self, x):
+        text = Text("Erreur!! lors de la saisie du nom de la database.\nVous ne pouvez pas utiliser le(s)"
+                    f"caractère()s suivant(s): {x}")
+        text.stylize("bold red")
+        console.print(text)
