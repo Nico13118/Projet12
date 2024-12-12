@@ -100,7 +100,8 @@ class TableController:
         database_name = self.json_c.get_database_name_in_json_file()
         engine = create_engine(f'mysql+pymysql://{username_collab}:{password}@localhost/{database_name}')
         with engine.connect() as connection:
-            result = connection.execute(text(f"SELECT * FROM collaborator"))
+            result = connection.execute(text(
+                f"SELECT * FROM collaborator JOIN role ON collaborator.role_id = role.id"))
             return result
 
     def get_single_collaborator_info_with_id_controller(self, user_id, username_admin, password_admin):
