@@ -87,3 +87,6 @@ class UserView:
         for row in result_customer:
             table.add_row(f"{row.id}", f"{row.name} {row.first_name}", f"{row.email}", f"{row.company_name}",
                           f"{row.created_date}", f"{row.update_date}", f"{row.collaborator_id}")
+
+    def prompt_the_user_to_press_the_enter_key(self):
+        return Prompt.ask("[bright_cyan]Appuyez sur la touche entrée de votre clavier pour continuer...[/bright_cyan]")
