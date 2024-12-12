@@ -25,7 +25,7 @@ class Role(Base):
 
 class Collaborator(Base):
     __tablename__ = 'collaborator'
-    id: Mapped[int] = mapped_column(autoincrement=True, primary_key=True)
+    collab_id: Mapped[int] = mapped_column(autoincrement=True, primary_key=True)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     first_name: Mapped[str] = mapped_column(String(100), nullable=False)
     email: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)
@@ -64,7 +64,8 @@ class Customer(Base):
     update_date: Mapped[datetime.datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(),
                                                            server_onupdate=func.now(), nullable=False)
 
-    collaborator_id: Mapped[int] = mapped_column(ForeignKey('collaborator.id', ondelete='SET NULL'), nullable=True)
+    collaborator_id: Mapped[int] = mapped_column(ForeignKey('collaborator.collab_id', ondelete='SET NULL'),
+                                                 nullable=True)
     #  Customer >> Collaborator : Many-to-One : Chaque Client ne peut avoir qu'un seul collaborateur
     collaborator: Mapped[Optional['Collaborator']] = relationship(back_populates='custom')
 
@@ -92,7 +93,7 @@ class Contract(Base):
     # Contract >> Customer : Many-to-One : Chaque contrat ne peut avoir qu'un seul client
     customer: Mapped['Customer'] = relationship(back_populates='_contract')
 
-    collaborator_id: Mapped[int] = mapped_column(ForeignKey('collaborator.id', ondelete='SET NULL'), nullable=True)
+    collaborator_id: Mapped[int] = mapped_column(ForeignKey('collaborator.collab_id', ondelete='SET NULL'), nullable=True)
     # Contract >> Collaborator : Many-to-One : Chaque contrat ne peut avoir qu'un seul collaborateur
     collaborator: Mapped[Optional['Collaborator']] = relationship(back_populates='_contract')
 
@@ -109,7 +110,8 @@ class Event(Base):
     attendees: Mapped[int] = mapped_column(String(7), nullable=False)
     notes: Mapped[str] = mapped_column(String(500), nullable=False)
 
-    collaborator_id: Mapped[int] = mapped_column(ForeignKey('collaborator.id', ondelete='SET NULL'), nullable=True)
+    collaborator_id: Mapped[int] = mapped_column(ForeignKey('collaborator.collab_id', ondelete='SET NULL'),
+                                                 nullable=True)
     # Event >> Collaborator : Many-to-One : Chaque évènement ne peut avoir qu'un seul Collaborateur
     collaborator: Mapped[Optional['Collaborator']] = relationship(back_populates='_event')
 
