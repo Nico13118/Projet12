@@ -139,3 +139,19 @@ class TableController:
             connection.execute(text(f"UPDATE collaborator SET {field} = '{new_value}' WHERE id = {user_id}"))
             connection.commit()
             return True
+
+    def get_list_of_all_customers_controller(self, username_collab, password_collab):
+        """
+        Fonction qui permet de retourner la liste des clients.
+        
+        :param username_collab
+        :param password_collab
+        :return: result_customer
+        """
+        password = quote(password_collab)
+        database_name = self.json_c.get_database_name_in_json_file()
+        engine = create_engine(f'mysql+pymysql://{username_collab}:{password}@localhost/{database_name}')
+        with engine.connect() as connection:
+            result_customer = connection.execute(text(
+                f"SELECT * FROM customer JOIN collaborator ON customer.id = collaborator.collab_id"))
+            return result_customer
