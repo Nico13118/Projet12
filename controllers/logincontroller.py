@@ -15,7 +15,7 @@ class LoginController:
         self.user_view.display_message_info_authentication()
         while True:
             username = self.user_view.get_username_view()
-            password = self.user_view.get_password_view()
+            password = self.user_view.get_login_password_view()
             control_authentication = self.database_c.test_username_password_controller(username, password)
             if not control_authentication:
                 self.error_messages_v.error_username_password_view()
