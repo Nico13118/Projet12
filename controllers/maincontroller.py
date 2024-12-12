@@ -6,6 +6,10 @@ from controllers.logincontroller import LoginController
 from controllers.usermenucontroller import UserMenuController
 from controllers.usercontroller import UserController
 from controllers.checkuserinputcontroller import CheckUserInputController
+from controllers.menugestioncontroller import MenuGestionController
+from controllers.menucommercialcontroller import MenuCommercialController
+from controllers.menusupportcontroller import MenuSupportController
+from controllers.gestioncontroller import GestionController
 from views.firststartview import FirstStartView
 from views.menuview import MenuView
 from views.userview import UserView
@@ -21,17 +25,26 @@ class MainController:
         self.user_c = UserController(UserView(), ErrorMessagesView(), self.table_c, self.database_c,
                                      self.check_user_input_c)
         self.login_c = LoginController(UserView(), ErrorMessagesView(), self.user_c, self.database_c)
-
-        self.user_menu_c = UserMenuController(MenuView(), ErrorMessagesView(), UserView(), self.table_c, self.user_c,
-                                              self.check_user_input_c, self.database_c)
         self.first_start_c = FirstStartController(
             FirstStartView(), UserView(), ErrorMessagesView(), self.user_c, self.json_c, self.database_c,
             self.table_c, self.check_user_input_c)
-        
+        self.gestion_c = GestionController(MenuView(), ErrorMessagesView(), UserView(), self.table_c,
+                                           self.user_c, self.check_user_input_c, self.database_c)
+
+        self.menu_gestion_c = MenuGestionController(MenuView(), UserView(), self.gestion_c, self.table_c,
+                                                    self.user_c, self.database_c)
+        self.menu_commercial_c = MenuCommercialController(MenuView(), ErrorMessagesView(), UserView(), self.table_c,
+                                                          self.user_c, self.check_user_input_c, self.database_c)
+        self.menu_support_c = MenuSupportController(MenuView(), ErrorMessagesView(), UserView(), self.table_c,
+                                                    self.user_c, self.check_user_input_c, self.database_c)
+
+        self.user_menu_c = UserMenuController(self.menu_gestion_c, self.menu_commercial_c, self.menu_support_c,
+                                              self.table_c)
+
     def run(self):
         result_info = self.json_c.search_json_file_controller()
         if not result_info:
             self.first_start_c.first_start_controller()
         else:
             username_password = self.login_c.start_authentication_controller()
-            self.user_menu_c.assign_correct_menu_controller(username_password)
+            self.user_menu_c.redirect_user_to_his_menu(username_password)
