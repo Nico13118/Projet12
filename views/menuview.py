@@ -58,24 +58,6 @@ class MenuView:
         )
         console.print(cadre, justify="left")
 
-    def display_error_message_choice_view(self):
-        """Fonction déplacée dans userview, faire les changements dans le code"""
-        text = Text("Choix invalide, veuillez recommencer.")
-        text.stylize("bold red")
-        console.print(text)
-
-    def get_user_input_view(self):
-        user_input = Prompt.ask("[bright_cyan]Faite votre choix[/bright_cyan]")
-        return int(user_input)
-
     def clear_terminal_view(self):
         os.system("cls")
 
-    def display_message_create_new_collaborator(self):
-        cadre = Panel(
-            "\n[bright_cyan]Veuillez saisir les informations du nouveau collaborateur.[/bright_cyan]\n",
-            title="[deep_sky_blue1] Epic Events Enregistrement[/deep_sky_blue1]",
-            expand=True,
-            border_style="spring_green1",
-        )
-        console.print(cadre, justify="left")
