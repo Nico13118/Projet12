@@ -27,12 +27,12 @@ class UserMenuController:
     def get_menu_gestion_controller(self, username, password):
         error = False
         while True:
-            self.user_view.clear_terminal_view()
+            self.menu_view.clear_terminal_view()
             self.menu_view.display_menu_gestion_view()
             if error:
                 self.menu_view.display_error_message_view()
                 error = False
-            user_input = self.menu_view.get_user_input_view()
+            user_input = self.user_view.get_user_input_view()
             if not user_input:
                 error = True
             else:
@@ -78,7 +78,7 @@ class UserMenuController:
         :param password_admin : Correspond à l'utilisateur qui procède aux modifications.
         """
         while True:
-            self.user_view.clear_terminal_view()
+            self.menu_view.clear_terminal_view()
             result_collaborator_info = self.table_c.get_single_collaborator_info_with_id_controller(user_id,
                                                                                                     username_admin,
                                                                                                     password_admin)
@@ -160,8 +160,8 @@ class UserMenuController:
                 username_admin, password_admin, username_delete, password_delete)
 
     def register_new_collaborator_controller(self, username, password):
-        self.user_view.clear_terminal_view()
-        self.menu_view.display_message_create_new_collaborator()
+        self.menu_view.clear_terminal_view()
+        self.user_view.display_message_create_new_collaborator()
         self.user_c.start_create_user_controller(username, password)
 
     def show_collaborator_list_controller(self, username, password):
@@ -173,7 +173,7 @@ class UserMenuController:
         :param password:
         :return:
         """
-        self.user_view.clear_terminal_view()
+        self.menu_view.clear_terminal_view()
         result = self.table_c.get_information_for_all_collaborators_controller(username, password)
         self.user_view.display_list_collaborator(result)
 
@@ -229,7 +229,7 @@ class UserMenuController:
         :return: result_choice
         """
         while True:
-            result_choice = self.menu_view.get_user_input_view()
+            result_choice = self.user_view.get_user_input_view()
             result_check = self.check_user_input_c.check_user_input_of_edit_collaborator_information_menu(result_choice)
             if result_check:
                 break
