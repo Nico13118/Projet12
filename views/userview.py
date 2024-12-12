@@ -90,3 +90,16 @@ class UserView:
 
     def prompt_the_user_to_press_the_enter_key(self):
         return Prompt.ask("[bright_cyan]Appuyez sur la touche entrée de votre clavier pour continuer...[/bright_cyan]")
+
+    def get_user_input_view(self):
+        user_input = Prompt.ask("[bright_cyan]Faite votre choix[/bright_cyan]")
+        return int(user_input)
+
+    def display_message_create_new_collaborator(self):
+        cadre = Panel(
+            "\n[bright_cyan]Veuillez saisir les informations du nouveau collaborateur.[/bright_cyan]\n",
+            title="[deep_sky_blue1] Epic Events Enregistrement[/deep_sky_blue1]",
+            expand=True,
+            border_style="spring_green1",
+        )
+        console.print(cadre, justify="left")
