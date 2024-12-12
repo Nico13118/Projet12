@@ -24,7 +24,7 @@ class MainController:
         self.table_c = TableController(self.json_c)
         self.user_c = UserController(UserView(), ErrorMessagesView(), self.table_c, self.database_c,
                                      self.check_user_input_c)
-        self.login_c = LoginController(UserView(), ErrorMessagesView(), self.user_c, self.database_c)
+        self.login_c = LoginController(UserView(), ErrorMessagesView(), self.user_c, self.database_c, self.table_c)
         self.first_start_c = FirstStartController(
             FirstStartView(), UserView(), ErrorMessagesView(), self.user_c, self.json_c, self.database_c,
             self.table_c, self.check_user_input_c)
@@ -33,10 +33,8 @@ class MainController:
 
         self.menu_gestion_c = MenuGestionController(MenuView(), UserView(), self.gestion_c, self.table_c,
                                                     self.user_c, self.database_c)
-        self.menu_commercial_c = MenuCommercialController(MenuView(), ErrorMessagesView(), UserView(), self.table_c,
-                                                          self.user_c, self.check_user_input_c, self.database_c)
-        self.menu_support_c = MenuSupportController(MenuView(), ErrorMessagesView(), UserView(), self.table_c,
-                                                    self.user_c, self.check_user_input_c, self.database_c)
+        self.menu_commercial_c = MenuCommercialController()
+        self.menu_support_c = MenuSupportController()
 
         self.user_menu_c = UserMenuController(self.menu_gestion_c, self.menu_commercial_c, self.menu_support_c,
                                               self.table_c)
@@ -46,5 +44,5 @@ class MainController:
         if not result_info:
             self.first_start_c.first_start_controller()
         else:
-            username_password = self.login_c.start_authentication_controller()
-            self.user_menu_c.redirect_user_to_his_menu(username_password)
+            session = self.login_c.start_authentication_controller()
+            self.user_menu_c.redirect_user_to_his_menu(session)
