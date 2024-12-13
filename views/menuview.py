@@ -15,15 +15,16 @@ class MenuView:
         
         table.add_row("\n1", "\nEnregistrer un nouveau collaborateur")
         table.add_row("\n2", "\nListe des collaborateurs et modification")
-        table.add_row("\n3", "\nListe des clients et création de contrat")
-        table.add_row("\n4", "\nListe des contrats et modification")
-        table.add_row("\n5", "\nListe des événements non attribués et modification")
-        table.add_row("\n6", "\nListe des événements attribués et modification")
-        table.add_row("\n7", "\nListe des événements")
-        table.add_row("\n8", "\nListe des collaborateurs")
-        table.add_row("\n9", "\nListe des clients")
-        table.add_row("\n10", "\nListe des contrats")
-        table.add_row("\n11", "\nQuitter l'application\n")
+        table.add_row("\n3", "\nListe des collaborateurs et suppression")
+        table.add_row("\n4", "\nListe des clients et création de contrat")
+        table.add_row("\n5", "\nListe des contrats et modification")
+        table.add_row("\n6", "\nListe des événements non attribués et modification")
+        table.add_row("\n7", "\nListe des événements attribués et modification")
+        table.add_row("\n8", "\nListe des événements")
+        table.add_row("\n9", "\nListe des collaborateurs")
+        table.add_row("\n10", "\nListe des clients")
+        table.add_row("\n11", "\nListe des contrats")
+        table.add_row("\n12", "\nQuitter l'application\n")
 
         console.print(table)
 
@@ -74,6 +75,7 @@ class MenuView:
         table.add_row("\n5", "\nListe des contrats")
         table.add_row("\n6", "\nQuitter l'application\n")
 
+        console.print(table)
 
     def clear_terminal_view(self):
         os.system("cls")
