@@ -52,6 +52,8 @@ class DatabaseController:
         engine = create_engine(f'mysql+pymysql://{self.session.username}:{pass_admin}@localhost/{database_name}')
         with engine.connect() as connection:
             connection.execute(text(f"CREATE USER '{info_username}'@'localhost' IDENTIFIED BY '{info_password}'"))
+            connection.execute(text(f"GRANT SELECT ON {database_name}.collaborator"
+                                    f" TO {info_username}@localhost"))
             connection.execute(text(f"GRANT SELECT, INSERT, UPDATE ON {database_name}.customer "
                                     f"TO {info_username}@localhost"))
             connection.execute(text(f"GRANT SELECT, INSERT, UPDATE ON {database_name}.contract "
