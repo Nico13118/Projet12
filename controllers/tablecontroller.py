@@ -22,6 +22,22 @@ class TableController:
         Base.metadata.create_all(bind=engine, tables=None, checkfirst=False)
         self.add_roles_in_the_table(self.session, database_name)
 
+    def save_customer_in_table_controller(self, session, info_name, info_first_name, info_email, info_company_name):
+        self.session = session
+        database_name = self.json_c.get_database_name_in_json_file()
+        password = quote(self.session.password)
+        engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
+        with Session(engine) as session:
+            customer = Customer(
+                name=info_name,
+                first_name=info_first_name,
+                email=info_email,
+                company_name=info_company_name,
+                collaborator_id=self.session.collab_id
+            )
+            session.add(customer)
+            session.commit()
+
     def save_collaborator_in_table_controller(self, session, info_name, info_first_name,
                                               info_email, info_username, info_password, role):
         """
@@ -120,7 +136,7 @@ class TableController:
         engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
         with engine.connect() as connection:
             result_user = connection.execute(text(f"SELECT * FROM collaborator JOIN role ON collaborator.role_id = "
-                                                  f"role.id WHERE collaborator.id = '{user_id}'"))
+                                                  f"role.id WHERE collaborator.collab_id = '{user_id}'"))
             return result_user
 
     def edit_collaborator_fields_controller(self, user_id, new_value, session, field):
