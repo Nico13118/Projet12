@@ -8,6 +8,7 @@ from controllers.usercontroller import UserController
 from controllers.checkuserinputcontroller import CheckUserInputController
 from controllers.menugestioncontroller import MenuGestionController
 from controllers.menucommercialcontroller import MenuCommercialController
+from controllers.commercialcontroller import CommercialController
 from controllers.menusupportcontroller import MenuSupportController
 from controllers.gestioncontroller import GestionController
 from views.firststartview import FirstStartView
@@ -28,12 +29,16 @@ class MainController:
         self.first_start_c = FirstStartController(
             FirstStartView(), UserView(), ErrorMessagesView(), self.user_c, self.json_c, self.database_c,
             self.table_c, self.check_user_input_c)
+
         self.gestion_c = GestionController(MenuView(), ErrorMessagesView(), UserView(), self.table_c,
                                            self.user_c, self.check_user_input_c, self.database_c)
+        self.menu_gestion_c = MenuGestionController(MenuView(), UserView(), ErrorMessagesView(), self.gestion_c,
+                                                    self.table_c, self.user_c, self.database_c)
 
-        self.menu_gestion_c = MenuGestionController(MenuView(), UserView(), self.gestion_c, self.table_c,
-                                                    self.user_c, self.database_c)
-        self.menu_commercial_c = MenuCommercialController()
+        self.commercial_c = CommercialController(MenuView(), UserView(), self.user_c, self.table_c)
+        self.menu_commercial_c = MenuCommercialController(MenuView(), UserView(), ErrorMessagesView(),
+                                                          self.commercial_c)
+
         self.menu_support_c = MenuSupportController()
 
         self.user_menu_c = UserMenuController(self.menu_gestion_c, self.menu_commercial_c, self.menu_support_c,
