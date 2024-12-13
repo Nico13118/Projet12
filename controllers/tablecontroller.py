@@ -29,10 +29,10 @@ class TableController:
         engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
         with Session(engine) as session:
             customer = Customer(
-                name=info_name,
-                first_name=info_first_name,
-                email=info_email,
-                company_name=info_company_name,
+                custom_name=info_name,
+                custom_first_name=info_first_name,
+                custom_email=info_email,
+                custom_company_name=info_company_name,
                 collaborator_id=self.session.collab_id
             )
             session.add(customer)
@@ -57,11 +57,11 @@ class TableController:
         engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
         with Session(engine) as session:
             collaborator = Collaborator(
-                name=info_name,
-                first_name=info_first_name,
-                email=info_email,
-                username=info_username,
-                password=info_password,
+                collab_name=info_name,
+                collab_first_name=info_first_name,
+                collab_email=info_email,
+                collab_username=info_username,
+                collab_password=info_password,
                 role_id=role
             )
             session.add(collaborator)
@@ -103,7 +103,8 @@ class TableController:
         database_name = self.json_c.get_database_name_in_json_file()
         engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
         with engine.connect() as connection:
-            result = connection.execute(text(f"SELECT * FROM collaborator WHERE username = '{self.session.username}'"))
+            result = connection.execute(text(
+                f"SELECT * FROM collaborator WHERE collab_username = '{self.session.username}'"))
             return result
 
     def get_information_for_all_collaborators_controller(self, session):
@@ -139,6 +140,22 @@ class TableController:
                                                   f"role.id WHERE collaborator.collab_id = '{user_id}'"))
             return result_user
 
+    def get_single_customer_info_with_id_controller(self, customer_id, session):
+        """
+        Fonction qui permet de récupérer les informations d'un client avec son ID.
+
+        :param customer_id :
+        :param session
+        :return: result_customer
+        """
+        self.session = session
+        password = quote(self.session.password)
+        database_name = self.json_c.get_database_name_in_json_file()
+        engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
+        with engine.connect() as connection:
+            result_customer = connection.execute(text(f"SELECT * from customer WHERE custom_id = {customer_id}"))
+            return result_customer
+
     def edit_collaborator_fields_controller(self, user_id, new_value, session, field):
         """
         Fonction qui permet de mettre à jour un champ concernant un collaborateur.
@@ -171,5 +188,5 @@ class TableController:
         engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
         with engine.connect() as connection:
             result_customer = connection.execute(text(
-                f"SELECT * FROM customer JOIN collaborator ON customer.id = collaborator.collab_id"))
+                f"SELECT * FROM customer JOIN collaborator ON customer.collaborator_id = collaborator.collab_id"))
             return result_customer
