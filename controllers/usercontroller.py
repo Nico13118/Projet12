@@ -8,31 +8,28 @@ class UserController:
         self.table_c = tablecontroller
         self.database_c = databasecontroller
         self.check_user_input_c = checkuserinputcontroller
+        self.session = None
 
-    def start_create_user_controller(self, username_admin, password_admin):
+    def start_create_user_controller(self, session):
+        session
         info_name = self.get_name_controller()
         info_first_name = self.get_first_name_controller()
-        name_first_name = f"{info_name} {info_first_name}"
+        name_first_name = f"{info_name} {info_first_name}"  #  A revoir
         info_email = self.get_email_controller()
-        info_username = self.get_username_controller(name_first_name)
+        info_username = self.get_username_controller(name_first_name)  #  A revoir
         info_password = self.get_password_controller()
         info_role = self.get_role_controller()
 
         role_id = self.get_role_id_controller(info_role)  # Récupération de role_id
 
-        self.table_c.save_collaborator_in_table_controller(username_admin, password_admin,
-                                                           info_name, info_first_name,
-                                                           info_email, info_username,
-                                                           info_password, role_id)
+        self.table_c.save_collaborator_in_table_controller(session, info_name, info_first_name,
+                                                           info_email, info_username, info_password, role_id)
         if role_id == 1:
-            self.database_c.save_collaborator_com_in_mysql_controller(username_admin, password_admin,
-                                                                      info_username, info_password)
+            self.database_c.save_collaborator_com_in_mysql_controller(session, info_username, info_password)
         if role_id == 2:
-            self.database_c.save_collaborator_ges_in_mysql_controller(username_admin, password_admin,
-                                                                      info_username, info_password)
+            self.database_c.save_collaborator_ges_in_mysql_controller(session, info_username, info_password)
         if role_id == 3:
-            self.database_c.save_collaborator_sup_in_mysql_controller(username_admin, password_admin,
-                                                                      info_username, info_password)
+            self.database_c.save_collaborator_sup_in_mysql_controller(session, info_username, info_password)
 
     def get_role_id_controller(self, info_role):
         """
