@@ -1,8 +1,10 @@
 class MenuGestionController:
-    def __init__(self, menuview, userview, gestioncontroller, tablecontroller, usercontroller, databasecontroller):
+    def __init__(self, menuview, userview, errormessagesview, gestioncontroller, tablecontroller, usercontroller,
+                 databasecontroller):
         self.session = None
         self.menu_view = menuview
         self.user_view = userview
+        self.error_messages_v = errormessagesview
         self.gestion_c = gestioncontroller
         self.table_c = tablecontroller
         self.user_c = usercontroller
@@ -19,7 +21,7 @@ class MenuGestionController:
             self.menu_view.clear_terminal_view()
             self.menu_view.display_menu_gestion_view()
             if error:
-                self.menu_view.display_error_message_view()
+                self.error_messages_v.display_error_message_choice_view()
                 error = False
             user_input = self.user_view.get_user_input_view()
             if not user_input:
@@ -36,7 +38,7 @@ class MenuGestionController:
                         if response:
                             # Demander à l'utilisateur de selectionner le collaborateur à modifier
                             user_id = self.gestion_c.ask_user_to_select_collaborator_controller(session)
-                            self.gestion_c.edit_collaborator_info_controller(user_id, session)
+                            self.edit_collaborator_info_controller(user_id, session)
                         else:
                             break
 
@@ -103,6 +105,7 @@ class MenuGestionController:
                     # On enregistre dans la table le nouveau username
                     result_input = new_username
                     self.table_c.edit_collaborator_fields_controller(user_id, result_input, session, field="username")
+
             elif result_choice == 2:  # Modifier le prénom
                 result_input = self.user_c.get_first_name_controller()
                 #  Enregistre le nouveau prénom
@@ -117,6 +120,7 @@ class MenuGestionController:
                     # On enregistre dans la table le nouveau username
                     result_input = new_username
                     self.table_c.edit_collaborator_fields_controller(user_id, result_input, session, field="username")
+
             elif result_choice == 3:  # Modifier l'email
                 result_input = self.user_c.get_email_controller()
                 self.table_c.edit_collaborator_fields_controller(user_id, result_input, session, field="email")
