@@ -29,14 +29,6 @@ class UserController:
         if role_id == 3:
             self.database_c.save_collaborator_sup_in_mysql_controller(session, info_username, info_password)
 
-    def start_create_customer_controller(self, session):
-        info_name = self.get_name_controller()
-        info_first_name = self.get_first_name_controller()
-        info_email = self.get_email_controller()
-        company_name = self.get_company_name_controller()
-        self.table_c.save_customer_in_table_controllersave_customer_in_table_controller(
-            session, info_name, info_first_name, info_email, company_name)
-
     def get_role_id_controller(self, info_role):
         """
         Fonction qui retourne le role_id selon le role reçu en paramètre.
