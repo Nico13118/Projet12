@@ -138,9 +138,9 @@ class GestionController:
         new_role = self.user_c.get_role_controller()
         int_role_id = self.user_c.get_role_id_controller(new_role)
         # Enregistrement du nouveau rôle dans la table collaborator
-        self.table_c.edit_collaborator_fields_controller(user_id, int_role_id, self.session, field='role_id')
+        self.table_c.edit_collaborator_fields_controller(user_id, int_role_id, session, field='role_id')
         # Suppression de l'utilisateur dans la base MySQL
-        self.database_c.delete_a_mysql_user_controller(self.session, username_delete)
+        self.database_c.delete_a_mysql_user_controller(session, username_delete)
         # Création d'un nouvel utilisateur MySQL
         if new_role == "COM":
             self.database_c.save_collaborator_com_in_mysql_controller(session, username_delete, password_delete)
