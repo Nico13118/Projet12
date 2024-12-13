@@ -154,7 +154,7 @@ class TableController:
         database_name = self.json_c.get_database_name_in_json_file()
         engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
         with engine.connect() as connection:
-            connection.execute(text(f"UPDATE collaborator SET {field} = '{new_value}' WHERE id = {user_id}"))
+            connection.execute(text(f"UPDATE collaborator SET {field} = '{new_value}' WHERE collab_id = {user_id}"))
             connection.commit()
             return True
 
