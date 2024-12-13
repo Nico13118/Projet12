@@ -11,12 +11,10 @@ class UserController:
         self.session = None
 
     def start_create_user_controller(self, session):
-        session
         info_name = self.get_name_controller()
         info_first_name = self.get_first_name_controller()
-        name_first_name = f"{info_name} {info_first_name}"  #  A revoir
         info_email = self.get_email_controller()
-        info_username = self.get_username_controller(name_first_name)  #  A revoir
+        info_username = self.get_username_controller(f"{info_name} {info_first_name}")
         info_password = self.get_password_controller()
         info_role = self.get_role_controller()
 
