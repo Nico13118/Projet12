@@ -62,8 +62,8 @@ class UserView:
         table.add_column("[bright_blue]Username[/bright_blue]", justify="left", style="bright_cyan")
         table.add_column("[bright_blue]Role ID[/bright_blue]", justify="center", style="bright_cyan")
         for row in result:
-            table.add_row(f"{row.id}", f"{row.name}", f"{row.first_name}", f"{row.email}", f"{row.username}",
-                          f"{row.role_id}")
+            table.add_row(f"{row.collab_id}", f"{row.name}", f"{row.first_name}", f"{row.email}", f"{row.username}",
+                          f"{row.role_name}")
         console.print(table)
 
     def display_message_edit_collaborator_list(self):
