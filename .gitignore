@@ -1,0 +1,8 @@
+.idea/
+controllers/__pycache__/
+controllers/_init_.py
+env/
+info.json
+models/__pycache__/
+tests/
+views/__pycache__/
