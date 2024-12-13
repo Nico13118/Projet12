@@ -30,8 +30,8 @@ class FirstStartController:
         while True:
             result_username = self.user_view.get_username_view()
             result_password = self.user_view.get_login_password_view()
-
-            connexion_test = self.database_c.test_username_password_controller(result_username, result_password)
+            session = Session(username=result_username, password=result_password, collab_id=None, role_id=None)
+            connexion_test = self.database_c.test_username_password_controller(session)
             if connexion_test:
                 break
             else:
