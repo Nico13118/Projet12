@@ -29,6 +29,14 @@ class UserController:
         if role_id == 3:
             self.database_c.save_collaborator_sup_in_mysql_controller(session, info_username, info_password)
 
+    def start_create_customer_controller(self, session):
+        info_name = self.get_name_controller()
+        info_first_name = self.get_first_name_controller()
+        info_email = self.get_email_controller()
+        company_name = self.get_company_name_controller()
+        self.table_c.save_customer_in_table_controllersave_customer_in_table_controller(
+            session, info_name, info_first_name, info_email, company_name)
+
     def get_role_id_controller(self, info_role):
         """
         Fonction qui retourne le role_id selon le role reçu en paramètre.
@@ -92,6 +100,20 @@ class UserController:
             else:
                 self.error_messages_v.error_message_empty_field_view()
         return email
+
+    def get_company_name_controller(self):
+        """
+        Fonction qui permet de récupérer le nom de l'entreprise et vérifie que la saisie n'est pas vide.
+
+        :return company_name
+        """
+        while True:
+            company_name = self.user_v.get_company_name_view()
+            if company_name:
+                break
+            else:
+                self.error_messages_v.error_message_empty_field_view()
+        return company_name
 
     def get_username_controller(self, name_first_name):
         """
