@@ -41,6 +41,10 @@ class UserView:
         email = Prompt.ask("[bright_cyan]Email [/bright_cyan]")
         return email
 
+    def get_company_name_view(self):
+        company_name = Prompt.ask("[bright_cyan]Nom de l'entreprise [/bright_cyan]")
+        return company_name
+
     def get_password_view(self):
         password = Prompt.ask("[bright_cyan]Password [/bright_cyan]")
         return password
@@ -60,7 +64,7 @@ class UserView:
         table.add_column("[bright_blue]Prénom[/bright_blue]", justify="left", style="bright_cyan")
         table.add_column("[bright_blue]email[/bright_blue]", justify="left", style="bright_cyan")
         table.add_column("[bright_blue]Username[/bright_blue]", justify="left", style="bright_cyan")
-        table.add_column("[bright_blue]Role ID[/bright_blue]", justify="center", style="bright_cyan")
+        table.add_column("[bright_blue]Role[/bright_blue]", justify="center", style="bright_cyan")
         for row in result:
             table.add_row(f"{row.collab_id}", f"{row.name}", f"{row.first_name}", f"{row.email}", f"{row.username}",
                           f"{row.role_name}")
@@ -98,6 +102,15 @@ class UserView:
     def display_message_create_new_collaborator(self):
         cadre = Panel(
             "\n[bright_cyan]Veuillez saisir les informations du nouveau collaborateur.[/bright_cyan]\n",
+            title="[deep_sky_blue1] Epic Events Enregistrement[/deep_sky_blue1]",
+            expand=True,
+            border_style="spring_green1",
+        )
+        console.print(cadre, justify="left")
+
+    def display_message_create_new_customer(self):
+        cadre = Panel(
+            "\n[bright_cyan]Veuillez saisir les informations du nouveau client.[/bright_cyan]\n",
             title="[deep_sky_blue1] Epic Events Enregistrement[/deep_sky_blue1]",
             expand=True,
             border_style="spring_green1",
