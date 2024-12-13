@@ -15,7 +15,8 @@ class Base(DeclarativeBase):
 class Role(Base):
     __tablename__ = 'role'
     id: Mapped[int] = mapped_column(autoincrement=True, primary_key=True)
-    role_name: Mapped[str] = mapped_column(String(3), nullable=False)  # nullable=False >> Le champ ne peut pas être vide
+    role_name: Mapped[str] = mapped_column(String(3),
+                                           nullable=False)  # nullable=False >> Le champ ne peut pas être vide
     # Role >> Collaborator : One-to-Many : Un rôle peut avoir plusieurs collaborateurs.
     collab: Mapped[List['Collaborator']] = relationship(back_populates='role')
 
@@ -26,11 +27,11 @@ class Role(Base):
 class Collaborator(Base):
     __tablename__ = 'collaborator'
     collab_id: Mapped[int] = mapped_column(autoincrement=True, primary_key=True)
-    name: Mapped[str] = mapped_column(String(100), nullable=False)
-    first_name: Mapped[str] = mapped_column(String(100), nullable=False)
-    email: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)
-    username: Mapped[str] = mapped_column(String(100), nullable=False)
-    password: Mapped[str] = mapped_column(String(100), nullable=False)
+    collab_name: Mapped[str] = mapped_column(String(100), nullable=False)
+    collab_first_name: Mapped[str] = mapped_column(String(100), nullable=False)
+    collab_email: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)
+    collab_username: Mapped[str] = mapped_column(String(100), nullable=False)
+    collab_password: Mapped[str] = mapped_column(String(100), nullable=False)
 
     role_id: Mapped[int] = mapped_column(ForeignKey('role.id'), nullable=False)
     #  Collaborator >> Role : Many-to-One : Chaque collaborateur ne peut avoir qu’un seul rôle.
@@ -49,20 +50,20 @@ class Collaborator(Base):
         back_populates='collaborator', cascade='all, delete', passive_deletes=True)
 
     def __repr__(self) -> str:
-        return f"<Collaborator full_name={self.name} {self.first_name}>"
+        return f"<Collaborator full_name={self.collab_name} {self.collab_first_name}>"
 
 
 class Customer(Base):
     __tablename__ = 'customer'
-    id: Mapped[int] = mapped_column(autoincrement=True, primary_key=True)
-    name: Mapped[str] = mapped_column(String(100))
-    first_name: Mapped[str] = mapped_column(String(100), nullable=False)
-    email: Mapped[str] = mapped_column(String(100), nullable=False)
-    company_name: Mapped[str] = mapped_column(String(100), nullable=False)
-    created_date: Mapped[datetime.datetime] = mapped_column(DateTime(timezone=True),
-                                                            server_default=func.now(), nullable=False)
-    update_date: Mapped[datetime.datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(),
-                                                           server_onupdate=func.now(), nullable=False)
+    custom_id: Mapped[int] = mapped_column(autoincrement=True, primary_key=True)
+    custom_name: Mapped[str] = mapped_column(String(100))
+    custom_first_name: Mapped[str] = mapped_column(String(100), nullable=False)
+    custom_email: Mapped[str] = mapped_column(String(100), nullable=False)
+    custom_company_name: Mapped[str] = mapped_column(String(100), nullable=False)
+    custom_created_date: Mapped[datetime.datetime] = mapped_column(DateTime(timezone=True),
+                                                                   server_default=func.now(), nullable=False)
+    custom_update_date: Mapped[datetime.datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(),
+                                                                  server_onupdate=func.now(), nullable=False)
 
     collaborator_id: Mapped[int] = mapped_column(ForeignKey('collaborator.collab_id', ondelete='SET NULL'),
                                                  nullable=True)
@@ -76,7 +77,7 @@ class Customer(Base):
     _event: Mapped[List['Event']] = relationship(back_populates='customer')
 
     def __repr__(self) -> str:
-        return f"<Customer full_name={self.name} {self.first_name} " \
+        return f"<Customer full_name={self.custom_name} {self.custom_first_name} " \
                f"Commercial: {self.collaborator.name} {self.collaborator.first_name}>"
 
 
@@ -89,11 +90,12 @@ class Contract(Base):
     created_date: Mapped[datetime.datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     contract_signed: Mapped[str] = mapped_column(String(3), nullable=False, default="NO")
 
-    customer_id: Mapped[int] = mapped_column(ForeignKey('customer.id'), nullable=False)
+    customer_id: Mapped[int] = mapped_column(ForeignKey('customer.custom_id'), nullable=False)
     # Contract >> Customer : Many-to-One : Chaque contrat ne peut avoir qu'un seul client
     customer: Mapped['Customer'] = relationship(back_populates='_contract')
 
-    collaborator_id: Mapped[int] = mapped_column(ForeignKey('collaborator.collab_id', ondelete='SET NULL'), nullable=True)
+    collaborator_id: Mapped[int] = mapped_column(ForeignKey('collaborator.collab_id',
+                                                            ondelete='SET NULL'), nullable=True)
     # Contract >> Collaborator : Many-to-One : Chaque contrat ne peut avoir qu'un seul collaborateur
     collaborator: Mapped[Optional['Collaborator']] = relationship(back_populates='_contract')
 
@@ -115,7 +117,7 @@ class Event(Base):
     # Event >> Collaborator : Many-to-One : Chaque évènement ne peut avoir qu'un seul Collaborateur
     collaborator: Mapped[Optional['Collaborator']] = relationship(back_populates='_event')
 
-    customer_id: Mapped[int] = mapped_column(ForeignKey('customer.id'), nullable=False)
+    customer_id: Mapped[int] = mapped_column(ForeignKey('customer.custom_id'), nullable=False)
     # Event >> Customer : Many-to-One : Chaque évènement ne peut avoir qu'un seul Client
     customer: Mapped['Customer'] = relationship(back_populates='_event')
 
