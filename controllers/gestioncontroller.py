@@ -72,7 +72,10 @@ class GestionController:
     def ask_user_which_field_to_edit(self):
         """
         Fonction qui permet de demander à l'utilisateur quel champ souhaite-t-il modifier.
-        Un contrôle est effectué selon son choix.
+        Deux contrôles sont effectués :
+        
+        1) Vérification d'une saisie vide
+        2) Vérification que la saisie correspond aux choix du menu.
 
         :return: result_choice
         """
