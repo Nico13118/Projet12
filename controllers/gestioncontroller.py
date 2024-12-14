@@ -57,17 +57,12 @@ class GestionController:
         :param session
         """
         while True:
-            # On demande à l'utilisateur de saisir l'id du collaborateur à modifier
             user_id = self.user_view.get_collaborator_id_view()
-            # Contrôle que la saisie soit bien un chiffre
             result = self.check_user_input_c.check_user_input_isdigit(user_id)
             if result:
-                # Récupération de la liste des collaborateurs
-                collaborator_list = self.table_c.get_information_for_all_collaborators_controller(session)
-                # Vérifie que l'id du collaborateur est présent dans la liste
-                collaborator_info = self.check_user_input_c.check_id_in_list_controller(collaborator_list,
-                                                                                        int(user_id))
-                if collaborator_info:
+                collaborator_list = self.table_c.get_single_collaborator_info_with_id_controller(user_id, session)
+                result_info = [c for c in collaborator_list if c.collab_id == int(user_id)]
+                if result_info:
                     return user_id
                 else:
                     self.error_messages_v.display_error_message_choice_view()
