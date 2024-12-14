@@ -35,7 +35,8 @@ class MainController:
         self.menu_gestion_c = MenuGestionController(MenuView(), UserView(), ErrorMessagesView(), self.gestion_c,
                                                     self.table_c, self.user_c, self.database_c)
 
-        self.commercial_c = CommercialController(MenuView(), UserView(), self.user_c, self.table_c)
+        self.commercial_c = CommercialController(MenuView(), UserView(), ErrorMessagesView(), self.user_c, self.table_c,
+                                                 self.check_user_input_c)
         self.menu_commercial_c = MenuCommercialController(MenuView(), UserView(), ErrorMessagesView(),
                                                           self.commercial_c)
 
@@ -48,6 +49,5 @@ class MainController:
         result_info = self.json_c.search_json_file_controller()
         if not result_info:
             self.first_start_c.first_start_controller()
-        else:
-            session = self.login_c.start_authentication_controller()
-            self.user_menu_c.redirect_user_to_his_menu(session)
+        session = self.login_c.start_authentication_controller()
+        self.user_menu_c.redirect_user_to_his_menu(session)
