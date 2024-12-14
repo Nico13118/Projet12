@@ -78,11 +78,13 @@ class GestionController:
         """
         while True:
             result_choice = self.user_view.get_user_input_view()
-            result_check = self.check_user_input_c.check_user_input_of_edit_collaborator_information_menu(result_choice)
-            if result_check:
-                break
+            if result_choice:
+                if 1 <= result_choice <= 5:
+                    break
+                else:
+                    self.error_messages_v.display_error_message_choice_view()
             else:
-                self.error_messages_v.display_error_message_choice_view()
+                self.error_messages_v.error_message_empty_field_view()
         return result_choice
 
     def create_new_username_controller(self, user_id, session):
