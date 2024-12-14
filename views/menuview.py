@@ -36,10 +36,10 @@ class MenuView:
         table.add_column("[bright_blue]Infos collaborateur[/bright_blue]", justify="left", style="bright_cyan")
         table.add_column("[bright_blue]Identifiant de connexion[/bright_blue]", justify="center", style="bright_cyan")
         for info in infos:
-            table.add_row(" ", " ", " ", f"{info.username}")
-            table.add_row("1", "Modifier le nom", f"{info.name}")
-            table.add_row("2", "Modifier le prénom ", f"{info.first_name}")
-            table.add_row("3", "Modifier l'email", f"{info.email}")
+            table.add_row(" ", " ", " ", f"{info.collab_username}")
+            table.add_row("1", "Modifier le nom", f"{info.collab_name}")
+            table.add_row("2", "Modifier le prénom ", f"{info.collab_first_name}")
+            table.add_row("3", "Modifier l'email", f"{info.collab_email}")
             table.add_row("4", "Modifier le role", f"{info.role_name}")
             table.add_row("5", "Quitter", "")
 
