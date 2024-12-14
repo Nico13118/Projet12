@@ -58,7 +58,8 @@ class UserView:
         return role
 
     def display_list_collaborator(self, result):
-        table = Table(title="[bright_blue]Epic Events\nListe des collaborateurs[/bright_blue]", style="spring_green1")
+        table = Table(title="[bright_blue]Epic Events\nListe des collaborateurs[/bright_blue]",
+                      style="spring_green1")
         table.add_column("[bright_blue]ID[/bright_blue]", justify="center", style="bright_cyan")
         table.add_column("[bright_blue]Nom[/bright_blue]", justify="left", style="bright_cyan")
         table.add_column("[bright_blue]Prénom[/bright_blue]", justify="left", style="bright_cyan")
@@ -66,8 +67,9 @@ class UserView:
         table.add_column("[bright_blue]Username[/bright_blue]", justify="left", style="bright_cyan")
         table.add_column("[bright_blue]Role[/bright_blue]", justify="center", style="bright_cyan")
         for row in result:
-            table.add_row(f"{row.collab_id}", f"{row.name}", f"{row.first_name}", f"{row.email}", f"{row.username}",
-                          f"{row.role_name}")
+            table.add_row(f"{row.collab_id}", f"{row.collab_name}", f"{row.collab_first_name}",
+                          f"{row.collab_email}", f"{row.collab_username}", f"{row.role_name}")
+
         console.print(table)
 
     def display_message_edit_collaborator_list(self):
@@ -75,22 +77,30 @@ class UserView:
                                 "[Y/N] ?[/bright_cyan]")
         return user_input
 
+    def display_message_edit_customer_list_view(self):
+        user_input = Prompt.ask("[bright_cyan]Souhaitez-vous consulter et modifier une fiche client "
+                                "[Y/N] ?[/bright_cyan]")
+        return user_input
+
     def get_collaborator_id_view(self):
         user_input = Prompt.ask("[bright_cyan]Veuillez saisir l'id du collaborateur [/bright_cyan]")
         return user_input
 
+    def get_customer_code_id_view(self):
+        user_input = Prompt.ask("[bright_cyan]Veuillez saisir le N° Client [/bright_cyan]")
+        return user_input
+
     def display_list_customer_view(self, result_customer):
-        table = Table(title="[bright_blue]Epic Events\nListe des clients[/bright_blue]", style="spring_green1")
-        table.add_column("[bright_blue]Code client[/bright_blue]", justify="center", style="bright_cyan")
-        table.add_column("[bright_blue]Nom complet[/bright_blue]", justify="left", style="bright_cyan")
-        table.add_column("[bright_blue]Email[/bright_blue]", justify="left", style="bright_cyan")
+        table = Table(title="[bright_blue]Epic Events\nListe des clients[/bright_blue]",
+                      style="spring_green1")
+        table.add_column("[bright_blue]N° Client[/bright_blue]", justify="center", style="bright_cyan")
+        table.add_column("[bright_blue]Nom du client[/bright_blue]", justify="left", style="bright_cyan")
         table.add_column("[bright_blue]Nom de l'entreprise[/bright_blue]", justify="left", style="bright_cyan")
-        table.add_column("[bright_blue]Date de création[/bright_blue]", justify="left", style="bright_cyan")
-        table.add_column("[bright_blue]Dernière mise à jour[/bright_blue]", justify="left", style="bright_cyan")
         table.add_column("[bright_blue]Contact commercial[/bright_blue]", justify="left", style="bright_cyan")
         for row in result_customer:
-            table.add_row(f"{row.id}", f"{row.name} {row.first_name}", f"{row.email}", f"{row.company_name}",
-                          f"{row.created_date}", f"{row.update_date}", f"{row.collaborator_id}")
+            table.add_row(f"{row.custom_id}", f"{row.custom_name} {row.custom_first_name}",
+                          f"{row.custom_company_name}", f"{row.collab_name} {row.collab_first_name}")
+        console.print(table)
 
     def prompt_the_user_to_press_the_enter_key(self):
         return Prompt.ask("[bright_cyan]Appuyez sur la touche entrée de votre clavier pour continuer...[/bright_cyan]")
