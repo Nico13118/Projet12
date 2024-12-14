@@ -74,3 +74,23 @@ class CommercialController:
                     self.error_messages_v.display_error_message_choice_view()
             else:
                 self.error_messages_v.display_error_message_choice_view()
+
+    def ask_user_which_field_to_edit(self):
+        """
+        Fonction qui permet de demander à l'utilisateur quel champ souhaite-t-il modifier.
+        Deux contrôles sont effectués :
+        1) Vérification d'une saisie vide
+        2) Vérification que la saisie correspond aux choix du menu.
+
+        :return: result_choice
+        """
+        while True:
+            result_choice = self.user_view.get_user_input_view()
+            if result_choice:
+                if 1 <= result_choice <= 6:
+                    break
+                else:
+                    self.error_messages_v.display_error_message_choice_view()
+            else:
+                self.error_messages_v.error_message_empty_field_view()
+        return result_choice
