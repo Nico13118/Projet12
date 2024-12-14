@@ -93,6 +93,20 @@ class UserController:
                 self.error_messages_v.error_message_empty_field_view()
         return email
 
+    def get_number_phone_controller(self):
+        """
+        Fonction qui permet de contrôler la saisie utilisateur concernant le champ phone.
+
+        :return: email
+        """
+        while True:
+            phone = self.user_v.get_number_phone_view()  # Récupère la saisie de l'utilisateur
+            if phone:  # Vérifie que la saisie n'est pas vide
+                break
+            else:
+                self.error_messages_v.error_message_empty_field_view()
+        return phone
+
     def get_company_name_controller(self):
         """
         Fonction qui permet de récupérer le nom de l'entreprise et vérifie que la saisie n'est pas vide.
