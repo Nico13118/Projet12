@@ -59,6 +59,7 @@ class Customer(Base):
     custom_name: Mapped[str] = mapped_column(String(100))
     custom_first_name: Mapped[str] = mapped_column(String(100), nullable=False)
     custom_email: Mapped[str] = mapped_column(String(100), nullable=False)
+    custom_phone: Mapped[str] = mapped_column(String(20), nullable=False)
     custom_company_name: Mapped[str] = mapped_column(String(100), nullable=False)
     custom_created_date: Mapped[datetime.datetime] = mapped_column(DateTime(timezone=True),
                                                                    server_default=func.now(), nullable=False)
