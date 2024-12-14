@@ -5,6 +5,10 @@ ROLE = ["COM", "GES", "SUP"]
 
 
 class CheckUserInputController:
+
+    def __init__(self):
+        self.session = None
+
     def check_user_input_yes_no_controller(self, user_input):
         """
         Fonction qui contrôle que la saisie correspond aux constantes.
@@ -18,17 +22,30 @@ class CheckUserInputController:
         elif x in NO_RESPONSE:
             return "N"
 
-    def check_id_in_list_controller(self, info_list, user_input):
+    def check_id_in_list_controller(self, info_list, user_input, session):
         """
         Fonction qui vérifie si l'id choisi est présent dans la liste.
         S'il y a une correspondance, l'information est retourné.
 
         :param info_list:
         :param user_input:
+        :param session
         :return: collaborator_info
         """
-        result_info = [c for c in info_list if c.id == user_input]
+        self.session = session
+        result_info = None
+        if self.session.role_id == 1:  # Commercial
+            result_info = [c for c in info_list if c.custom_id == user_input]
+            if not result_info:
+                result_info = False
+
+        elif self.session.role_id == 2:  # Gestion
+            result_info = [c for c in info_list if c.collab_id == user_input]
+            if not result_info:
+                result_info = False
+
         return result_info
+
 
     def check_user_input_isdigit(self, user_input):
         """
