@@ -22,7 +22,8 @@ class TableController:
         Base.metadata.create_all(bind=engine, tables=None, checkfirst=False)
         self.add_roles_in_the_table(self.session, database_name)
 
-    def save_customer_in_table_controller(self, session, info_name, info_first_name, info_email, info_company_name):
+    def save_customer_in_table_controller(self, session, info_name, info_first_name, info_email, info_phone,
+                                          info_company_name):
         self.session = session
         database_name = self.json_c.get_database_name_in_json_file()
         password = quote(self.session.password)
@@ -32,6 +33,7 @@ class TableController:
                 custom_name=info_name,
                 custom_first_name=info_first_name,
                 custom_email=info_email,
+                custom_phone=info_phone,
                 custom_company_name=info_company_name,
                 collaborator_id=self.session.collab_id
             )
