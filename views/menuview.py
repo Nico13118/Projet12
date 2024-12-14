@@ -1,7 +1,4 @@
-from rich.prompt import Prompt
-from rich.panel import Panel
 from rich.console import Console
-from rich.text import Text
 from rich.table import Table
 import os
 console = Console()
@@ -42,6 +39,26 @@ class MenuView:
             table.add_row("3", "Modifier l'email", f"{info.collab_email}")
             table.add_row("4", "Modifier le role", f"{info.role_name}")
             table.add_row("5", "Quitter", "")
+
+        console.print(table)
+
+    def display_edit_menu_of_a_customer_view(self, infos):
+        table = Table(title="[bright_blue]Epic Events\nModifier les informations d'un client.[/bright_blue]",
+                      style="spring_green1")
+        table.add_column("[bright_blue]Choix[/bright_blue]", justify="center", style="bright_cyan")
+        table.add_column("[bright_blue]Actions[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Infos client[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Infos supplémentaires[/bright_blue]", justify="center", style="bright_cyan")
+        for info in infos:
+            table.add_row(" ", " ", " ", f"Commercial: {info.collab_name} {info.collab_first_name}")
+            table.add_row(" ", " ", " ", f"Date de création: {info.custom_created_date}")
+            table.add_row(" ", " ", " ", f"Dernière mise à jour: {info.custom_update_date}")
+            table.add_row("1", "Modifier le nom", f"{info.custom_name}")
+            table.add_row("2", "Modifier le prénom ", f"{info.custom_first_name}")
+            table.add_row("3", "Modifier l'email", f"{info.custom_email}")
+            table.add_row("4", "Modifier N° de télélphone", f"{info.custom_phone}")
+            table.add_row("5", "Modifier intitulé de l'entreprise", f"{info.custom_company_name}")
+            table.add_row("6", "Quitter", "")
 
         console.print(table)
 
