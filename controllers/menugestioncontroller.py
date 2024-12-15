@@ -69,6 +69,8 @@ class MenuGestionController:
                 elif user_input == 11:
                     pass
 
+                elif user_input == 12:
+                    break
                 else:
                     error = True
 
@@ -91,10 +93,10 @@ class MenuGestionController:
             result_choice = self.gestion_c.ask_user_which_field_to_edit()
 
             if result_choice == 1:  # Modifier le nom
-                result_input = self.user_c.get_name_controller()
+                new_name = self.user_c.get_name_controller()
                 #  Enregistre le nouveau nom dans la table
-                self.table_c.edit_collaborator_fields_controller(user_id, result_input, session, field='name')
-
+                self.table_c.edit_a_field_in_table(session, user_id, new_value=new_name, table_name='collaborator',
+                                                   object_id='collab_id', field='collab_name')
                 # Récupère l'ancien username
                 old_username = self.gestion_c.get_old_username_controller(user_id, session)
                 # Fonction qui récupère le nom et prénom pour créer le nouveau username.
@@ -103,30 +105,31 @@ class MenuGestionController:
                     # On change username dans mysql
                     self.database_c.change_username_in_mysql_controller(session, old_username, new_username)
                     # On enregistre dans la table le nouveau username
-                    result_input = new_username
-                    self.table_c.edit_collaborator_fields_controller(user_id, result_input, session, field="username")
-
+                    self.table_c.edit_a_field_in_table(session, user_id, new_value=new_username,
+                                                       table_name='collaborator', object_id='collab_id',
+                                                       field='collab_username')
             elif result_choice == 2:  # Modifier le prénom
-                result_input = self.user_c.get_first_name_controller()
+                new_first_name = self.user_c.get_first_name_controller()
                 #  Enregistre le nouveau prénom
-                self.table_c.edit_collaborator_fields_controller(user_id, result_input, session, field='first_name')
+                self.table_c.edit_a_field_in_table(session, user_id,
+                                                   new_value=new_first_name, table_name='collaborator',
+                                                   object_id='collab_id', field='collab_first_name')
                 # Récupère l'ancien username
                 old_username = self.gestion_c.get_old_username_controller(user_id, session)
-                # Fonction qui récupère le nom et précom pour créer le nouveau username.
+                # Fonction qui récupère le nom et prénom pour créer le nouveau username.
                 new_username = self.gestion_c.create_new_username_controller(user_id, session)
                 if new_username != old_username:
                     # On change username dans mysql
                     self.database_c.change_username_in_mysql_controller(session, old_username, new_username)
                     # On enregistre dans la table le nouveau username
-                    result_input = new_username
-                    self.table_c.edit_collaborator_fields_controller(user_id, result_input, session, field="username")
-
+                    self.table_c.edit_a_field_in_table(session, user_id,
+                                                       new_value=new_username, table_name='collaborator',
+                                                       object_id='collab_id', field='collab_username')
             elif result_choice == 3:  # Modifier l'email
-                result_input = self.user_c.get_email_controller()
-                self.table_c.edit_collaborator_fields_controller(user_id, result_input, session, field="email")
-
+                new_email = self.user_c.get_email_controller()
+                self.table_c.edit_a_field_in_table(session, user_id, new_value=new_email, table_name='collaborator',
+                                                   object_id='collab_id', field='collab_email')
             elif result_choice == 4:  # Modifier le role
                 self.gestion_c.change_collaborator_role(user_id, session)
-
             elif result_choice == 5:
                 break
