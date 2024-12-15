@@ -155,17 +155,21 @@ class TableController:
         database_name = self.json_c.get_database_name_in_json_file()
         engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
         with engine.connect() as connection:
-            result_customer = connection.execute(text(f"SELECT * from customer WHERE custom_id = {customer_id}"))
+            result_customer = connection.execute(text(f"SELECT * from customer JOIN collaborator "
+                                                      f"ON customer.collaborator_id = collaborator.collab_id"
+                                                      f" WHERE custom_id = {customer_id}"))
             return result_customer
 
-    def edit_collaborator_fields_controller(self, user_id, new_value, session, field):
+    def edit_a_field_in_table(self, session, info_id, new_value, table_name, object_id, field):
         """
-        Fonction qui permet de mettre à jour un champ concernant un collaborateur.
+        Fonction qui permet de mettre à jour un champ de n'importe qu'elle table.
 
-        :param user_id :
-        :param new_value :
-        :param session
-        :param field:
+        :param session : Correspond à l'utilisateur connecté
+        :param info_id : L'id du client ou du collaborateur qui reçoit les modifications
+        :param new_value : Nouvelle valeur à mettre à jour dans la table
+        :param table_name : Nom de la table à modifier
+        :param object_id : Correspond à l'id d'un objet (collab_id, custom_id ...)
+        :param field: Correspond au champ qui va être modifié.
         :return: True
         """
         self.session = session
@@ -173,14 +177,14 @@ class TableController:
         database_name = self.json_c.get_database_name_in_json_file()
         engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
         with engine.connect() as connection:
-            connection.execute(text(f"UPDATE collaborator SET {field} = '{new_value}' WHERE collab_id = {user_id}"))
+            connection.execute(text(f"UPDATE {table_name} SET {field} = '{new_value}' WHERE {object_id} = {info_id}"))
             connection.commit()
             return True
 
     def get_list_of_all_customers_controller(self, session):
         """
         Fonction qui permet de retourner la liste des clients.
-        
+
         :param session
         :return: result_customer
         """
