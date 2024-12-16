@@ -196,3 +196,13 @@ class TableController:
             result_customer = connection.execute(text(
                 f"SELECT * FROM customer JOIN collaborator ON customer.collaborator_id = collaborator.collab_id"))
             return result_customer
+
+    def delete_collaborator_in_table_controller(self, session, user_id):
+        self.session = session
+        password = quote(self.session.password)
+        database_name = self.json_c.get_database_name_in_json_file()
+        engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
+        with engine.connect() as connection:
+            connection.execute(text(f"DELETE FROM collaborator WHERE collab_id = {user_id}"))
+            connection.commit()
+            
