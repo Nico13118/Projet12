@@ -73,7 +73,7 @@ class GestionController:
         """
         Fonction qui permet de demander à l'utilisateur quel champ souhaite-t-il modifier.
         Deux contrôles sont effectués :
-        
+
         1) Vérification d'une saisie vide
         2) Vérification que la saisie correspond aux choix du menu.
 
@@ -99,13 +99,8 @@ class GestionController:
         :return: new_username
         """
         result_collaborator_info = self.table_c.get_single_collaborator_info_with_id_controller(user_id, session)
-        collaborator_name = ""
-        collaborator_first_name = ""
-        for info in result_collaborator_info:
-            collaborator_name = info.name
-            collaborator_first_name = info.first_name
-        name_first_name = f"{collaborator_name} {collaborator_first_name}"
-        new_username = self.user_c.get_username_controller(name_first_name)
+        infos = result_collaborator_info.fetchone()
+        new_username = self.user_c.get_username_controller(f"{infos.collab_name} {infos.collab_first_name}")
         return new_username
 
     def get_old_username_controller(self, user_id, session):
@@ -117,9 +112,8 @@ class GestionController:
         :return: old_username
         """
         result_collaborator_info = self.table_c.get_single_collaborator_info_with_id_controller(user_id, session)
-        old_username = ""
-        for info in result_collaborator_info:
-            old_username = info.username
+        infos = result_collaborator_info.fetchone()
+        old_username = infos.collab_username
         return old_username
 
     def change_collaborator_role(self, user_id, session):
@@ -128,23 +122,23 @@ class GestionController:
         :param user_id:
         :param session
         """
-        username_delete = ""
-        password_delete = ""
         result_collaborator_info = self.table_c.get_single_collaborator_info_with_id_controller(user_id, session)
-        for infos in result_collaborator_info:
-            username_delete = infos.username
-
+        infos = result_collaborator_info.fetchone()
         # On demande à l'utilisateur de saisir le nouveau rôle
         new_role = self.user_c.get_role_controller()
         int_role_id = self.user_c.get_role_id_controller(new_role)
         # Enregistrement du nouveau rôle dans la table collaborator
-        self.table_c.edit_collaborator_fields_controller(user_id, int_role_id, session, field='role_id')
+        self.table_c.edit_a_field_in_table(session, user_id, new_value=int_role_id, table_name='collaborator',
+                                           object_id='collab_id', field='role_id')
         # Suppression de l'utilisateur dans la base MySQL
-        self.database_c.delete_a_mysql_user_controller(session, username_delete)
+        self.database_c.delete_a_mysql_user_controller(session, infos.collab_username)
         # Création d'un nouvel utilisateur MySQL
         if new_role == "COM":
-            self.database_c.save_collaborator_com_in_mysql_controller(session, username_delete, password_delete)
+            self.database_c.save_collaborator_com_in_mysql_controller(session, infos.collab_username,
+                                                                      infos.collab_password)
         elif new_role == "GES":
-            self.database_c.save_collaborator_ges_in_mysql_controller(session, username_delete, password_delete)
+            self.database_c.save_collaborator_ges_in_mysql_controller(session, infos.collab_username,
+                                                                      infos.collab_password)
         elif new_role == "SUP":
-            self.database_c.save_collaborator_sup_in_mysql_controller(session, username_delete, password_delete)
+            self.database_c.save_collaborator_sup_in_mysql_controller(session, infos.collab_username,
+                                                                      infos.collab_password)
