@@ -23,58 +23,67 @@ class MenuGestionController:
             if error:
                 self.error_messages_v.display_error_message_choice_view()
                 error = False
-            user_input = self.user_view.get_user_input_view()
-            if not user_input:
+            user_input_choice_menu = self.user_view.get_user_input_view()
+            if not user_input_choice_menu:
                 error = True
             else:
-                if user_input == 1:  # Enregistrer un nouveau collaborateur
+                if user_input_choice_menu == 1:  # Enregistrer un nouveau collaborateur
                     self.gestion_c.register_new_collaborator_controller(session)
 
-                elif user_input == 2:  # Afficher la liste des collaborateurs
+                elif user_input_choice_menu == 2:  # Afficher la liste des collaborateurs
                     while True:
                         self.gestion_c.show_collaborator_list_controller(session)
                         # Demande si l'utilisateur souhaite modifier un collaborateur
-                        response = self.gestion_c.ask_user_if_they_want_to_edit_collaborator()
-                        if response:
+                        response_y_n = self.gestion_c.ask_user_if_they_want_to_edit_collaborator()
+                        if response_y_n:
                             # Demander à l'utilisateur de selectionner le collaborateur à modifier
-                            user_id = self.gestion_c.ask_user_to_select_collaborator_controller(session)
-                            self.edit_collaborator_info_controller(user_id, session)
+                            user_id_username = self.gestion_c.ask_user_to_select_collaborator_controller(session)
+                            self.edit_collaborator_info_controller(session, user_id=user_id_username[0])
                         else:
                             break
 
-                elif user_input == 3:
+                elif user_input_choice_menu == 3:  # Liste des collaborateurs et suppression
+                    while True:
+                        self.gestion_c.show_collaborator_list_controller(session)
+                        response_y_n = self.gestion_c.ask_user_if_they_want_to_delete_collaborator()
+                        if response_y_n:
+                            user_id_username = self.gestion_c.ask_user_to_select_collaborator_controller(session)
+                            self.database_c.delete_a_mysql_user_controller(session, username=user_id_username[1])
+                            self.table_c.delete_collaborator_in_table_controller(session, user_id=user_id_username[0])
+                            self.gestion_c.reassign_customers_to_commercials_controller(session)
+                            self.user_view.prompt_the_user_to_press_the_enter_key()
+                        else:
+                            break
+                elif user_input_choice_menu == 4:
                     pass
 
-                elif user_input == 4:
+                elif user_input_choice_menu == 5:
                     pass
 
-                elif user_input == 5:
+                elif user_input_choice_menu == 6:
                     pass
 
-                elif user_input == 6:
+                elif user_input_choice_menu == 7:
                     pass
 
-                elif user_input == 7:
+                elif user_input_choice_menu == 8:
                     pass
 
-                elif user_input == 8:
+                elif user_input_choice_menu == 9:
                     pass
 
-                elif user_input == 9:
+                elif user_input_choice_menu == 10:
                     pass
 
-                elif user_input == 10:
+                elif user_input_choice_menu == 11:
                     pass
 
-                elif user_input == 11:
-                    pass
-
-                elif user_input == 12:
+                elif user_input_choice_menu == 12:
                     break
                 else:
                     error = True
 
-    def edit_collaborator_info_controller(self, user_id, session):
+    def edit_collaborator_info_controller(self, session, user_id):
         """
         Fonction qui va gérer un sous menu afin de procéder à la modification d'informations d'un collaborateur.
         Selon le choix de l'utilisateur, d'autres fonctions sont appelés pour effectuer les changements.
@@ -86,7 +95,8 @@ class MenuGestionController:
         """
         while True:
             self.menu_view.clear_terminal_view()
-            result_collaborator_info = self.table_c.get_single_collaborator_info_with_id_controller(user_id, session)
+            result_collaborator_info = self.table_c.get_single_collaborator_info_with_id_controller(int(user_id),
+                                                                                                    session)
             # Affichage d'un menu avec plusieurs choix et les infos du collaborateur
             self.menu_view.display_edit_menu_of_a_collaborator_view(result_collaborator_info)
             # Demande à l'utilisateur quel champ modifier
