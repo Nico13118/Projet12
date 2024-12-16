@@ -1,3 +1,6 @@
+import random
+
+
 class GestionController:
     def __init__(self, menuview, errormessagesview, userview, tablecontroller, usercontroller, checkuserinputcontroller,
                  databasecontroller):
@@ -159,3 +162,18 @@ class GestionController:
         elif new_role == "SUP":
             self.database_c.save_collaborator_sup_in_mysql_controller(session, infos.collab_username,
                                                                       infos.collab_password)
+
+    def reassign_customers_to_commercials_controller(self, session):
+        list_commercial_id = []
+        # On récupère la liste des commerciaux
+        result_commercial = self.table_c.get_list_commercial_controller(session)
+        for result_com in result_commercial:
+            list_commercial_id.append(result_com.collab_id)
+        random.shuffle(list_commercial_id)
+        # On récupère la liste des clients sans commeciaux
+        result_customer = self.table_c.get_list_customers_without_commercial_controller(session)
+        for result_custom in result_customer:
+            for commercial_id in list_commercial_id:
+                self.table_c.edit_a_field_in_table(
+                    session, info_id=result_custom.custom_id, new_value=commercial_id, table_name='customer',
+                    object_id='custom_id', field='collaborator_id')
