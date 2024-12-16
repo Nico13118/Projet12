@@ -30,18 +30,35 @@ class GestionController:
         """
         self.menu_view.clear_terminal_view()
         result = self.table_c.get_information_for_all_collaborators_controller(session)
-        self.user_view.display_list_collaborator(result)
+        self.user_view.display_list_collaborator(result, session)
+
+    def ask_user_if_they_want_to_delete_collaborator(self):
+        """
+        Fonction qui permet de demander à l'utilisateur s'il souhaite supprimer un collaborateur.
+        La reponse de l'utilisateur est contrôlé.
+
+        :return: True
+        """
+        while True:
+            user_input_y_n = self.user_view.display_message_delete_collaborator_list()
+            response = self.check_user_input_c.check_user_input_yes_no_controller(user_input_y_n)
+            if response == "Y":
+                return True
+            elif response == "N":
+                break
+            else:
+                self.error_messages_v.display_error_message_of_values_yes_and_no()
 
     def ask_user_if_they_want_to_edit_collaborator(self):
         """
-        Fonction qui permet de demander à l'utilisateur s'il souhaite apporter une modification à un collaborateur.
+        Fonction qui permet de demander à l'utilisateur s'il souhaite modifier un collaborateur.
         La reponse de l'utilisateur est contrôlé.
 
-        :return: Y
+        :return: True
         """
         while True:
-            user_input = self.user_view.display_message_edit_collaborator_list()
-            response = self.check_user_input_c.check_user_input_yes_no_controller(user_input)
+            user_input_y_n = self.user_view.display_message_edit_collaborator_list()
+            response = self.check_user_input_c.check_user_input_yes_no_controller(user_input_y_n)
             if response == "Y":
                 return True
             elif response == "N":
