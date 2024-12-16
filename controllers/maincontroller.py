@@ -38,7 +38,7 @@ class MainController:
         self.commercial_c = CommercialController(MenuView(), UserView(), ErrorMessagesView(), self.user_c, self.table_c,
                                                  self.check_user_input_c)
         self.menu_commercial_c = MenuCommercialController(MenuView(), UserView(), ErrorMessagesView(),
-                                                          self.commercial_c)
+                                                          self.commercial_c, self.table_c, self.user_c)
 
         self.menu_support_c = MenuSupportController()
 
@@ -46,8 +46,9 @@ class MainController:
                                               self.table_c)
 
     def run(self):
-        result_info = self.json_c.search_json_file_controller()
-        if not result_info:
-            self.first_start_c.first_start_controller()
-        session = self.login_c.start_authentication_controller()
-        self.user_menu_c.redirect_user_to_his_menu(session)
+        while True:
+            result_info = self.json_c.search_json_file_controller()
+            if not result_info:
+                self.first_start_c.first_start_controller()
+            session = self.login_c.start_authentication_controller()
+            self.user_menu_c.redirect_user_to_his_menu(session)
