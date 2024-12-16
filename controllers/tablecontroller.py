@@ -205,4 +205,33 @@ class TableController:
         with engine.connect() as connection:
             connection.execute(text(f"DELETE FROM collaborator WHERE collab_id = {user_id}"))
             connection.commit()
-            
+
+    def get_list_customers_without_commercial_controller(self, session):
+        """
+        Fonction qui permet de retourner une liste de clients sans commercial assigné.
+
+        :param session:
+        :return: result_customer
+        """
+        self.session = session
+        password = quote(self.session.password)
+        database_name = self.json_c.get_database_name_in_json_file()
+        engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
+        with engine.connect() as connection:
+            result_customer = connection.execute(text(f"SELECT * FROM customer WHERE collaborator_id IS NULL"))
+            return result_customer
+
+    def get_list_commercial_controller(self, session):
+        """
+        Fonction qui permet de retourner la liste de tous les commerciaux.
+
+        :param session:
+        :return: result_commercial
+        """
+        self.session = session
+        password = quote(self.session.password)
+        database_name = self.json_c.get_database_name_in_json_file()
+        engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
+        with engine.connect() as connection:
+            result_commercial = connection.execute(text(f"SELECT * FROM collaborator WHERE role_id = 1"))
+            return result_commercial
