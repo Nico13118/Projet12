@@ -77,10 +77,10 @@ class GestionController:
             user_id = self.user_view.get_collaborator_id_view()
             result = self.check_user_input_c.check_user_input_isdigit(user_id)
             if result:
-                collaborator_list = self.table_c.get_single_collaborator_info_with_id_controller(user_id, session)
-                result_info = [c for c in collaborator_list if c.collab_id == int(user_id)]
-                if result_info:
-                    return user_id
+                selected_user = self.table_c.get_single_collaborator_info_with_id_controller(user_id, session)
+                infos = selected_user.fetchone()
+                if infos.collab_id == int(user_id):
+                    return infos.collab_id, infos.collab_username
                 else:
                     self.error_messages_v.display_error_message_choice_view()
             else:
