@@ -2,6 +2,7 @@ from rich.prompt import Prompt
 from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
+import os
 console = Console()
 
 
@@ -11,6 +12,7 @@ class UserView:
         Fonction qui permet d'afficher un panneau d'information afin d'expliquer à l'utilisateur
         comment s'authentifier
         """
+        os.system("cls")
         cadre = Panel(
             "\n[bright_cyan]Pour vous connecter, vous devez saisir le nom et prénom de l'utilisateur et mot de passe."
             "[/bright_cyan]\n"
@@ -40,6 +42,10 @@ class UserView:
     def get_email_view(self):
         email = Prompt.ask("[bright_cyan]Email [/bright_cyan]")
         return email
+
+    def get_number_phone_view(self):
+        phone = Prompt.ask("[bright_cyan]Téléphone [/bright_cyan]")
+        return phone
 
     def get_company_name_view(self):
         company_name = Prompt.ask("[bright_cyan]Nom de l'entreprise [/bright_cyan]")
@@ -78,7 +84,7 @@ class UserView:
         return user_input
 
     def display_message_edit_customer_list_view(self):
-        user_input = Prompt.ask("[bright_cyan]Souhaitez-vous consulter et modifier une fiche client "
+        user_input = Prompt.ask("[bright_cyan]Souhaitez-vous consulter ou modifier une fiche client "
                                 "[Y/N] ?[/bright_cyan]")
         return user_input
 
