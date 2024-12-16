@@ -87,6 +87,10 @@ class UserView:
                                 "[Y/N] ?[/bright_cyan]")
         return user_input
 
+    def display_message_delete_collaborator_list(self):
+        user_input = Prompt.ask("[bright_cyan]Souhaitez-vous supprimer un collaborateur [Y/N] ?[/bright_cyan]")
+        return user_input
+    
     def display_message_edit_customer_list_view(self):
         user_input = Prompt.ask("[bright_cyan]Souhaitez-vous consulter ou modifier une fiche client "
                                 "[Y/N] ?[/bright_cyan]")
