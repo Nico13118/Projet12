@@ -2,9 +2,10 @@ import re
 
 
 class UserController:
-    def __init__(self, userview, errormessagesview, tablecontroller, databasecontroller, checkuserinputcontroller):
+    def __init__(self, userview, errormessagesview, menuview, tablecontroller, databasecontroller, checkuserinputcontroller):
         self.user_v = userview
         self.error_messages_v = errormessagesview
+        self.menu_view = menuview
         self.table_c = tablecontroller
         self.database_c = databasecontroller
         self.check_user_input_c = checkuserinputcontroller
@@ -165,3 +166,14 @@ class UserController:
             else:
                 self.error_messages_v.error_message_empty_field_view()
         return info_role
+
+    def show_customer_list_controller(self, session):
+        """
+        Fonction qui permet de récupérer la liste des clients puis transmet les informations à la vue
+        pour être affichées.
+
+        :param session:
+        """
+        self.menu_view.clear_terminal_view()
+        result = self.table_c.get_list_of_all_customers_controller(session)
+        self.user_v.display_list_customer_view(result)
