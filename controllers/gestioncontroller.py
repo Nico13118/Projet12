@@ -177,3 +177,57 @@ class GestionController:
                 self.table_c.edit_a_field_in_table(
                     session, info_id=result_custom.custom_id, new_value=commercial_id, table_name='customer',
                     object_id='custom_id', field='collaborator_id')
+
+    def ask_user_if_wants_they_want_create_customer_contract_controller(self, session):
+        while True:
+            user_input = self.user_view.display_message_create_customer_contract_view()
+            response = self.check_user_input_c.check_user_input_yes_no_controller(user_input)
+            if response == "Y":
+                return True
+            elif response == "N":
+                break
+            else:
+                self.error_messages_v.display_error_message_of_values_yes_and_no()
+
+    def create_customer_contract_controller(self, session):
+        while True:
+            customer_id = self.user_view.get_customer_code_id_view()
+            result = self.check_user_input_c.check_user_input_isdigit(customer_id)
+            if result:
+                selected_customer = self.table_c.get_single_customer_info_with_id_controller(customer_id, session)
+                infos = selected_customer.fetchone()
+                if infos.custom_id == int(customer_id):
+                    contract_description = self.get_contract_description_controller()
+                    contract_total_price = self.get_contract_total_price_controller()
+                    contract_amount_remaining = self.get_contract_amount_remaining_controller()
+                    self.table_c.save_customer_contract_in_table_controller(
+                        session, contract_description, contract_total_price, contract_amount_remaining,
+                        infos.custom_id, infos.collaborator_id)
+                    break
+            else:
+                self.error_messages_v.display_message_error_numerical_value_view()
+
+    def get_contract_description_controller(self):
+        while True:
+            user_input = self.user_view.get_contract_description_view()
+            if user_input:
+                return user_input
+            else:
+                self.error_messages_v.error_message_empty_field_view()
+
+    def get_contract_total_price_controller(self):
+        while True:
+            user_input = self.user_view.get_contract_total_price_view()
+            result = self.check_user_input_c.check_user_input_isdigit(user_input)
+            if result:
+                return user_input
+            else:
+                self.error_messages_v.display_message_error_numerical_value_view()
+
+    def get_contract_amount_remaining_controller(self):
+        user_input = self.user_view.get_contract_amount_remaining_view()
+        result = self.check_user_input_c.check_user_input_isdigit(user_input)
+        if result:
+            return user_input
+        else:
+            self.error_messages_v.display_message_error_numerical_value_view()
