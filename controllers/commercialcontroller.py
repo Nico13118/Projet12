@@ -27,17 +27,6 @@ class CommercialController:
         self.table_c.save_customer_in_table_controller(session, info_name, info_first_name, info_email, info_phone,
                                                        info_company_name)
 
-    def show_customer_list_controller(self, session):
-        """
-        Fonction qui permet de récupérer la liste des clients puis transmet les informations à la vue
-        pour être affichées.
-
-        :param session:
-        """
-        self.menu_view.clear_terminal_view()
-        result = self.table_c.get_list_of_all_customers_controller(session)
-        self.user_view.display_list_customer_view(result)
-
     def ask_user_if_wants_they_want_to_edit_customer(self):
         """
         Fonction qui permet de demander à l'utilisateur s'il souhaite apporter une modification à un utilisateur.
