@@ -12,6 +12,17 @@ class Base(DeclarativeBase):
     pass
 
 
+class ContractStatus(Base):
+    __tablename__ = 'contractstatus'
+    contract_status_id: Mapped[int] = mapped_column(autoincrement=True, primary_key=True)
+    contract_status_name: Mapped[str] = mapped_column(String(20), nullable=False)
+
+    contractstatus_contract: Mapped[List['Contract']] = relationship(back_populates='contract_contractstatus')
+
+    def __repr__(self) -> str:
+        return f"Contract name={self.contract_status_name}"
+
+
 class Role(Base):
     __tablename__ = 'role'
     id: Mapped[int] = mapped_column(autoincrement=True, primary_key=True)
@@ -38,16 +49,16 @@ class Collaborator(Base):
     role: Mapped['Role'] = relationship(back_populates='collab')
 
     #  Collaborator >> Customer : One-to-Many : Un collaborateur peut avoir plusieurs clients
-    custom: Mapped[List['Customer']] = relationship(
-        back_populates='collaborator', cascade='all, delete', passive_deletes=True)
+    collaborator_customer: Mapped[List['Customer']] = relationship(
+        back_populates='customer_collaborator', cascade='all, delete', passive_deletes=True)
 
     #  Collaborator >> Contract : One-to-Many : Un collaborateur peut avoir plusieurs Contrats
-    # _contract: Mapped[List['Contract']] = relationship(
-    #     back_populates='collaborator', cascade='all, delete', passive_deletes=True)
+    collaborator_contract: Mapped[List['Contract']] = relationship(back_populates='contract_collaborator',
+                                                                   cascade='all, delete', passive_deletes=True)
 
     #  Collaborator >> Event : One-to-Many : Un collaborateur peut avoir plusieurs évènements
-    _event: Mapped[List['Event']] = relationship(
-        back_populates='collaborator', cascade='all, delete', passive_deletes=True)
+    collaborator_event: Mapped[List['Event']] = relationship(
+        back_populates='event_collaborator', cascade='all, delete', passive_deletes=True)
 
     def __repr__(self) -> str:
         return f"<Collaborator full_name={self.collab_name} {self.collab_first_name}>"
@@ -69,17 +80,16 @@ class Customer(Base):
     collaborator_id: Mapped[int] = mapped_column(ForeignKey('collaborator.collab_id', ondelete='SET NULL'),
                                                  nullable=True)
     #  Customer >> Collaborator : Many-to-One : Chaque Client ne peut avoir qu'un seul collaborateur
-    collaborator: Mapped[Optional['Collaborator']] = relationship(back_populates='custom')
+    customer_collaborator: Mapped[Optional['Collaborator']] = relationship(back_populates='collaborator_customer')
 
     #  Customer >> Contract : One-to-Many : Un client peut avoir plusieurs Contrats
-    _contract: Mapped[List['Contract']] = relationship(back_populates='customer')
+    customer_contract: Mapped[List['Contract']] = relationship(back_populates='customer')
 
     #  Customer >> Event : One-to-Many : Un client peut avoir plusieurs évènements
-    _event: Mapped[List['Event']] = relationship(back_populates='customer')
+    customer_event: Mapped[List['Event']] = relationship(back_populates='event_customer')
 
     def __repr__(self) -> str:
-        return f"<Customer full_name={self.custom_name} {self.custom_first_name} " \
-               f"Commercial: {self.collaborator.name} {self.collaborator.first_name}>"
+        return f"<Customer full_name={self.custom_name} {self.custom_first_name}"
 
 
 class Contract(Base):
@@ -89,19 +99,22 @@ class Contract(Base):
     contract_total_price: Mapped[int] = mapped_column(nullable=False)
     contract_amount_remaining: Mapped[int] = mapped_column(default=0, nullable=True)
     contract_created_date: Mapped[datetime.datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
-    contract_signed: Mapped[str] = mapped_column(String(3), nullable=False, default="NO")
+
+    contract_status_id: Mapped[int] = mapped_column(ForeignKey('contractstatus.contract_status_id'), nullable=False,
+                                                    default=2)
+    contract_contractstatus: Mapped['ContractStatus'] = relationship(back_populates='contractstatus_contract')
 
     customer_id: Mapped[int] = mapped_column(ForeignKey('customer.custom_id'), nullable=False)
     # Contract >> Customer : Many-to-One : Chaque contrat ne peut avoir qu'un seul client
-    customer: Mapped['Customer'] = relationship(back_populates='_contract')
+    customer: Mapped['Customer'] = relationship(back_populates='customer_contract')
 
-    collaborator_id: Mapped[int] = mapped_column(ForeignKey('customer.collaborator_id',
+    collaborator_id: Mapped[int] = mapped_column(ForeignKey('collaborator.collab_id',
                                                             ondelete='SET NULL'), nullable=True)
     # Contract >> Collaborator : Many-to-One : Chaque contrat ne peut avoir qu'un seul collaborateur
-    collaborator: Mapped[Optional['Customer']] = relationship(back_populates='_contract')
+    contract_collaborator: Mapped[Optional['Collaborator']] = relationship(back_populates='collaborator_contract')
 
     # Contract >> Event : Many-to-One : Chaque contrat ne peut avoir qu'un seul évènement
-    _event: Mapped['Event'] = relationship(back_populates='contract')
+    contract_event: Mapped['Event'] = relationship(back_populates='event_contract')
 
 
 class Event(Base):
@@ -116,12 +129,12 @@ class Event(Base):
     collaborator_id: Mapped[int] = mapped_column(ForeignKey('collaborator.collab_id', ondelete='SET NULL'),
                                                  nullable=True)
     # Event >> Collaborator : Many-to-One : Chaque évènement ne peut avoir qu'un seul Collaborateur
-    collaborator: Mapped[Optional['Collaborator']] = relationship(back_populates='_event')
+    event_collaborator: Mapped[Optional['Collaborator']] = relationship(back_populates='collaborator_event')
 
     customer_id: Mapped[int] = mapped_column(ForeignKey('customer.custom_id'), nullable=False)
     # Event >> Customer : Many-to-One : Chaque évènement ne peut avoir qu'un seul Client
-    customer: Mapped['Customer'] = relationship(back_populates='_event')
+    event_customer: Mapped['Customer'] = relationship(back_populates='customer_event')
 
-    contract_id: Mapped[int] = mapped_column(ForeignKey('contract.id'), nullable=False)
+    contract_id: Mapped[int] = mapped_column(ForeignKey('contract.contract_id'), nullable=False)
     # Event >> Contract : Many-to-One : Chaque évènement ne peut avoir qu'un seul Contrat
-    contract: Mapped['Contract'] = relationship(back_populates='_event')
+    event_contract: Mapped['Contract'] = relationship(back_populates='contract_event')
