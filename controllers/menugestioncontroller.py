@@ -54,9 +54,15 @@ class MenuGestionController:
                             self.user_view.prompt_the_user_to_press_the_enter_key()
                         else:
                             break
-                elif user_input_choice_menu == 4:
-                    pass
-
+                elif user_input_choice_menu == 4:  # Liste des clients et création de contrat
+                    while True:
+                        self.user_c.show_customer_list_controller(session)
+                        response = self.gestion_c.ask_user_if_wants_they_want_create_customer_contract_controller(
+                            session)
+                        if response:  # Si Gestion souhaite créer un contrat
+                            self.gestion_c.create_customer_contract_controller(session)
+                            break
+                            
                 elif user_input_choice_menu == 5:
                     pass
 
