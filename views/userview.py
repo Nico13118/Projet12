@@ -140,3 +140,19 @@ class UserView:
             border_style="spring_green1",
         )
         console.print(cadre, justify="left")
+
+    def display_message_create_customer_contract_view(self):
+        user_input = Prompt.ask("[bright_cyan]Souhaitez-vous créer un contrat client [Y/N] ?[/bright_cyan]")
+        return user_input
+    
+    def get_contract_description_view(self):
+        user_input = Prompt.ask("[bright_cyan]Veuillez saisir la description du contrat [/bright_cyan]")
+        return user_input
+
+    def get_contract_total_price_view(self):
+        user_input = Prompt.ask("[bright_cyan]Veuillez saisir le prix total du contrat [/bright_cyan]")
+        return user_input
+
+    def get_contract_amount_remaining_view(self):
+        user_input = Prompt.ask("[bright_cyan]Veuillez saisir le prix total restant à régler [/bright_cyan]")
+        return user_input
