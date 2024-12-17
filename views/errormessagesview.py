@@ -63,3 +63,8 @@ class ErrorMessagesView:
                     f"caractère()s suivant(s): {x}")
         text.stylize("bold red")
         console.print(text)
+
+    def display_message_error_numerical_value_view(self):
+        text = Text("Erreur!! Vous devez saisir une valeur numérique.")
+        text.stylize("bold red")
+        console.print(text)
