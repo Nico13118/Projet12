@@ -1,4 +1,4 @@
-from models.tablemodel import Base, Collaborator, Customer, Role
+from models.tablemodel import Base, Collaborator, Customer, Role, ContractStatus, Contract
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import Session
 from urllib.parse import quote
@@ -20,7 +20,8 @@ class TableController:
         pass_admin = quote(self.session.password)
         engine = create_engine(f'mysql+pymysql://{self.session.username}:{pass_admin}@localhost/{database_name}')
         Base.metadata.create_all(bind=engine, tables=None, checkfirst=False)
-        self.add_roles_in_the_table(self.session, database_name)
+        self.add_roles_in_the_table(session, database_name)
+        self.add_contract_status_in_the_table(session, database_name)
 
     def save_customer_in_table_controller(self, session, info_name, info_first_name, info_email, info_phone,
                                           info_company_name):
@@ -38,6 +39,23 @@ class TableController:
                 collaborator_id=self.session.collab_id
             )
             session.add(customer)
+            session.commit()
+
+    def save_customer_contract_in_table_controller(self, session, contract_description, contract_total_price,
+                                                   contract_amount_remaining, custom_id, collaborator_id):
+        self.session = session
+        database_name = self.json_c.get_database_name_in_json_file()
+        password = quote(self.session.password)
+        engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
+        with Session(engine) as session:
+            contract = Contract(
+                contract_description=contract_description,
+                contract_total_price=contract_total_price,
+                contract_amount_remaining=contract_amount_remaining,
+                customer_id=custom_id,
+                collaborator_id=collaborator_id
+            )
+            session.add(contract)
             session.commit()
 
     def save_collaborator_in_table_controller(self, session, info_name, info_first_name,
@@ -67,6 +85,20 @@ class TableController:
                 role_id=role
             )
             session.add(collaborator)
+            session.commit()
+
+    def add_contract_status_in_the_table(self, session, database_name):
+        self.session = session
+        password = quote(self.session.password)
+        engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
+        with Session(engine) as session:
+            status_ok = ContractStatus(
+                contract_status_name="Contrat signé"
+            )
+            status_nok = ContractStatus(
+                contract_status_name="Contrat non signé"
+            )
+            session.add_all([status_ok, status_nok])
             session.commit()
 
     def add_roles_in_the_table(self, session, database_name):
