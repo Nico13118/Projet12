@@ -53,11 +53,17 @@ class MenuCommercialController:
                     self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
                     
                 elif user_input == 8:  # Afficher tous les contrats
-                    pass
+                    self.menu_view.clear_terminal_view()
+                    result_contract = self.table_c.get_all_contract_controller(session)
+                    self.user_view.display_list_contract_view(result_contract)
+                    self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
                 elif user_input == 9:  # Afficher tous les événements
                     pass
                 elif user_input == 10:
                     break
+                    
+                else:
+                    error = True
 
     def edit_customer_info_controller(self, customer_id, session):
         """
