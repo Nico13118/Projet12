@@ -57,8 +57,7 @@ class MenuGestionController:
                 elif user_input_choice_menu == 4:  # Liste des clients et création de contrat
                     while True:
                         self.user_c.show_customer_list_controller(session)
-                        response = self.gestion_c.ask_user_if_wants_create_customer_contract_controller(
-                            session)
+                        response = self.gestion_c.ask_user_if_wants_create_customer_contract_controller()
                         if response:  # Si Gestion souhaite créer un contrat
                             self.gestion_c.create_customer_contract_controller(session)
                             break
@@ -85,7 +84,10 @@ class MenuGestionController:
                     self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
 
                 elif user_input_choice_menu == 10:  # Afficher tous les contrats
-                    pass
+                    self.menu_view.clear_terminal_view()
+                    result_contract = self.table_c.get_all_contract_controller(session)
+                    self.user_view.display_list_contract_view(result_contract)
+                    self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
 
                 elif user_input_choice_menu == 11:  # Afficher tous les événements
                     pass
