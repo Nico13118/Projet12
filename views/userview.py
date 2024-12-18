@@ -66,8 +66,8 @@ class UserView:
         role = Prompt.ask("[bright_cyan]Saisir le role du collaborateur [COM/GES/SUP] [/bright_cyan]")
         return role
 
-    def display_list_collaborator(self, result, session):
-        self.session = session
+    def display_list_collaborator(self, result):
+        # self.session = session
         table = Table(title="[bright_blue]Epic Events\nListe des collaborateurs[/bright_blue]",
                       style="spring_green1")
         table.add_column("[bright_blue]ID[/bright_blue]", justify="center", style="bright_cyan")
@@ -77,9 +77,9 @@ class UserView:
         table.add_column("[bright_blue]Username[/bright_blue]", justify="left", style="bright_cyan")
         table.add_column("[bright_blue]Role[/bright_blue]", justify="center", style="bright_cyan")
         for row in result:
-            if self.session.collab_id != row.collab_id:
-                table.add_row(f"{row.collab_id}", f"{row.collab_name}", f"{row.collab_first_name}",
-                              f"{row.collab_email}", f"{row.collab_username}", f"{row.role_name}")
+            # if self.session.collab_id != row.collab_id:
+            table.add_row(f"{row.collab_id}", f"{row.collab_name}", f"{row.collab_first_name}",
+                          f"{row.collab_email}", f"{row.collab_username}", f"{row.role_name}")
         console.print(table)
 
     def display_message_edit_collaborator_list(self):
@@ -119,6 +119,10 @@ class UserView:
     def prompt_the_user_to_press_the_enter_key(self):
         return Prompt.ask("[bright_cyan]Appuyez sur la touche entrée de votre clavier pour continuer...[/bright_cyan]")
 
+    def prompt_the_user_to_press_the_enter_to_return_main_menu(self):
+        return Prompt.ask("[bright_cyan]Appuyez sur la touche entrée de votre clavier pour retourner au menu principal "
+                          "...[/bright_cyan]")
+
     def get_user_input_view(self):
         user_input = Prompt.ask("[bright_cyan]Faite votre choix[/bright_cyan]")
         return int(user_input)
@@ -156,3 +160,17 @@ class UserView:
     def get_contract_amount_remaining_view(self):
         user_input = Prompt.ask("[bright_cyan]Veuillez saisir le prix total restant à régler [/bright_cyan]")
         return user_input
+
+    def display_list_contract_view(self, result):
+
+        table = Table(title="[bright_blue]Epic Events\nListe des contrats[/bright_blue]",
+                      style="spring_green1")
+        table.add_column("[bright_blue]N° Contrat[/bright_blue]", justify="center", style="bright_cyan")
+        table.add_column("[bright_blue]Nom du client[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Nom de l'entrprise[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Date de création[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Statut du contrat[/bright_blue]", justify="left", style="bright_cyan")
+        for row in result:
+            table.add_row(f"{row.contract_id}", f"{row.custom_name}" f" {row.custom_first_name}",
+                          f"{row.custom_company_name}", f"{row.contract_created_date}", f"{row.contract_status_name}")
+        console.print(table)
