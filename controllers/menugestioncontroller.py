@@ -57,31 +57,37 @@ class MenuGestionController:
                 elif user_input_choice_menu == 4:  # Liste des clients et création de contrat
                     while True:
                         self.user_c.show_customer_list_controller(session)
-                        response = self.gestion_c.ask_user_if_wants_they_want_create_customer_contract_controller(
+                        response = self.gestion_c.ask_user_if_wants_create_customer_contract_controller(
                             session)
                         if response:  # Si Gestion souhaite créer un contrat
                             self.gestion_c.create_customer_contract_controller(session)
                             break
                             
-                elif user_input_choice_menu == 5:
+                elif user_input_choice_menu == 5:  # Modifier un contrat client
                     pass
 
-                elif user_input_choice_menu == 6:
+                elif user_input_choice_menu == 6:  # Modifier un événement non attribué
                     pass
 
-                elif user_input_choice_menu == 7:
+                elif user_input_choice_menu == 7:  # Modifier un événement attribué
                     pass
 
-                elif user_input_choice_menu == 8:
+                elif user_input_choice_menu == 8:  # Afficher tous les collaborateurs
+                    self.menu_view.clear_terminal_view()
+                    list_collaborator = self.table_c.get_information_for_all_collaborators_controller(session)
+                    self.user_view.display_list_collaborator(list_collaborator)
+                    self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
+
+                elif user_input_choice_menu == 9:  # Afficher tous les clients
+                    self.menu_view.clear_terminal_view()
+                    list_customer = self.table_c.get_list_of_all_customers_controller(session)
+                    self.user_view.display_list_customer_view(list_customer)
+                    self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
+
+                elif user_input_choice_menu == 10:  # Afficher tous les contrats
                     pass
 
-                elif user_input_choice_menu == 9:
-                    pass
-
-                elif user_input_choice_menu == 10:
-                    pass
-
-                elif user_input_choice_menu == 11:
+                elif user_input_choice_menu == 11:  # Afficher tous les événements
                     pass
 
                 elif user_input_choice_menu == 12:
