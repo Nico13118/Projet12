@@ -267,3 +267,15 @@ class TableController:
         with engine.connect() as connection:
             result_commercial = connection.execute(text(f"SELECT * FROM collaborator WHERE role_id = 1"))
             return result_commercial
+
+    def get_all_contract_controller(self, session):
+        self.session = session
+        password = quote(self.session.password)
+        database_name = self.json_c.get_database_name_in_json_file()
+        engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
+        with engine.connect() as connection:
+            result_contract = connection.execute(text(
+                f"SELECT * FROM contract "
+                f"JOIN contractstatus ON contract.contract_status_id = contractstatus.contract_status_id "
+                f"JOIN customer ON customer.custom_id = contract.customer_id"))
+            return result_contract
