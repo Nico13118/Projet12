@@ -29,29 +29,35 @@ class MenuCommercialController:
                     self.commercial_c.register_new_customer_controller(session)
                 elif user_input == 2:  # Liste des clients et modification
                     while True:
-                        self.commercial_c.show_customer_list_controller(session)
+                        self.user_c.show_customer_list_controller(session)
                         response = self.commercial_c.ask_user_if_wants_they_want_to_edit_customer()
                         if response:
                             customer_id = self.commercial_c.ask_user_to_select_customer_controller(session)
                             self.edit_customer_info_controller(customer_id, session)
                         else:
                             break
-                elif user_input == 3:
+                elif user_input == 3:  # Modifier un contrat non signé
                     pass
-                elif user_input == 4:
+                elif user_input == 4:  # Modifier un contrat non soldé
                     pass
-                elif user_input == 5:
+                elif user_input == 5:  # Créer un événement
                     pass
-                elif user_input == 6:
+                elif user_input == 6:  # Afficher tous les collaborateurs
+                    list_collaborator = self.table_c.get_information_for_all_collaborators_controller(session)
+                    self.user_view.display_list_collaborator(list_collaborator)
+                    self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
+
+                elif user_input == 7:  # Afficher tous les clients
+                    list_customer = self.table_c.get_list_of_all_customers_controller(session)
+                    self.user_view.display_list_customer_view(list_customer)
+                    self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
+                    
+                elif user_input == 8:  # Afficher tous les contrats
                     pass
-                elif user_input == 7:
-                    pass
-                elif user_input == 8:
-                    pass
-                elif user_input == 9:
+                elif user_input == 9:  # Afficher tous les événements
                     pass
                 elif user_input == 10:
-                    pass
+                    break
 
     def edit_customer_info_controller(self, customer_id, session):
         """
