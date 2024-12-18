@@ -96,12 +96,16 @@ class DatabaseController:
                                     f"TO {info_username}@localhost"))
             connection.execute(text(f"GRANT SELECT ON {database_name}.role "
                                     f"TO {info_username}@localhost"))
+            connection.execute(text(f"GRANT SELECT ON {database_name}.contractstatus "
+                                    f"TO {info_username}@localhost"))
 
             "Pour que l'utilisateur Gestion puisse accorder des droits à d'autres collaborateur 'Gestion compris"
             connection.execute(text(f"GRANT GRANT OPTION ON {database_name}.customer TO {info_username}@localhost"))
             connection.execute(text(f"GRANT GRANT OPTION ON {database_name}.contract TO {info_username}@localhost"))
             connection.execute(text(f"GRANT GRANT OPTION ON {database_name}.event TO {info_username}@localhost"))
             connection.execute(text(f"GRANT GRANT OPTION ON {database_name}.role TO {info_username}@localhost"))
+            connection.execute(text(f"GRANT GRANT OPTION ON {database_name}.contractstatus "
+                                    f"TO {info_username}@localhost"))
             connection.execute(text(f"GRANT GRANT OPTION ON *.* TO {info_username}@localhost"))
             connection.execute(text(f"GRANT GRANT OPTION ON mysql.user TO {info_username}@localhost"))
             connection.execute(text(f"GRANT GRANT OPTION ON mysql.tables_priv TO {info_username}@localhost"))
@@ -141,17 +145,17 @@ class DatabaseController:
             connection.execute(text(f"FLUSH PRIVILEGES"))
             connection.commit()
 
-    def delete_a_mysql_user_controller(self, session, username_delete):
+    def delete_a_mysql_user_controller(self, session, username):
         """
         Fonction qui permet de supprimer un utilisateur de la base mysql.
 
         :param session
-        :param username_delete
+        :param username
         """
         self.session = session
         password = quote(self.session.password)
         engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost')
         with engine.connect() as connection:
-            connection.execute(text(f"DROP USER '{username_delete}'@'localhost'"))
+            connection.execute(text(f"DROP USER '{username}'@'localhost'"))
             connection.execute(text(f"FLUSH PRIVILEGES"))
             connection.commit()
