@@ -104,6 +104,10 @@ class UserView:
         user_input = Prompt.ask("[bright_cyan]Veuillez saisir le N° Client [/bright_cyan]")
         return user_input
 
+    def get_contract_id_view(self):
+        user_input = Prompt.ask("[bright_cyan]Veuillez saisir le N° Contrat [/bright_cyan]")
+        return user_input
+
     def display_list_customer_view(self, result_customer):
         table = Table(title="[bright_blue]Epic Events\nListe des clients[/bright_blue]",
                       style="spring_green1")
@@ -148,7 +152,11 @@ class UserView:
     def display_message_create_customer_contract_view(self):
         user_input = Prompt.ask("[bright_cyan]Souhaitez-vous créer un contrat client [Y/N] ?[/bright_cyan]")
         return user_input
-    
+
+    def display_message_edit_customer_contract_view(self):
+        user_input = Prompt.ask("[bright_cyan]Souhaitez-vous modifier un contrat client [Y/N] ?[/bright_cyan]")
+        return user_input
+
     def get_contract_description_view(self):
         user_input = Prompt.ask("[bright_cyan]Veuillez saisir la description du contrat [/bright_cyan]")
         return user_input
