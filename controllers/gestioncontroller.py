@@ -265,7 +265,8 @@ class GestionController:
             else:
                 self.error_messages_v.display_message_error_numerical_value_view()
 
-    def change_status_of_contract_controller(self, session, result_contract):
+    def change_status_of_contract_controller(self, session, contract_id):
+        result_contract = self.table_c.get_single_contract_controller(session, contract_id)
         infos_contract = result_contract.fetchone()
         while True:
             if infos_contract.contract_status_id == 1:
