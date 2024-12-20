@@ -182,3 +182,13 @@ class UserView:
             table.add_row(f"{row.contract_id}", f"{row.custom_name}" f" {row.custom_first_name}",
                           f"{row.custom_company_name}", f"{row.contract_created_date}", f"{row.contract_status_name}")
         console.print(table)
+
+    def display_message_of_a_signed_contract_view(self):
+        user_input = Prompt.ask("[bright_cyan]Modifier le statut du contrat: Confirmez que le contrat a bien été "
+                                "signé [Y/N] ?[/bright_cyan]")
+        return user_input
+
+    def display_message_of_an_unsigned_contract_view(self):
+        user_input = Prompt.ask("[bright_cyan]Modifier le statut du contrat: Confirmez que le contrat n'a pas été "
+                                "signé [Y/N] ?[/bright_cyan]")
+        return user_input
