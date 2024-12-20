@@ -195,6 +195,9 @@ class TableController:
     def edit_a_field_in_table(self, session, info_id, new_value, table_name, object_id, field):
         """
         Fonction qui permet de mettre à jour un champ de n'importe qu'elle table.
+        Exemple :
+        UPDATE {table_name} SET {field}       = '{new_value}' WHERE {object_id} = {info_id}"
+        UPDATE {customer}   SET {custom_name} = '{Angel}'     WHERE {custom_id} = {1}"
 
         :param session : Correspond à l'utilisateur connecté
         :param info_id : L'id du client ou du collaborateur qui reçoit les modifications
@@ -278,4 +281,18 @@ class TableController:
                 f"SELECT * FROM contract "
                 f"JOIN contractstatus ON contract.contract_status_id = contractstatus.contract_status_id "
                 f"JOIN customer ON customer.custom_id = contract.customer_id"))
+            return result_contract
+
+    def get_single_contract_controller(self, session, contract_id):
+        self.session = session
+        password = quote(self.session.password)
+        database_name = self.json_c.get_database_name_in_json_file()
+        engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
+        with engine.connect() as connection:
+            result_contract = connection.execute(text(
+                f"SELECT * From contract "
+                f"JOIN contractstatus ON contract.contract_status_id = contractstatus.contract_status_id "
+                f"JOIN customer ON customer.custom_id = contract.customer_id "
+                f"JOIN collaborator ON collaborator.collab_id = contract.collaborator_id "
+                f"WHERE contract_id = {contract_id}"))
             return result_contract
