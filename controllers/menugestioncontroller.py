@@ -114,16 +114,20 @@ class MenuGestionController:
 
             if result_choice == 1:  # Modifier la description du contrat
                 description = self.gestion_c.get_contract_description_controller()
-                self.table_c.edit_a_field_in_table(session, contract_id, description, table_name='contract',
-                                                   object_id="contract_id", field="contract_description")
+                self.table_c.edit_a_field_in_table(session, table_name='contract', field="contract_description",
+                                                   new_value=description, object_id="contract_id", info_id=contract_id)
+
             elif result_choice == 2:  # Modifier le prix du contrat
                 total_price = self.gestion_c.get_contract_total_price_controller()
-                self.table_c.edit_a_field_in_table(session, contract_id, total_price, table_name='contract',
-                                                   object_id="contract_id", field="contract_total_price")
+                self.table_c.edit_a_field_in_table(session, table_name='contract', field="contract_total_price",
+                                                   new_value=total_price, object_id="contract_id", info_id=contract_id)
+
             elif result_choice == 3:  # Modifier le solde restant
                 amount_remaining = self.gestion_c.get_contract_amount_remaining_controller()
-                self.table_c.edit_a_field_in_table(session, contract_id, amount_remaining, table_name='contract',
-                                                   object_id="contract_id", field="contract_amount_remaining")
+                self.table_c.edit_a_field_in_table(session, table_name='contract', field="contract_amount_remaining",
+                                                   new_value=amount_remaining, object_id="contract_id",
+                                                   info_id=contract_id)
+
             elif result_choice == 4:  # Modifier le statut du contrat
                 self.gestion_c.change_status_of_contract_controller(session, result_contract)
 
@@ -152,8 +156,9 @@ class MenuGestionController:
             if result_choice == 1:  # Modifier le nom
                 new_name = self.user_c.get_name_controller()
                 #  Enregistre le nouveau nom dans la table
-                self.table_c.edit_a_field_in_table(session, user_id, new_value=new_name, table_name='collaborator',
-                                                   object_id='collab_id', field='collab_name')
+                self.table_c.edit_a_field_in_table(session, table_name='collaborator', field='collab_name',
+                                                   new_value=new_name, object_id='collab_id', info_id=user_id)
+
                 # Récupère l'ancien username
                 old_username = self.gestion_c.get_old_username_controller(user_id, session)
                 # Fonction qui récupère le nom et prénom pour créer le nouveau username.
@@ -162,15 +167,15 @@ class MenuGestionController:
                     # On change username dans mysql
                     self.database_c.change_username_in_mysql_controller(session, old_username, new_username)
                     # On enregistre dans la table le nouveau username
-                    self.table_c.edit_a_field_in_table(session, user_id, new_value=new_username,
-                                                       table_name='collaborator', object_id='collab_id',
-                                                       field='collab_username')
+                    self.table_c.edit_a_field_in_table(session, table_name='collaborator', field='collab_username',
+                                                       new_value=new_username, object_id='collab_id', info_id=user_id)
+
             elif result_choice == 2:  # Modifier le prénom
                 new_first_name = self.user_c.get_first_name_controller()
                 #  Enregistre le nouveau prénom
-                self.table_c.edit_a_field_in_table(session, user_id,
-                                                   new_value=new_first_name, table_name='collaborator',
-                                                   object_id='collab_id', field='collab_first_name')
+                self.table_c.edit_a_field_in_table(session, table_name='collaborator', field='collab_first_name',
+                                                   new_value=new_first_name, object_id='collab_id', info_id=user_id)
+
                 # Récupère l'ancien username
                 old_username = self.gestion_c.get_old_username_controller(user_id, session)
                 # Fonction qui récupère le nom et prénom pour créer le nouveau username.
@@ -179,13 +184,14 @@ class MenuGestionController:
                     # On change username dans mysql
                     self.database_c.change_username_in_mysql_controller(session, old_username, new_username)
                     # On enregistre dans la table le nouveau username
-                    self.table_c.edit_a_field_in_table(session, user_id,
-                                                       new_value=new_username, table_name='collaborator',
-                                                       object_id='collab_id', field='collab_username')
+                    self.table_c.edit_a_field_in_table(session, table_name='collaborator', field='collab_username',
+                                                       new_value=new_username, object_id='collab_id', info_id=user_id)
+
             elif result_choice == 3:  # Modifier l'email
                 new_email = self.user_c.get_email_controller()
-                self.table_c.edit_a_field_in_table(session, user_id, new_value=new_email, table_name='collaborator',
-                                                   object_id='collab_id', field='collab_email')
+                self.table_c.edit_a_field_in_table(session, table_name='collaborator', field='collab_email',
+                                                   new_value=new_email, object_id='collab_id', info_id=user_id)
+
             elif result_choice == 4:  # Modifier le role
                 self.gestion_c.change_collaborator_role(user_id, session)
             elif result_choice == 5:
