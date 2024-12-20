@@ -129,7 +129,7 @@ class MenuGestionController:
                                                    info_id=contract_id)
 
             elif result_choice == 4:  # Modifier le statut du contrat
-                self.gestion_c.change_status_of_contract_controller(session, result_contract)
+                self.gestion_c.change_status_of_contract_controller(session, contract_id)
 
             elif result_choice == 5:
                 break
