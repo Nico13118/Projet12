@@ -178,8 +178,8 @@ class GestionController:
         new_role = self.user_c.get_role_controller()
         int_role_id = self.user_c.get_role_id_controller(new_role)
         # Enregistrement du nouveau rôle dans la table collaborator
-        self.table_c.edit_a_field_in_table(session, user_id, new_value=int_role_id, table_name='collaborator',
-                                           object_id='collab_id', field='role_id')
+        self.table_c.edit_a_field_in_table(session, table_name='collaborator', field='role_id', new_value=int_role_id,
+                                           object_id='collab_id', info_id=user_id)
         # Suppression de l'utilisateur dans la base MySQL
         self.database_c.delete_a_mysql_user_controller(session, infos.collab_username)
         # Création d'un nouvel utilisateur MySQL
@@ -204,9 +204,9 @@ class GestionController:
         result_customer = self.table_c.get_list_customers_without_commercial_controller(session)
         for result_custom in result_customer:
             for commercial_id in list_commercial_id:
-                self.table_c.edit_a_field_in_table(
-                    session, info_id=result_custom.custom_id, new_value=commercial_id, table_name='customer',
-                    object_id='custom_id', field='collaborator_id')
+                self.table_c.edit_a_field_in_table(session, table_name='customer', field='collaborator_id',
+                                                   new_value=commercial_id, object_id='custom_id',
+                                                   info_id=result_custom.custom_id)
 
     def ask_user_if_wants_create_customer_contract_controller(self):
         while True:
@@ -270,9 +270,9 @@ class GestionController:
                 if result_y_n:
                     check_result_y_n = self.check_user_input_c.check_user_input_yes_no_controller(result_y_n)
                     if check_result_y_n == "Y":
-                        self.table_c.edit_a_field_in_table(
-                            session, infos_contract.contract_id, new_value=2, table_name='contract',
-                            object_id="contract_id", field="contract_status_id")
+                        self.table_c.edit_a_field_in_table(session, table_name='contract', field='contract_status_id',
+                                                           new_value=2, object_id='contract_id',
+                                                           info_id=infos_contract.contract_id)
                         break
                     else:
                         break
@@ -284,9 +284,9 @@ class GestionController:
                 if result_y_n:
                     check_result_y_n = self.check_user_input_c.check_user_input_yes_no_controller(result_y_n)
                     if check_result_y_n == "Y":
-                        self.table_c.edit_a_field_in_table(
-                            session, infos_contract.contract_id, new_value=1, table_name='contract',
-                            object_id="contract_id", field="contract_status_id")
+                        self.table_c.edit_a_field_in_table(session, table_name='contract', field="contract_status_id",
+                                                           new_value=1, object_id="contract_id",
+                                                           info_id=infos_contract.contract_id)
                         break
                     else:
                         break
