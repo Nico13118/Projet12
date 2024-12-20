@@ -192,7 +192,7 @@ class TableController:
                                                       f" WHERE custom_id = {customer_id}"))
             return result_customer
 
-    def edit_a_field_in_table(self, session, info_id, new_value, table_name, object_id, field):
+    def edit_a_field_in_table(self, session, table_name, field, new_value, object_id, info_id):
         """
         Fonction qui permet de mettre à jour un champ de n'importe qu'elle table.
         Exemple :
