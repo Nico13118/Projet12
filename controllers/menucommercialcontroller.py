@@ -83,27 +83,28 @@ class MenuCommercialController:
 
             if result_choice == 1:  # Modifier le nom
                 new_name = self.user_c.get_name_controller()
-                self.table_c.edit_a_field_in_table(session, customer_id, table_name='customer', new_value=new_name,
-                                                   object_id='custom_id', field='custom_name')
+                self.table_c.edit_a_field_in_table(session, table_name='customer', field='custom_name',
+                                                   new_value=new_name, object_id='custom_id', info_id=customer_id)
+
             if result_choice == 2:  # Modifier le prénom
                 new_first_name = self.user_c.get_first_name_controller()
-                self.table_c.edit_a_field_in_table(session, customer_id, table_name='customer',
-                                                   new_value=new_first_name, object_id='custom_id',
-                                                   field='custom_first_name')
+                self.table_c.edit_a_field_in_table(session, table_name='customer', field='custom_first_name',
+                                                   new_value=new_first_name, object_id='custom_id', info_id=customer_id)
+
             if result_choice == 3:  # Modifier l'email
                 new_email = self.user_c.get_email_controller()
-                self.table_c.edit_a_field_in_table(session, customer_id, table_name='customer',
-                                                   new_value=new_email, object_id='custom_id',
-                                                   field='custom_email')
+                self.table_c.edit_a_field_in_table(session, table_name='customer', field='custom_email',
+                                                   new_value=new_email, object_id='custom_id', info_id=customer_id)
+
             if result_choice == 4:  # Modifier N° de télélphone
                 new_phone = self.user_c.get_number_phone_controller()
-                self.table_c.edit_a_field_in_table(session, customer_id, table_name='customer',
-                                                   new_value=new_phone, object_id='custom_id',
-                                                   field='custom_phone')
+                self.table_c.edit_a_field_in_table(session, table_name='customer', field='custom_phone',
+                                                   new_value=new_phone, object_id='custom_id', info_id=customer_id)
+
             if result_choice == 5:  # Modifier intitulé de l'entreprise
                 new_company_name = self.user_c.get_company_name_controller()
-                self.table_c.edit_a_field_in_table(session, customer_id, table_name='customer',
+                self.table_c.edit_a_field_in_table(session, table_name='customer', field='custom_company_name',
                                                    new_value=new_company_name, object_id='custom_id',
-                                                   field='custom_company_name')
+                                                   info_id=customer_id)
             if result_choice == 6:  #
                 break
