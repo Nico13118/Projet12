@@ -44,13 +44,28 @@ class GestionController:
         """
         while True:
             user_input_y_n = self.user_view.display_message_delete_collaborator_list()
-            response = self.check_user_input_c.check_user_input_yes_no_controller(user_input_y_n)
-            if response == "Y":
-                return True
-            elif response == "N":
-                break
+            if user_input_y_n:
+                response = self.check_user_input_c.check_user_input_yes_no_controller(user_input_y_n)
+                if response == "Y":
+                    return True
+                elif response == "N":
+                    break
+                else:
+                    self.error_messages_v.display_error_message_of_values_yes_and_no()
             else:
-                self.error_messages_v.display_error_message_of_values_yes_and_no()
+                self.error_messages_v.error_message_empty_field_view()
+
+    def ask_user_if_they_want_to_edit_contract(self):
+        while True:
+            user_input_y_n = self.user_view.display_message_edit_customer_contract_view()
+            if user_input_y_n:
+                response = self.check_user_input_c.check_user_input_yes_no_controller(user_input_y_n)
+                if response == "Y":
+                    return True
+                elif response == "N":
+                    break
+            else:
+                self.error_messages_v.error_message_empty_field_view()
 
     def ask_user_if_they_want_to_edit_collaborator(self):
         """
@@ -68,6 +83,21 @@ class GestionController:
                 break
             else:
                 self.error_messages_v.display_error_message_of_values_yes_and_no()
+
+    def ask_user_to_select_customer_contract_controller(self, session):
+        while True:
+            contract_id = self.user_view.get_contract_id_view()
+            if contract_id:
+                result = self.check_user_input_c.check_user_input_isdigit(contract_id)
+                if result:
+                    result_contract = self.table_c.get_single_contract_controller(session, contract_id)
+                    infos = result_contract.fetchone()
+                    if infos.contract_id == int(contract_id):
+                        return contract_id
+                else:
+                    self.error_messages_v.display_message_error_numerical_value_view()
+            else:
+                self.error_messages_v.error_message_empty_field_view()
 
     def ask_user_to_select_collaborator_controller(self, session):
         """
@@ -178,7 +208,7 @@ class GestionController:
                     session, info_id=result_custom.custom_id, new_value=commercial_id, table_name='customer',
                     object_id='custom_id', field='collaborator_id')
 
-    def ask_user_if_wants_they_want_create_customer_contract_controller(self, session):
+    def ask_user_if_wants_create_customer_contract_controller(self):
         while True:
             user_input = self.user_view.display_message_create_customer_contract_view()
             response = self.check_user_input_c.check_user_input_yes_no_controller(user_input)
@@ -231,3 +261,34 @@ class GestionController:
             return user_input
         else:
             self.error_messages_v.display_message_error_numerical_value_view()
+
+    def change_status_of_contract_controller(self, session, result_contract):
+        infos_contract = result_contract.fetchone()
+        while True:
+            if infos_contract.contract_status_id == 1:
+                result_y_n = self.user_view.display_message_of_an_unsigned_contract_view()
+                if result_y_n:
+                    check_result_y_n = self.check_user_input_c.check_user_input_yes_no_controller(result_y_n)
+                    if check_result_y_n == "Y":
+                        self.table_c.edit_a_field_in_table(
+                            session, infos_contract.contract_id, new_value=2, table_name='contract',
+                            object_id="contract_id", field="contract_status_id")
+                        break
+                    else:
+                        break
+                else:
+                    self.error_messages_v.error_message_empty_field_view()
+
+            elif infos_contract.contract_status_id == 2:
+                result_y_n = self.user_view.display_message_of_a_signed_contract_view()
+                if result_y_n:
+                    check_result_y_n = self.check_user_input_c.check_user_input_yes_no_controller(result_y_n)
+                    if check_result_y_n == "Y":
+                        self.table_c.edit_a_field_in_table(
+                            session, infos_contract.contract_id, new_value=1, table_name='contract',
+                            object_id="contract_id", field="contract_status_id")
+                        break
+                    else:
+                        break
+                else:
+                    self.error_messages_v.error_message_empty_field_view()
