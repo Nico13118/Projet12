@@ -257,12 +257,13 @@ class GestionController:
                 self.error_messages_v.display_message_error_numerical_value_view()
 
     def get_contract_amount_remaining_controller(self):
-        user_input = self.user_view.get_contract_amount_remaining_view()
-        result = self.check_user_input_c.check_user_input_isdigit(user_input)
-        if result:
-            return user_input
-        else:
-            self.error_messages_v.display_message_error_numerical_value_view()
+        while True:
+            user_input = self.user_view.get_contract_amount_remaining_view()
+            result = self.check_user_input_c.check_user_input_isdigit(user_input)
+            if result:
+                return user_input
+            else:
+                self.error_messages_v.display_message_error_numerical_value_view()
 
     def change_status_of_contract_controller(self, session, result_contract):
         infos_contract = result_contract.fetchone()
