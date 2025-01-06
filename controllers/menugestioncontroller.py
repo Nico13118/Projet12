@@ -79,28 +79,22 @@ class MenuGestionController:
                 elif user_input_choice_menu == 7:  # Modifier un événement attribué
                     pass
 
-                elif user_input_choice_menu == 8:  # Afficher tous les collaborateurs
-                    self.menu_view.clear_terminal_view()
-                    list_collaborator = self.table_c.get_information_for_all_collaborators_controller(session)
-                    self.user_view.display_list_collaborator(list_collaborator)
-                    self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
-
-                elif user_input_choice_menu == 9:  # Afficher tous les clients
+                elif user_input_choice_menu == 8:  # Afficher tous les clients
                     self.menu_view.clear_terminal_view()
                     list_customer = self.table_c.get_list_of_all_customers_controller(session)
                     self.user_view.display_list_customer_view(list_customer)
                     self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
 
-                elif user_input_choice_menu == 10:  # Afficher tous les contrats
+                elif user_input_choice_menu == 9:  # Afficher tous les contrats
                     self.menu_view.clear_terminal_view()
                     result_contract = self.table_c.get_all_contract_controller(session)
                     self.user_view.display_list_contract_view(result_contract)
                     self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
 
-                elif user_input_choice_menu == 11:  # Afficher tous les événements
+                elif user_input_choice_menu == 10:  # Afficher tous les événements
                     pass
 
-                elif user_input_choice_menu == 12:
+                elif user_input_choice_menu == 11:
                     break
                 else:
                     error = True
