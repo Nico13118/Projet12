@@ -17,11 +17,10 @@ class MenuView:
         table.add_row("\n5", "\nModifier un contrat client")
         table.add_row("\n6", "\nModifier un événement non attribué")
         table.add_row("\n7", "\nModifier un événement attribué")
-        table.add_row("\n8", "\nAfficher tous les collaborateurs")
-        table.add_row("\n9", "\nAfficher tous les clients")
-        table.add_row("\n10", "\nAfficher tous les contrats")
-        table.add_row("\n11", "\nAfficher tous les événements")
-        table.add_row("\n12", "\nQuitter l'application\n")
+        table.add_row("\n8", "\nAfficher tous les clients")
+        table.add_row("\n9", "\nAfficher tous les contrats")
+        table.add_row("\n10", "\nAfficher tous les événements")
+        table.add_row("\n11", "\nQuitter l'application\n")
 
         console.print(table)
 
@@ -93,11 +92,10 @@ class MenuView:
         table.add_row("\n3", "\nModifier un contrat non signé")
         table.add_row("\n4", "\nModifier un contrat non soldé")
         table.add_row("\n5", "\nCréer un événement")
-        table.add_row("\n6", "\nAfficher tous les collaborateurs")
-        table.add_row("\n7", "\nAfficher tous les clients")
-        table.add_row("\n8", "\nAfficher tous les contrats")
-        table.add_row("\n9", "\nAfficher tous les événements")
-        table.add_row("\n10", "\nQuitter l'application\n")
+        table.add_row("\n6", "\nAfficher tous les clients")
+        table.add_row("\n7", "\nAfficher tous les contrats")
+        table.add_row("\n8", "\nAfficher tous les événements")
+        table.add_row("\n9", "\nQuitter l'application\n")
 
         console.print(table)
 
@@ -107,11 +105,10 @@ class MenuView:
         table.add_column("[bright_blue]Actions[/bright_blue]", justify="left", style="bright_cyan")
 
         table.add_row("\n1", "\nModifier un événement")
-        table.add_row("\n2", "\nAfficher tous les collaborateurs")
-        table.add_row("\n3", "\nAfficher tous les clients")
-        table.add_row("\n4", "\nAfficher tous les contrats")
-        table.add_row("\n5", "\nAfficher tous les événements")
-        table.add_row("\n6", "\nQuitter l'application\n")
+        table.add_row("\n2", "\nAfficher tous les clients")
+        table.add_row("\n3", "\nAfficher tous les contrats")
+        table.add_row("\n4", "\nAfficher tous les événements")
+        table.add_row("\n5", "\nQuitter l'application\n")
 
         console.print(table)
 
