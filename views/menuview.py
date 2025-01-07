@@ -89,13 +89,12 @@ class MenuView:
 
         table.add_row("\n1", "\nEnregistrer un client")
         table.add_row("\n2", "\nModifier un client")
-        table.add_row("\n3", "\nModifier un contrat non signé")
-        table.add_row("\n4", "\nModifier un contrat non soldé")
-        table.add_row("\n5", "\nCréer un événement")
-        table.add_row("\n6", "\nAfficher tous les clients")
-        table.add_row("\n7", "\nAfficher tous les contrats")
-        table.add_row("\n8", "\nAfficher tous les événements")
-        table.add_row("\n9", "\nQuitter l'application\n")
+        table.add_row("\n3", "\nAfficher tous les contrats (Modification)")
+        table.add_row("\n4", "\nCréer un événement")
+        table.add_row("\n5", "\nAfficher tous les clients")
+        table.add_row("\n6", "\nAfficher tous les contrats (Lecture seule)")
+        table.add_row("\n7", "\nAfficher tous les événements")
+        table.add_row("\n8", "\nQuitter l'application\n")
 
         console.print(table)
 
