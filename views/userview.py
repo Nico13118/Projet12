@@ -178,9 +178,12 @@ class UserView:
         table.add_column("[bright_blue]Nom de l'entrprise[/bright_blue]", justify="left", style="bright_cyan")
         table.add_column("[bright_blue]Date de création[/bright_blue]", justify="left", style="bright_cyan")
         table.add_column("[bright_blue]Statut du contrat[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Total TTC[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Reste à payer[/bright_blue]", justify="left", style="bright_cyan")
         for row in result:
             table.add_row(f"{row.contract_id}", f"{row.custom_name}" f" {row.custom_first_name}",
-                          f"{row.custom_company_name}", f"{row.contract_created_date}", f"{row.contract_status_name}")
+                          f"{row.custom_company_name}", f"{row.contract_created_date}", f"{row.contract_status_name}",
+                          f"{row.contract_total_price} €", f"{row.contract_amount_remaining} €")
         console.print(table)
 
     def display_message_of_a_signed_contract_view(self):
