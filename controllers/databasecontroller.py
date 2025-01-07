@@ -11,9 +11,8 @@ class DatabaseController:
     def test_username_password_controller(self, session):
         """
         Fonction qui permet de tester les identifiants de connexion d'un compte MySQL.
-        : param username_admin :
-        : param password_admin :
-        : return : True / False
+        :param session
+        :return : True / False
         """
         self.session = session
         pass_admin = quote(self.session.password)
@@ -59,6 +58,9 @@ class DatabaseController:
             connection.execute(text(f"GRANT SELECT, INSERT, UPDATE ON {database_name}.contract "
                                     f"TO {info_username}@localhost"))
             connection.execute(text(f"GRANT INSERT ON {database_name}.event TO {info_username}@localhost"))
+
+            connection.execute(text(f"GRANT SELECT ON {database_name}.contractstatus "
+                                    f"TO {info_username}@localhost"))
             connection.commit()
 
     def save_collaborator_ges_in_mysql_controller(self, session, info_username, info_password):
