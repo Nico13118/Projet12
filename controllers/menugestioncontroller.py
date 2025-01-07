@@ -70,8 +70,6 @@ class MenuGestionController:
                     if result_response_y_n:
                         contract_id = self.gestion_c.ask_user_to_select_customer_contract_controller(session)
                         self.edit_info_customer_contract_controller(session, contract_id)
-                    else:
-                        break
 
                 elif user_input_choice_menu == 6:  # Modifier un événement non attribué
                     pass
