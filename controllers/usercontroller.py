@@ -177,3 +177,119 @@ class UserController:
         self.menu_view.clear_terminal_view()
         result = self.table_c.get_list_of_all_customers_controller(session)
         self.user_v.display_list_customer_view(result)
+
+    def ask_user_if_they_want_to_edit_contract(self):
+        while True:
+            user_input_y_n = self.user_v.display_message_edit_customer_contract_view()
+            if user_input_y_n:
+                response = self.check_user_input_c.check_user_input_yes_no_controller(user_input_y_n)
+                if response == "Y":
+                    return True
+                elif response == "N":
+                    break
+                elif response != "Y" or response != "N":
+                    self.error_messages_v.display_error_message_of_values_yes_and_no()
+            else:
+                self.error_messages_v.error_message_empty_field_view()
+
+    def ask_user_to_select_customer_contract_controller(self, session):
+        while True:
+            contract_id = self.user_v.get_contract_id_view()
+            if contract_id:
+                result = self.check_user_input_c.check_user_input_isdigit(contract_id)
+                if result:
+                    result_contract = self.table_c.get_single_contract_controller(session, contract_id)
+                    infos = result_contract.fetchone()
+                    if infos.contract_id == int(contract_id):
+                        return contract_id
+                else:
+                    self.error_messages_v.display_message_error_numerical_value_view()
+            else:
+                self.error_messages_v.error_message_empty_field_view()
+
+    def edit_info_customer_contract_controller(self, session, contract_id):
+        while True:
+            self.menu_view.clear_terminal_view()
+            result_contract = self.table_c.get_single_contract_controller(session, contract_id)  # Récupère le contrat
+            self.menu_view.display_edit_menu_of_a_customer_contract_view(result_contract)  # Affiche le menu
+            result_choice = self.user_v.get_user_input_view()  # Demande à l'utilisateur de faire un choix
+
+            if result_choice == 1:  # Modifier la description du contrat
+                description = self.get_contract_description_controller()
+                self.table_c.edit_a_field_in_table(session, table_name='contract', field="contract_description",
+                                                   new_value=description, object_id="contract_id", info_id=contract_id)
+
+            elif result_choice == 2:  # Modifier le prix du contrat
+                total_price = self.get_contract_total_price_controller()
+                self.table_c.edit_a_field_in_table(session, table_name='contract', field="contract_total_price",
+                                                   new_value=total_price, object_id="contract_id", info_id=contract_id)
+
+            elif result_choice == 3:  # Modifier le solde restant
+                amount_remaining = self.get_contract_amount_remaining_controller()
+                self.table_c.edit_a_field_in_table(session, table_name='contract', field="contract_amount_remaining",
+                                                   new_value=amount_remaining, object_id="contract_id",
+                                                   info_id=contract_id)
+
+            elif result_choice == 4:  # Modifier le statut du contrat
+                self.change_status_of_contract_controller(session, contract_id)
+
+            elif result_choice == 5:
+                break
+
+    def get_contract_description_controller(self):
+        while True:
+            user_input = self.user_v.get_contract_description_view()
+            if user_input:
+                return user_input
+            else:
+                self.error_messages_v.error_message_empty_field_view()
+
+    def get_contract_total_price_controller(self):
+        while True:
+            user_input = self.user_v.get_contract_total_price_view()
+            result = self.check_user_input_c.check_user_input_isdigit(user_input)
+            if result:
+                return user_input
+            else:
+                self.error_messages_v.display_message_error_numerical_value_view()
+
+    def get_contract_amount_remaining_controller(self):
+        while True:
+            user_input = self.user_v.get_contract_amount_remaining_view()
+            result = self.check_user_input_c.check_user_input_isdigit(user_input)
+            if result:
+                return user_input
+            else:
+                self.error_messages_v.display_message_error_numerical_value_view()
+
+    def change_status_of_contract_controller(self, session, contract_id):
+        result_contract = self.table_c.get_single_contract_controller(session, contract_id)
+        infos_contract = result_contract.fetchone()
+        while True:
+            if infos_contract.contract_status_id == 1:
+                result_y_n = self.user_v.display_message_of_an_unsigned_contract_view()
+                if result_y_n:
+                    check_result_y_n = self.check_user_input_c.check_user_input_yes_no_controller(result_y_n)
+                    if check_result_y_n == "Y":
+                        self.table_c.edit_a_field_in_table(session, table_name='contract', field='contract_status_id',
+                                                           new_value=2, object_id='contract_id',
+                                                           info_id=infos_contract.contract_id)
+                        break
+                    else:
+                        break
+                else:
+                    self.error_messages_v.error_message_empty_field_view()
+
+            elif infos_contract.contract_status_id == 2:
+                result_y_n = self.user_v.display_message_of_a_signed_contract_view()
+                if result_y_n:
+                    check_result_y_n = self.check_user_input_c.check_user_input_yes_no_controller(result_y_n)
+                    if check_result_y_n == "Y":
+                        self.table_c.edit_a_field_in_table(session, table_name='contract', field="contract_status_id",
+                                                           new_value=1, object_id="contract_id",
+                                                           info_id=infos_contract.contract_id)
+                        break
+                    else:
+                        break
+                else:
+                    self.error_messages_v.error_message_empty_field_view()
