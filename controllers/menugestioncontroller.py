@@ -66,10 +66,10 @@ class MenuGestionController:
                     self.menu_view.clear_terminal_view()
                     result_contract = self.table_c.get_all_contract_controller(session)
                     self.user_view.display_list_contract_view(result_contract)  # Affiche tous les contrats
-                    result_response_y_n = self.gestion_c.ask_user_if_they_want_to_edit_contract()
+                    result_response_y_n = self.user_c.ask_user_if_they_want_to_edit_contract()
                     if result_response_y_n:
-                        contract_id = self.gestion_c.ask_user_to_select_customer_contract_controller(session)
-                        self.edit_info_customer_contract_controller(session, contract_id)
+                        contract_id = self.user_c.ask_user_to_select_customer_contract_controller(session)
+                        self.user_c.edit_info_customer_contract_controller(session, contract_id)
 
                 elif user_input_choice_menu == 6:  # Modifier un événement non attribué
                     pass
@@ -96,35 +96,6 @@ class MenuGestionController:
                     break
                 else:
                     error = True
-
-    def edit_info_customer_contract_controller(self, session, contract_id):
-        while True:
-            self.menu_view.clear_terminal_view()
-            result_contract = self.table_c.get_single_contract_controller(session, contract_id)  # Récupère le contrat
-            self.menu_view.display_edit_menu_of_a_customer_contract_view(result_contract)  # Affiche le menu
-            result_choice = self.user_view.get_user_input_view()  # Demande à l'utilisateur de faire un choix
-
-            if result_choice == 1:  # Modifier la description du contrat
-                description = self.gestion_c.get_contract_description_controller()
-                self.table_c.edit_a_field_in_table(session, table_name='contract', field="contract_description",
-                                                   new_value=description, object_id="contract_id", info_id=contract_id)
-
-            elif result_choice == 2:  # Modifier le prix du contrat
-                total_price = self.gestion_c.get_contract_total_price_controller()
-                self.table_c.edit_a_field_in_table(session, table_name='contract', field="contract_total_price",
-                                                   new_value=total_price, object_id="contract_id", info_id=contract_id)
-
-            elif result_choice == 3:  # Modifier le solde restant
-                amount_remaining = self.gestion_c.get_contract_amount_remaining_controller()
-                self.table_c.edit_a_field_in_table(session, table_name='contract', field="contract_amount_remaining",
-                                                   new_value=amount_remaining, object_id="contract_id",
-                                                   info_id=contract_id)
-
-            elif result_choice == 4:  # Modifier le statut du contrat
-                self.gestion_c.change_status_of_contract_controller(session, contract_id)
-
-            elif result_choice == 5:
-                break
 
     def edit_collaborator_info_controller(self, session, user_id):
         """
