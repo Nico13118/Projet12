@@ -66,8 +66,8 @@ class UserView:
         role = Prompt.ask("[bright_cyan]Saisir le role du collaborateur [COM/GES/SUP] [/bright_cyan]")
         return role
 
-    def display_list_collaborator(self, result):
-        # self.session = session
+    def display_list_collaborator(self, result, session):
+        self.session = session
         table = Table(title="[bright_blue]Epic Events\nListe des collaborateurs[/bright_blue]",
                       style="spring_green1")
         table.add_column("[bright_blue]ID[/bright_blue]", justify="center", style="bright_cyan")
@@ -77,9 +77,9 @@ class UserView:
         table.add_column("[bright_blue]Username[/bright_blue]", justify="left", style="bright_cyan")
         table.add_column("[bright_blue]Role[/bright_blue]", justify="center", style="bright_cyan")
         for row in result:
-            # if self.session.collab_id != row.collab_id:
-            table.add_row(f"{row.collab_id}", f"{row.collab_name}", f"{row.collab_first_name}",
-                          f"{row.collab_email}", f"{row.collab_username}", f"{row.role_name}")
+            if self.session.collab_id != row.collab_id:
+                table.add_row(f"{row.collab_id}", f"{row.collab_name}", f"{row.collab_first_name}",
+                              f"{row.collab_email}", f"{row.collab_username}", f"{row.role_name}")
         console.print(table)
 
     def display_message_edit_collaborator_list(self):
