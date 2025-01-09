@@ -204,6 +204,24 @@ class UserView:
                               f"{row.contract_amount_remaining} €")
         console.print(table)
 
+    def display_list_of_unsettled_contracts_view(self, result):
+        table = Table(title="[bright_blue]Epic Events\nListe des contrats non soldés[/bright_blue]",
+                      style="spring_green1")
+        table.add_column("[bright_blue]N° Contrat[/bright_blue]", justify="center", style="bright_cyan")
+        table.add_column("[bright_blue]Nom du client[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Nom de l'entrprise[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Date de création[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Statut du contrat[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Total TTC[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Reste à payer[/bright_blue]", justify="left", style="bright_cyan")
+        for row in result:
+            if row.contract_amount_remaining != 0:
+                table.add_row(f"{row.contract_id}", f"{row.custom_name}" f" {row.custom_first_name}",
+                              f"{row.custom_company_name}", f"{row.contract_created_date}",
+                              f"{row.contract_status_name}", f"{row.contract_total_price} €",
+                              f"{row.contract_amount_remaining} €")
+        console.print(table)
+
     def display_message_of_a_signed_contract_view(self):
         user_input = Prompt.ask("[bright_cyan]Modifier le statut du contrat: Confirmez que le contrat a bien été "
                                 "signé [Y/N] ?[/bright_cyan]")
