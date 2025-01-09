@@ -114,3 +114,16 @@ class MenuView:
     def clear_terminal_view(self):
         os.system("cls")
 
+    def ask_the_user_to_choose_how_to_display_contracts_view(self):
+        table = Table(title="[bright_blue]Epic Events\nModifier le contrat d'un client.[/bright_blue]",
+                      style="spring_green1")
+        table.add_column("[bright_blue]Choix[/bright_blue]", justify="center", style="bright_cyan")
+        table.add_column("[bright_blue]Actions[/bright_blue]", justify="left", style="bright_cyan")
+
+        table.add_row("\n1", "\nAfficher tous les contrats")
+        table.add_row("\n2", "\nAfficher uniquement les contrats non signés")
+        table.add_row("\n3", "\nAfficher uniquement les contrats non soldés")
+        table.add_row("\n4", "\nRetourner au menu principal\n")
+
+        console.print(table)
+
