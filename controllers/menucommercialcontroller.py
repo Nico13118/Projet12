@@ -112,7 +112,7 @@ class MenuCommercialController:
     def ask_the_user_to_choose_how_to_display_contracts_controller(self, session):
         """
         Fonction qui permet de gérer un sous menu afin que l'utilisateur puisse avoir la possibilité
-        d'afficher tous les contrats, d'afficher uniquement les contrats non signés ou non soldés.
+        d'afficher et modifier tous les contrats, les contrats non signés ou non soldés.
 
         :param session:
 
@@ -129,18 +129,25 @@ class MenuCommercialController:
                 if result_response_y_n:
                     contract_id = self.user_c.ask_user_to_select_customer_contract_controller(session)
                     self.user_c.edit_info_customer_contract_controller(session, contract_id)
+                    break
                 else:
                     break
 
             elif user_input == 2:  # Afficher seulement les contrats non signés
                 self.menu_view.clear_terminal_view()
                 result_contract = self.table_c.get_all_contract_controller(session)
-                self.user_view.display_list_of_unsigned_contracts_view(result_contract)
-                result_response_y_n = self.user_c.ask_user_if_they_want_to_edit_contract()
-                if result_response_y_n:
-                    contract_id = self.user_c.ask_user_to_select_customer_contract_controller(session)
-                    self.user_c.edit_info_customer_contract_controller(session, contract_id)
+                new_list_contract = self.commercial_c.get_unsigned_contracts(result_contract)
+                if new_list_contract:
+                    self.user_view.display_list_of_unsigned_contracts_view(new_list_contract)
+                    result_response_y_n = self.user_c.ask_user_if_they_want_to_edit_contract()
+                    if result_response_y_n:
+                        contract_id = self.user_c.ask_user_to_select_customer_contract_controller(session)
+                        self.user_c.edit_info_customer_contract_controller(session, contract_id)
+                    else:
+                        break
                 else:
+                    self.error_messages_v.no_contract_to_display_view()
+                    self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
                     break
 
             elif user_input == 3:  # Afficher seulement les contrats non soldés
