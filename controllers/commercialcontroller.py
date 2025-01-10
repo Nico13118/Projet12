@@ -96,3 +96,15 @@ class CommercialController:
             if row.contract_status_id == 2:
                 list_contract.append(row)
         return list_contract
+
+    def get_unpaid_contracts(self, result_contract):
+        """
+        Fonction qui permet de retourner uniquement les contrats non soldés.
+        :param result_contract:
+        :return: list_contract
+        """
+        list_contract = []
+        for row in result_contract:
+            if row.contract_amount_remaining != 0:
+                list_contract.append(row)
+        return list_contract
