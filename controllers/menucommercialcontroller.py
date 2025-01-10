@@ -122,6 +122,7 @@ class MenuCommercialController:
             user_input = self.user_view.get_user_input_view()
 
             if user_input == 1:  # Afficher tous les contrats
+                self.menu_view.clear_terminal_view()
                 result_contract = self.table_c.get_all_contract_controller(session)
                 self.user_view.display_list_contract_view(result_contract)
                 result_response_y_n = self.user_c.ask_user_if_they_want_to_edit_contract()
@@ -132,6 +133,7 @@ class MenuCommercialController:
                     break
 
             elif user_input == 2:  # Afficher seulement les contrats non signés
+                self.menu_view.clear_terminal_view()
                 result_contract = self.table_c.get_all_contract_controller(session)
                 self.user_view.display_list_of_unsigned_contracts_view(result_contract)
                 result_response_y_n = self.user_c.ask_user_if_they_want_to_edit_contract()
@@ -142,6 +144,7 @@ class MenuCommercialController:
                     break
 
             elif user_input == 3:  # Afficher seulement les contrats non soldés
+                self.menu_view.clear_terminal_view()
                 result_contract = self.table_c.get_all_contract_controller(session)
                 self.user_view.display_list_of_unsettled_contracts_view(result_contract)
                 result_response_y_n = self.user_c.ask_user_if_they_want_to_edit_contract()
