@@ -83,3 +83,16 @@ class CommercialController:
             else:
                 self.error_messages_v.error_message_empty_field_view()
         return result_choice
+
+    def get_unsigned_contracts(self, result_contract):
+        """
+        Fonction qui permet de retourner uniquement les contrats non signés
+
+        :param result_contract
+        :return: list_contract
+        """
+        list_contract = []
+        for row in result_contract:
+            if row.contract_status_id == 2:
+                list_contract.append(row)
+        return list_contract
