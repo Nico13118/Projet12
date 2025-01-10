@@ -39,7 +39,8 @@ class MenuCommercialController:
                             break
 
                 elif user_input == 3:  # Afficher tous les contrats (Modification)
-                    pass
+                    self.menu_view.clear_terminal_view()
+                    self.ask_the_user_to_choose_how_to_display_contracts_controller(session)
 
                 elif user_input == 4:  # Créer un événement
                     pass
@@ -66,7 +67,7 @@ class MenuCommercialController:
 
     def edit_customer_info_controller(self, customer_id, session):
         """
-        Fonction qui va gérer un sous menu afin de procéder à la modification d'informations d'un cllient.
+        Fonction qui va gérer un sous menu afin de procéder à la modification d'informations d'un client.
         Selon le choix de l'utilisateur, d'autres fonctions sont appelés pour effectuer les changements.
         Les choix concernent la modification : nom, prénom, email, télélphone et intitulé de l'entreprise
 
@@ -107,3 +108,51 @@ class MenuCommercialController:
                                                    info_id=customer_id)
             if result_choice == 6:  #
                 break
+
+    def ask_the_user_to_choose_how_to_display_contracts_controller(self, session):
+        """
+        Fonction qui permet de gérer un sous menu afin que l'utilisateur puisse avoir la possibilité
+        d'afficher tous les contrats, d'afficher uniquement les contrats non signés ou non soldés.
+
+        :param session:
+
+        """
+        self.menu_view.ask_the_user_to_choose_how_to_display_contracts_view()
+        while True:
+            user_input = self.user_view.get_user_input_view()
+
+            if user_input == 1:  # Afficher tous les contrats
+                result_contract = self.table_c.get_all_contract_controller(session)
+                self.user_view.display_list_contract_view(result_contract)
+                result_response_y_n = self.user_c.ask_user_if_they_want_to_edit_contract()
+                if result_response_y_n:
+                    contract_id = self.user_c.ask_user_to_select_customer_contract_controller(session)
+                    self.user_c.edit_info_customer_contract_controller(session, contract_id)
+                else:
+                    break
+
+            elif user_input == 2:  # Afficher seulement les contrats non signés
+                result_contract = self.table_c.get_all_contract_controller(session)
+                self.user_view.display_list_of_unsigned_contracts_view(result_contract)
+                result_response_y_n = self.user_c.ask_user_if_they_want_to_edit_contract()
+                if result_response_y_n:
+                    contract_id = self.user_c.ask_user_to_select_customer_contract_controller(session)
+                    self.user_c.edit_info_customer_contract_controller(session, contract_id)
+                else:
+                    break
+
+            elif user_input == 3:  # Afficher seulement les contrats non soldés
+                result_contract = self.table_c.get_all_contract_controller(session)
+                self.user_view.display_list_of_unsettled_contracts_view(result_contract)
+                result_response_y_n = self.user_c.ask_user_if_they_want_to_edit_contract()
+                if result_response_y_n:
+                    contract_id = self.user_c.ask_user_to_select_customer_contract_controller(session)
+                    self.user_c.edit_info_customer_contract_controller(session, contract_id)
+                else:
+                    break
+
+            elif user_input == 4:  # Retourner au menu principal
+                break
+
+            else:
+                self.error_messages_v.display_error_message_choice_view()
