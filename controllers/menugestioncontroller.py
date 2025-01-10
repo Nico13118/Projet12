@@ -65,7 +65,8 @@ class MenuGestionController:
                 elif user_input_choice_menu == 5:  # Modifier un contrat client
                     self.menu_view.clear_terminal_view()
                     result_contract = self.table_c.get_all_contract_controller(session)
-                    self.user_view.display_list_contract_view(result_contract, info_title="Liste des contrats")  # Affiche tous les contrats
+                    # Affiche tous les contrats
+                    self.user_view.display_list_contract_view(result_contract, info_title="Liste des contrats")
                     result_response_y_n = self.user_c.ask_user_if_they_want_to_edit_contract()
                     if result_response_y_n:
                         contract_id = self.user_c.ask_user_to_select_customer_contract_controller(session)
