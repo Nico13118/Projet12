@@ -117,8 +117,13 @@ class MenuCommercialController:
         :param session:
 
         """
-        self.menu_view.ask_the_user_to_choose_how_to_display_contracts_view()
+        error = False
         while True:
+            self.menu_view.clear_terminal_view()
+            self.menu_view.ask_the_user_to_choose_how_to_display_contracts_view()
+            if error:
+                self.error_messages_v.no_contract_to_display_view()
+                error = False
             user_input = self.user_view.get_user_input_view()
 
             if user_input == 1:  # Afficher tous les contrats
@@ -147,9 +152,7 @@ class MenuCommercialController:
                     else:
                         break
                 else:
-                    self.error_messages_v.no_contract_to_display_view()
-                    self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
-                    break
+                    error = True
 
             elif user_input == 3:  # Afficher seulement les contrats non soldés
                 self.menu_view.clear_terminal_view()
@@ -165,9 +168,7 @@ class MenuCommercialController:
                     else:
                         break
                 else:
-                    self.error_messages_v.no_contract_to_display_view()
-                    self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
-                    break
+                    error = True
 
             elif user_input == 4:  # Retourner au menu principal
                 break
