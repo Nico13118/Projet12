@@ -88,3 +88,16 @@ class CommercialController:
             if row.contract_amount_remaining != 0:
                 list_contract.append(row)
         return list_contract
+
+    def get_collaborator_customer_list(self, session):
+        """
+        Fonction qui permet de retourner la liste de client attribué à l'utilisateur connecté.
+        :param session:
+        :return:
+        """
+        customer_list = []
+        result = self.table_c.get_list_of_all_customers_controller(session)
+        for row in result:
+            if session.collab_id == row.collaborator_id:
+                customer_list.append(row)
+        return customer_list
