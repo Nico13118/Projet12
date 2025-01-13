@@ -75,11 +75,15 @@ class MenuCommercialController:
         :param session : Correspond à l'utilisateur qui procède aux modifications.
 
                 """
+        error = False
         while True:
             self.menu_view.clear_terminal_view()
             result_customer_info = self.table_c.get_single_customer_info_with_id_controller(customer_id, session)
             self.menu_view.display_edit_menu_of_a_customer_view(result_customer_info)
-            result_choice = self.commercial_c.ask_user_which_field_to_edit()
+            if error:
+                self.error_messages_v.display_error_message_choice_view()
+                error = False
+            result_choice = self.user_view.get_user_input_view()
 
             if result_choice == '1':  # Modifier le nom
                 new_name = self.user_c.get_name_controller()
@@ -106,8 +110,12 @@ class MenuCommercialController:
                 self.table_c.edit_a_field_in_table(session, table_name='customer', field='custom_company_name',
                                                    new_value=new_company_name, object_id='custom_id',
                                                    info_id=customer_id)
-            elif result_choice == '6':  #
+
+            elif result_choice == '6':  # Quitter
                 break
+
+            else:
+                error = True
 
     def ask_the_user_to_choose_how_to_display_contracts_controller(self, session):
         """
