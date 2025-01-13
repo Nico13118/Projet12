@@ -16,87 +16,86 @@ class MenuGestionController:
 
         :param session
         """
-        error = False
+        error = ''
         while True:
             self.menu_view.clear_terminal_view()
             self.menu_view.display_menu_gestion_view()
             if error:
-                self.error_messages_v.display_error_message_choice_view()
-                error = False
+                if error == 'error_1':
+                    self.error_messages_v.display_error_message_choice_view()
+                error = ''
             user_input_choice_menu = self.user_view.get_user_input_view()
-            if not user_input_choice_menu:
-                error = True
+
+            if user_input_choice_menu == '1':  # Enregistrer un collaborateur
+                self.gestion_c.register_new_collaborator_controller(session)
+
+            elif user_input_choice_menu == '2':  # Modifier un collaborateur
+                while True:
+                    self.gestion_c.show_collaborator_list_controller(session)
+                    # Demande si l'utilisateur souhaite modifier un collaborateur
+                    response_y_n = self.gestion_c.ask_user_if_they_want_to_edit_collaborator()
+                    if response_y_n:
+                        # Demander à l'utilisateur de selectionner le collaborateur à modifier
+                        user_id_username = self.gestion_c.ask_user_to_select_collaborator_controller(session)
+                        self.edit_collaborator_info_controller(session, user_id=user_id_username[0])
+                    else:
+                        break
+
+            elif user_input_choice_menu == '3':  # Supprimer un collaborateur
+                while True:
+                    self.gestion_c.show_collaborator_list_controller(session)
+                    response_y_n = self.gestion_c.ask_user_if_they_want_to_delete_collaborator()
+                    if response_y_n:
+                        user_id_username = self.gestion_c.ask_user_to_select_collaborator_controller(session)
+                        self.database_c.delete_a_mysql_user_controller(session, username=user_id_username[1])
+                        self.table_c.delete_collaborator_in_table_controller(session, user_id=user_id_username[0])
+                        self.gestion_c.reassign_customers_to_commercials_controller(session)
+                        self.user_view.prompt_the_user_to_press_the_enter_key()
+                    else:
+                        break
+            elif user_input_choice_menu == '4':  # Créer un contrat client
+                while True:
+                    self.user_c.show_customer_list_controller(session)
+                    response = self.gestion_c.ask_user_if_wants_create_customer_contract_controller()
+                    if response:  # Si Gestion souhaite créer un contrat
+                        self.gestion_c.create_customer_contract_controller(session)
+                        break
+
+            elif user_input_choice_menu == '5':  # Modifier un contrat client
+                self.menu_view.clear_terminal_view()
+                result_contract = self.table_c.get_all_contract_controller(session)
+                # Affiche tous les contrats
+                self.user_view.display_list_contract_view(result_contract, info_title="Liste des contrats")
+                result_response_y_n = self.user_c.ask_user_if_they_want_to_edit_contract()
+                if result_response_y_n:
+                    contract_id = self.user_c.ask_user_to_select_customer_contract_controller(session)
+                    self.user_c.edit_info_customer_contract_controller(session, contract_id)
+
+            elif user_input_choice_menu == '6':  # Modifier un événement non attribué
+                pass
+
+            elif user_input_choice_menu == '7':  # Modifier un événement attribué
+                pass
+
+            elif user_input_choice_menu == '8':  # Afficher tous les clients
+                self.menu_view.clear_terminal_view()
+                list_customer = self.table_c.get_list_of_all_customers_controller(session)
+                self.user_view.display_list_customer_view(list_customer)
+                self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
+
+            elif user_input_choice_menu == '9':  # Afficher tous les contrats
+                self.menu_view.clear_terminal_view()
+                result_contract = self.table_c.get_all_contract_controller(session)
+                self.user_view.display_list_contract_view(result_contract, info_title="Liste des contrats")
+                self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
+
+            elif user_input_choice_menu == '10':  # Afficher tous les événements
+                pass
+
+            elif user_input_choice_menu == '11':
+                break
             else:
-                if user_input_choice_menu == 1:  # Enregistrer un collaborateur
-                    self.gestion_c.register_new_collaborator_controller(session)
-
-                elif user_input_choice_menu == 2:  # Modifier un collaborateur
-                    while True:
-                        self.gestion_c.show_collaborator_list_controller(session)
-                        # Demande si l'utilisateur souhaite modifier un collaborateur
-                        response_y_n = self.gestion_c.ask_user_if_they_want_to_edit_collaborator()
-                        if response_y_n:
-                            # Demander à l'utilisateur de selectionner le collaborateur à modifier
-                            user_id_username = self.gestion_c.ask_user_to_select_collaborator_controller(session)
-                            self.edit_collaborator_info_controller(session, user_id=user_id_username[0])
-                        else:
-                            break
-
-                elif user_input_choice_menu == 3:  # Supprimer un collaborateur
-                    while True:
-                        self.gestion_c.show_collaborator_list_controller(session)
-                        response_y_n = self.gestion_c.ask_user_if_they_want_to_delete_collaborator()
-                        if response_y_n:
-                            user_id_username = self.gestion_c.ask_user_to_select_collaborator_controller(session)
-                            self.database_c.delete_a_mysql_user_controller(session, username=user_id_username[1])
-                            self.table_c.delete_collaborator_in_table_controller(session, user_id=user_id_username[0])
-                            self.gestion_c.reassign_customers_to_commercials_controller(session)
-                            self.user_view.prompt_the_user_to_press_the_enter_key()
-                        else:
-                            break
-                elif user_input_choice_menu == 4:  # Créer un contrat client
-                    while True:
-                        self.user_c.show_customer_list_controller(session)
-                        response = self.gestion_c.ask_user_if_wants_create_customer_contract_controller()
-                        if response:  # Si Gestion souhaite créer un contrat
-                            self.gestion_c.create_customer_contract_controller(session)
-                            break
-                            
-                elif user_input_choice_menu == 5:  # Modifier un contrat client
-                    self.menu_view.clear_terminal_view()
-                    result_contract = self.table_c.get_all_contract_controller(session)
-                    # Affiche tous les contrats
-                    self.user_view.display_list_contract_view(result_contract, info_title="Liste des contrats")
-                    result_response_y_n = self.user_c.ask_user_if_they_want_to_edit_contract()
-                    if result_response_y_n:
-                        contract_id = self.user_c.ask_user_to_select_customer_contract_controller(session)
-                        self.user_c.edit_info_customer_contract_controller(session, contract_id)
-
-                elif user_input_choice_menu == 6:  # Modifier un événement non attribué
-                    pass
-
-                elif user_input_choice_menu == 7:  # Modifier un événement attribué
-                    pass
-
-                elif user_input_choice_menu == 8:  # Afficher tous les clients
-                    self.menu_view.clear_terminal_view()
-                    list_customer = self.table_c.get_list_of_all_customers_controller(session)
-                    self.user_view.display_list_customer_view(list_customer)
-                    self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
-
-                elif user_input_choice_menu == 9:  # Afficher tous les contrats
-                    self.menu_view.clear_terminal_view()
-                    result_contract = self.table_c.get_all_contract_controller(session)
-                    self.user_view.display_list_contract_view(result_contract, info_title="Liste des contrats")
-                    self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
-
-                elif user_input_choice_menu == 10:  # Afficher tous les événements
-                    pass
-
-                elif user_input_choice_menu == 11:
-                    break
-                else:
-                    error = True
+                error = 'error_1'
 
     def edit_collaborator_info_controller(self, session, user_id):
         """
