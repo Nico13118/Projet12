@@ -35,6 +35,7 @@ class MenuCommercialController:
                     self.menu_view.clear_terminal_view()
                     customer_list = self.commercial_c.get_collaborator_customer_list(session)
                     if customer_list:
+                        self.user_view.display_list_customer_view(customer_list)
                         response = self.commercial_c.ask_user_if_wants_they_want_to_edit_customer()
                         if response:
                             customer_id = self.commercial_c.ask_user_to_select_customer_controller(session)
