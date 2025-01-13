@@ -129,7 +129,7 @@ class UserView:
 
     def get_user_input_view(self):
         user_input = Prompt.ask("[bright_cyan]Faite votre choix[/bright_cyan]")
-        return int(user_input)
+        return user_input
 
     def display_message_create_new_collaborator(self):
         cadre = Panel(
