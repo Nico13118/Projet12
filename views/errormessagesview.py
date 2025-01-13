@@ -68,3 +68,8 @@ class ErrorMessagesView:
         text = Text("Erreur!! Vous devez saisir une valeur numérique.")
         text.stylize("bold red")
         console.print(text)
+
+    def no_contract_to_display_view(self):
+        text = Text("Aucun contrat à afficher.")
+        text.stylize("bold red")
+        console.print(text)
