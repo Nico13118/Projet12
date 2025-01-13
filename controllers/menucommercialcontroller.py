@@ -14,57 +14,64 @@ class MenuCommercialController:
         :param session:
 
         """
-        error = False
+        error = ''
         while True:
             self.menu_view.clear_terminal_view()
             self.menu_view.display_menu_commercial_view()
+            
             if error:
-                self.error_messages_v.display_error_message_choice_view()
-                error = False
-            user_input = self.user_view.get_user_input_view()
-            if not user_input:
-                error = True
-            else:
-                if user_input == '1':  # Enregistrer un client.
-                    self.commercial_c.register_new_customer_controller(session)
+                if error == 'error_1':
+                    self.error_messages_v.display_error_message_choice_view()
+                elif error == 'error_2':
+                    self.error_messages_v.no_customer_to_display_view()
+                error = ''
 
-                elif user_input == '2':  # Modifier un client
-                    while True:
-                        self.user_c.show_customer_list_controller(session)
+            user_input = self.user_view.get_user_input_view()
+            if user_input == '1':  # Enregistrer un client.
+                self.commercial_c.register_new_customer_controller(session)
+
+            elif user_input == '2':  # Modifier un client
+                while True:
+                    self.menu_view.clear_terminal_view()
+                    customer_list = self.commercial_c.get_collaborator_customer_list(session)
+                    if customer_list:
                         response = self.commercial_c.ask_user_if_wants_they_want_to_edit_customer()
                         if response:
                             customer_id = self.commercial_c.ask_user_to_select_customer_controller(session)
                             self.edit_customer_info_controller(customer_id, session)
                         else:
                             break
+                    else:
+                        error = 'error_2'
+                        break
 
-                elif user_input == '3':  # Afficher tous les contrats (Modification)
-                    self.menu_view.clear_terminal_view()
-                    self.ask_the_user_to_choose_how_to_display_contracts_controller(session)
+            elif user_input == '3':  # Afficher tous les contrats (Modification)
+                self.menu_view.clear_terminal_view()
+                self.ask_the_user_to_choose_how_to_display_contracts_controller(session)
 
-                elif user_input == '4':  # Créer un événement
-                    pass
+            elif user_input == '4':  # Créer un événement
+                pass
 
-                elif user_input == '5':  # Afficher tous les clients
-                    self.menu_view.clear_terminal_view()
-                    list_customer = self.table_c.get_list_of_all_customers_controller(session)
-                    self.user_view.display_list_customer_view(list_customer)
-                    self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
-                    
-                elif user_input == '6':  # Afficher tous les contrats (Lecture seule)
-                    self.menu_view.clear_terminal_view()
-                    result_contract = self.table_c.get_all_contract_controller(session)
-                    self.user_view.display_list_contract_view(result_contract, info_title="Liste des contrats")
-                    self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
+            elif user_input == '5':  # Afficher tous les clients
+                self.menu_view.clear_terminal_view()
+                list_customer = self.table_c.get_list_of_all_customers_controller(session)
+                self.user_view.display_list_customer_view(list_customer)
+                self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
 
-                elif user_input == '7':  # Afficher tous les événements
-                    pass
+            elif user_input == '6':  # Afficher tous les contrats (Lecture seule)
+                self.menu_view.clear_terminal_view()
+                result_contract = self.table_c.get_all_contract_controller(session)
+                self.user_view.display_list_contract_view(result_contract, info_title="Liste des contrats")
+                self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
 
-                elif user_input == '8':  # Quitter l'application
-                    break
-                    
-                else:
-                    error = True
+            elif user_input == '7':  # Afficher tous les événements
+                pass
+
+            elif user_input == '8':  # Quitter l'application
+                break
+
+            else:
+                error = 'error_1'
 
     def edit_customer_info_controller(self, customer_id, session):
         """
