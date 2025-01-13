@@ -46,6 +46,7 @@ class MenuCommercialController:
                     pass
 
                 elif user_input == '5':  # Afficher tous les clients
+                    self.menu_view.clear_terminal_view()
                     list_customer = self.table_c.get_list_of_all_customers_controller(session)
                     self.user_view.display_list_customer_view(list_customer)
                     self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
