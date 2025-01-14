@@ -1,4 +1,3 @@
-import random
 
 
 class GestionController:
@@ -172,14 +171,16 @@ class GestionController:
         result_commercial = self.table_c.get_list_commercial_controller(session)
         for result_com in result_commercial:
             list_commercial_id.append(result_com.collab_id)
-        random.shuffle(list_commercial_id)
         # On récupère la liste des clients sans commeciaux
         result_customer = self.table_c.get_list_customers_without_commercial_controller(session)
+        iter_list_commercial_id = iter(list_commercial_id)
+
         for result_custom in result_customer:
-            for commercial_id in list_commercial_id:
-                self.table_c.edit_a_field_in_table(session, table_name='customer', field='collaborator_id',
-                                                   new_value=commercial_id, object_id='custom_id',
-                                                   info_id=result_custom.custom_id)
+            commercial_id = next(iter_list_commercial_id)
+            list_commercial_id.append(commercial_id)
+            self.table_c.edit_a_field_in_table(session, table_name='customer', field='collaborator_id',
+                                               new_value=commercial_id, object_id='custom_id',
+                                               info_id=result_custom.custom_id)
 
     def ask_user_if_wants_create_customer_contract_controller(self):
         while True:
