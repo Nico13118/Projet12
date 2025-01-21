@@ -101,3 +101,16 @@ class CommercialController:
             if session.collab_id == row.collaborator_id:
                 customer_list.append(row)
         return customer_list
+
+    def get_collaborator_contract_list(self, session):
+        """
+        Fonction qui permet de retourner la liste de contrat attribué à l'utilisateur connecté.
+        :param session:
+        :return:
+        """
+        contract_list = []
+        result_contract = self.table_c.get_all_contract_controller(session)
+        for row in result_contract:
+            if session.collab_id == row.collaborator_id:
+                contract_list.append(row)
+        return contract_list
