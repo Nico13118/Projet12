@@ -296,3 +296,21 @@ class TableController:
                 f"JOIN collaborator ON collaborator.collab_id = contract.collaborator_id "
                 f"WHERE contract_id = {contract_id}"))
             return result_contract
+
+    def get_a_customer_contracts_controller(self, session, customer_id):
+        """
+        Fonction qui permet de retourner un ou plusieurs contrats d'un client.
+
+        :param session:
+        :param customer_id:
+        :return: result_contract
+        """
+        self.session = session
+        password = quote(self.session.password)
+        database_name = self.json_c.get_database_name_in_json_file()
+        engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
+        with engine.connect() as connection:
+            result_contract = connection.execute(text(
+                f"SELECT * From contract "
+                f"WHERE contract.customer_id = {customer_id}"))
+            return result_contract
