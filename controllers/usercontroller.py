@@ -198,7 +198,7 @@ class UserController:
             if contract_id:
                 result = self.check_user_input_c.check_user_input_isdigit(contract_id)
                 if result:
-                    result_contract = self.table_c.get_single_contract_controller(session, contract_id)
+                    result_contract = self.table_c.get_single_contract_controller(session, int(contract_id))
                     infos = result_contract.fetchone()
                     if infos.contract_id == int(contract_id):
                         return contract_id
@@ -208,33 +208,42 @@ class UserController:
                 self.error_messages_v.error_message_empty_field_view()
 
     def edit_info_customer_contract_controller(self, session, contract_id):
+        error = False
         while True:
             self.menu_view.clear_terminal_view()
             result_contract = self.table_c.get_single_contract_controller(session, contract_id)  # Récupère le contrat
             self.menu_view.display_edit_menu_of_a_customer_contract_view(result_contract)  # Affiche le menu
+
+            if error:
+                self.error_messages_v.display_error_message_choice_view()
+                error = False
+
             result_choice = self.user_v.get_user_input_view()  # Demande à l'utilisateur de faire un choix
 
-            if result_choice == 1:  # Modifier la description du contrat
+            if result_choice == '1':  # Modifier la description du contrat
                 description = self.get_contract_description_controller()
                 self.table_c.edit_a_field_in_table(session, table_name='contract', field="contract_description",
                                                    new_value=description, object_id="contract_id", info_id=contract_id)
 
-            elif result_choice == 2:  # Modifier le prix du contrat
+            elif result_choice == '2':  # Modifier le prix du contrat
                 total_price = self.get_contract_total_price_controller()
                 self.table_c.edit_a_field_in_table(session, table_name='contract', field="contract_total_price",
                                                    new_value=total_price, object_id="contract_id", info_id=contract_id)
 
-            elif result_choice == 3:  # Modifier le solde restant
+            elif result_choice == '3':  # Modifier le solde restant
                 amount_remaining = self.get_contract_amount_remaining_controller()
                 self.table_c.edit_a_field_in_table(session, table_name='contract', field="contract_amount_remaining",
                                                    new_value=amount_remaining, object_id="contract_id",
                                                    info_id=contract_id)
 
-            elif result_choice == 4:  # Modifier le statut du contrat
+            elif result_choice == '4':  # Modifier le statut du contrat
                 self.change_status_of_contract_controller(session, contract_id)
 
-            elif result_choice == 5:
+            elif result_choice == '5':
                 break
+
+            else:
+                error = True
 
     def get_contract_description_controller(self):
         while True:
