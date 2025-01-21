@@ -104,7 +104,7 @@ class CommercialController:
 
     def get_collaborator_contract_list(self, session):
         """
-        Fonction qui permet de retourner la liste de contrat attribué à l'utilisateur connecté.
+        Fonction qui permet de retourner une liste de contrats attribués à l'utilisateur connecté.
         :param session:
         :return:
         """
