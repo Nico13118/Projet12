@@ -177,10 +177,31 @@ class GestionController:
 
         for result_custom in result_customer:
             commercial_id = next(iter_list_commercial_id)
+            self.reassigne_commercial_to_multiple_contracts_controller(session, result_custom, commercial_id)
             list_commercial_id.append(commercial_id)
             self.table_c.edit_a_field_in_table(session, table_name='customer', field='collaborator_id',
                                                new_value=commercial_id, object_id='custom_id',
                                                info_id=result_custom.custom_id)
+
+    def reassigne_commercial_to_multiple_contracts_controller(self, session, result_custom, commercial_id):
+        """
+        Fonction qui permet de réassigner les contrats clients au commercial.
+        
+        :param session
+        :param result_custom
+        :param commercial_id
+        """
+        list_of_customer_contracts = []
+        customer_id = result_custom.custom_id
+        list_contracts = self.table_c.get_a_customer_contracts_controller(session, customer_id)
+        for list_c in list_contracts:
+            list_of_customer_contracts.append(list_c)
+
+        if list_of_customer_contracts:
+            for customer_contract in list_of_customer_contracts:
+                self.table_c.edit_a_field_in_table(session, table_name='contract', field='collaborator_id',
+                                                   new_value=commercial_id, object_id='contract_id',
+                                                   info_id=customer_contract.contract_id)
 
     def ask_user_if_wants_create_customer_contract_controller(self):
         while True:
