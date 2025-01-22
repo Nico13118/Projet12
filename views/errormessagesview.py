@@ -78,3 +78,8 @@ class ErrorMessagesView:
         text = Text("Vous n'avez aucun client attribué.")
         text.stylize("bold red")
         console.print(text)
+
+    def no_events_to_create_view(self):
+        text = Text("Vous ne pouvez pas créer d'événement pour le moment.")
+        text.stylize("bold red")
+        console.print(text)
