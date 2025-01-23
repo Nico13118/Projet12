@@ -207,7 +207,7 @@ class UserController:
             else:
                 self.error_messages_v.error_message_empty_field_view()
         return contract_id
-    
+
     def edit_info_customer_contract_controller(self, session, contract_id):
         error = False
         while True:
@@ -343,3 +343,19 @@ class UserController:
                 self.error_messages_v.error_message_empty_field_view()
         return response_end_date
 
+    def get_location_event_controller(self):
+        """
+        Fonction qui permet de récupérer et de contrôler la saisie de l'adresse.
+         
+        :return: response_location
+        """
+        while True:
+            response_location = self.user_v.get_location_view()
+            if response_location:
+                if len(response_location) <= 200:
+                    break
+                else:
+                    self.error_messages_v.exceeded_number_of_characters()
+            else:
+                self.error_messages_v.error_message_empty_field_view()
+        return response_location
