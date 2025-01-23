@@ -84,3 +84,13 @@ class ErrorMessagesView:
                     "payé n'est disponible.")
         text.stylize("bold red")
         console.print(text)
+
+    def error_date(self):
+        text = Text("Une erreur s'est produite, veuillez respecter cet exemple : 31 Décembre 2025 18:00")
+        text.stylize("bold red")
+        console.print(text)
+
+    def exceeded_number_of_characters(self):
+        text = Text("Vous avez dépassé le nombre de caractères autorisé, veuillez recommencer.")
+        text.stylize("bold red")
+        console.print(text)
