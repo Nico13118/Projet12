@@ -160,3 +160,18 @@ class CommercialController:
                 if r_contract_list1.contract_amount_remaining == 0:
                     contract_list.append(r_contract_list1)
         return contract_list
+
+    def search_if_contract_has_event(self, session, result_contract_list2):
+        """
+        Fonction qui permet de retourner une liste de contrat n'ayant pas d'événement associé.
+        :param session:
+        :param result_contract_list2:
+        :return: result_contract_list3
+        """
+        result_contract_list3 = []
+        for r_contract_list2 in result_contract_list2:
+            result_event = self.table_c.get_single_event_controller(session, r_contract_list2.contract_id)
+            info_result_event = result_event.fetchone()
+            if info_result_event is None:
+                result_contract_list3.append(r_contract_list2)
+        return result_contract_list3
