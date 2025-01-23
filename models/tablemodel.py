@@ -123,7 +123,7 @@ class Event(Base):
     event_date_start: Mapped[str] = mapped_column(String(30), nullable=False)
     event_date_end: Mapped[str] = mapped_column(String(30), nullable=False)
     location: Mapped[str] = mapped_column(String(200), nullable=False)
-    attendees: Mapped[int] = mapped_column(String(7), nullable=False)
+    attendees: Mapped[str] = mapped_column(String(7), nullable=False)
     notes: Mapped[str] = mapped_column(String(500), nullable=False)
 
     collaborator_id: Mapped[int] = mapped_column(ForeignKey('collaborator.collab_id', ondelete='SET NULL'),
