@@ -114,3 +114,44 @@ class CommercialController:
             if session.collab_id == row.collaborator_id:
                 contract_list.append(row)
         return contract_list
+
+    def ask_user_if_wants_create_event_contract_controller(self):
+        while True:
+            user_input = self.user_view.display_message_create_contract_event_view()
+            response = self.check_user_input_c.check_user_input_yes_no_controller(user_input)
+            if response == "Y":
+                return True
+            elif response == "N":
+                break
+            else:
+                self.error_messages_v.display_error_message_of_values_yes_and_no()
+
+    def create_new_event_controller(self, session, result_contract_list2):
+        while True:
+            contract_id = self.user_view.get_contract_id_view()
+            result = [c for c in result_contract_list2 if c.contract_id == int(contract_id)]
+            if result:
+                event_date_start = self.user_c.get_start_date_event_controller()
+                event_date_end = self.user_c.get_end_date_event_controller()
+                location = self.user_c.get_location_event_controller()
+                attendees = self.user_c.get_attendees_event_controller()
+                notes = self.user_c.get_notes_event_controller()
+                customer_id = result[0].customer_id
+                self.table_c.save_new_event_contract_controller(session, event_date_start, event_date_end, location,
+                                                                attendees, notes, customer_id, contract_id)
+                break
+        self.user_view.display_end_message_event_view()
+
+    def search_for_signed_and_paid_contracts(self, result_contract_list1):
+        """
+        Fonction qui retourne une liste de contrats signé et payé.
+
+        :param result_contract_list1
+        :return contract_list
+        """
+        contract_list = []
+        for r_contract_list1 in result_contract_list1:
+            if r_contract_list1.contract_status_id == 1:
+                if r_contract_list1.contract_amount_remaining == 0:
+                    contract_list.append(r_contract_list1)
+        return contract_list
