@@ -57,7 +57,7 @@ class DatabaseController:
                                     f"TO {info_username}@localhost"))
             connection.execute(text(f"GRANT SELECT, INSERT, UPDATE ON {database_name}.contract "
                                     f"TO {info_username}@localhost"))
-            connection.execute(text(f"GRANT INSERT ON {database_name}.event TO {info_username}@localhost"))
+            connection.execute(text(f"GRANT SELECT, INSERT ON {database_name}.event TO {info_username}@localhost"))
 
             connection.execute(text(f"GRANT SELECT ON {database_name}.contractstatus "
                                     f"TO {info_username}@localhost"))
