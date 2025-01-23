@@ -1,4 +1,4 @@
-from models.tablemodel import Base, Collaborator, Customer, Role, ContractStatus, Contract
+from models.tablemodel import Base, Collaborator, Customer, Role, ContractStatus, Contract, Event
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import Session
 from urllib.parse import quote
@@ -85,6 +85,25 @@ class TableController:
                 role_id=role
             )
             session.add(collaborator)
+            session.commit()
+
+    def save_new_event_contract_controller(self, session, event_date_start, event_date_end, location, attendees,
+                                           notes, customer_id, contract_id):
+        self.session = session
+        database_name = self.json_c.get_database_name_in_json_file()
+        password = quote(self.session.password)
+        engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
+        with Session(engine) as session:
+            event = Event(
+                event_date_start=event_date_start,
+                event_date_end=event_date_end,
+                location=location,
+                attendees=attendees,
+                notes=notes,
+                customer_id=customer_id,
+                contract_id=contract_id
+            )
+            session.add(event)
             session.commit()
 
     def add_contract_status_in_the_table(self, session, database_name):
