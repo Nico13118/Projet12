@@ -26,6 +26,8 @@ class MenuCommercialController:
                     self.error_messages_v.no_customer_to_display_view()
                 elif error == 'error_3':
                     self.error_messages_v.no_contract_to_display_view()
+                elif error == 'error_4':
+                    self.error_messages_v.no_events_to_create_view()
                 error = ''
 
             user_input = self.user_view.get_user_input_view()
@@ -57,7 +59,24 @@ class MenuCommercialController:
                     error = 'error_3'
 
             elif user_input == '4':  # Créer un événement
-                pass
+                self.menu_view.clear_terminal_view()
+                # Vérification que le commercial à des contrats en cours
+                result_contract_list1 = self.commercial_c.get_collaborator_contract_list(session)
+                if result_contract_list1:
+                    # Vérification qu'il y a un contrat signé et soldé
+                    result_contract_list2 = self.commercial_c.search_for_signed_and_paid_contracts(
+                        result_contract_list1)
+                    if result_contract_list2:
+                        self.user_view.display_list_contract_view(
+                            result_contract_list2,
+                            info_title="Liste de contrats disponibles pour créations d'événements")
+                        result_response = self.commercial_c.ask_user_if_wants_create_event_contract_controller()
+                        if result_response:
+                            self.commercial_c.create_new_event_controller(session, result_contract_list2)
+                    else:
+                        error = 'error_4'
+                else:
+                    error = 'error_4'
 
             elif user_input == '5':  # Afficher tous les clients
                 self.menu_view.clear_terminal_view()
