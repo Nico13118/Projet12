@@ -194,3 +194,34 @@ class UserView:
         user_input = Prompt.ask("[bright_cyan]Modifier le statut du contrat: Confirmez que le contrat n'a pas été "
                                 "signé [Y/N] ?[/bright_cyan]")
         return user_input
+
+    def display_message_create_contract_event_view(self):
+        user_input = Prompt.ask("[bright_cyan]Souhaitez-vous créer un événement pour un contrat client "
+                                "[Y/N] ?[/bright_cyan]")
+        return user_input
+
+    def get_start_date_view(self):
+        start_date = Prompt.ask("[bright_cyan]Veuillez saisir la date et l'heure du début de l'événement "
+                                "<< Exemple : 31 Décembre 2025 18:00 >>[/bright_cyan]")
+        return start_date
+
+    def get_end_date_view(self):
+        end_date = Prompt.ask("[bright_cyan]Veuillez saisir la date et l'heure de fin de l'événement"
+                              "<< Exemple : 01 Janvier 2026 08:00 >>[/bright_cyan]")
+        return end_date
+
+    def get_location_view(self):
+        info_location = Prompt.ask("[bright_cyan]Veuillez saisir l'adresse où se passera l'événement")
+        return info_location
+
+    def get_attendees_view(self):
+        info_attendees = Prompt.ask("[bright_cyan]Veuillez saisir le nombre d'invités prévu pour cet événement")
+        return info_attendees
+
+    def get_notes_event_view(self):
+        info_notes = Prompt.ask("[bright_cyan]Veuillez saisir une note d'information de cet événement")
+        return info_notes
+
+    def display_end_message_event_view(self):
+        return Prompt.ask("[bright_cyan]Événement enregistré avec succès, appuyez sur la touche entrée de votre "
+                          "clavier pour continuer...[/bright_cyan]")
