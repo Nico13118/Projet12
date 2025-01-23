@@ -381,3 +381,19 @@ class UserController:
             else:
                 self.error_messages_v.error_message_empty_field_view()
         return response_attendees
+
+    def get_notes_event_controller(self):
+        """
+        Fonction qui permet de récupérer et contrôler la note d'événement saisie par l'utilisateur
+        :return response_notes
+        """
+        while True:
+            response_notes = self.user_v.get_notes_event_view()
+            if response_notes:
+                if len(response_notes) <= 500:
+                    break
+                else:
+                    self.error_messages_v.exceeded_number_of_characters()
+            else:
+                self.error_messages_v.error_message_empty_field_view()
+        return response_notes
