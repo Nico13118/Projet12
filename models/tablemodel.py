@@ -120,8 +120,8 @@ class Contract(Base):
 class Event(Base):
     __tablename__ = 'event'
     id: Mapped[int] = mapped_column(autoincrement=True, primary_key=True)
-    event_date_start: Mapped[datetime.datetime] = mapped_column(DateTime(timezone=True))
-    event_date_end: Mapped[datetime.datetime] = mapped_column(DateTime(timezone=True))
+    event_date_start: Mapped[str] = mapped_column(String(30), nullable=False)
+    event_date_end: Mapped[str] = mapped_column(String(30), nullable=False)
     location: Mapped[str] = mapped_column(String(200), nullable=False)
     attendees: Mapped[int] = mapped_column(String(7), nullable=False)
     notes: Mapped[str] = mapped_column(String(500), nullable=False)
