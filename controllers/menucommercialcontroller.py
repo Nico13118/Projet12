@@ -67,12 +67,18 @@ class MenuCommercialController:
                     result_contract_list2 = self.commercial_c.search_for_signed_and_paid_contracts(
                         result_contract_list1)
                     if result_contract_list2:
-                        self.user_view.display_list_contract_view(
-                            result_contract_list2,
-                            info_title="Liste de contrats disponibles pour créations d'événements")
-                        result_response = self.commercial_c.ask_user_if_wants_create_event_contract_controller()
-                        if result_response:
-                            self.commercial_c.create_new_event_controller(session, result_contract_list2)
+                        # vérifier les contrats associés à un événement.
+                        result_contract_list3 = self.commercial_c.search_if_contract_has_event(session,
+                                                                                               result_contract_list2)
+                        if result_contract_list3:
+                            self.user_view.display_list_contract_view(
+                                result_contract_list3,
+                                info_title="Liste de contrats disponibles pour créations d'événements")
+                            result_response = self.commercial_c.ask_user_if_wants_create_event_contract_controller()
+                            if result_response:
+                                self.commercial_c.create_new_event_controller(session, result_contract_list2)
+                        else:
+                            error = 'error_4'
                     else:
                         error = 'error_4'
                 else:
