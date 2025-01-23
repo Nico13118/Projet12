@@ -333,3 +333,19 @@ class TableController:
                 f"SELECT * From contract "
                 f"WHERE contract.customer_id = {customer_id}"))
             return result_contract
+
+    def get_single_event_controller(self, session, contract_id):
+        """
+        Fonction qui permet de retourner un événement avec l'aide de l'id d'un contrat.
+         
+        :param session
+        :param contract_id
+        :return result_event
+        """
+        self.session = session
+        password = quote(self.session.password)
+        database_name = self.json_c.get_database_name_in_json_file()
+        engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
+        with engine.connect() as connection:
+            result_event = connection.execute(text(f"SELECT * From event WHERE contract_id = {contract_id}"))
+            return result_event
