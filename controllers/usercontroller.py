@@ -359,3 +359,25 @@ class UserController:
             else:
                 self.error_messages_v.error_message_empty_field_view()
         return response_location
+
+    def get_attendees_event_controller(self):
+        """
+        Fonction qui permet de récupérer et de contrôler la valeur saisie par l'utilisateur permettant de connaitre
+        le nombre personnes invitées à l'événement.
+
+        :return response_attendees
+        """
+        while True:
+            response_attendees = self.user_v.get_attendees_view()
+            if response_attendees:
+                result = self.check_user_input_c.check_user_input_isdigit(response_attendees)
+                if result:
+                    if len(response_attendees) <= 7:
+                        break
+                    else:
+                        self.error_messages_v.exceeded_number_of_characters()
+                else:
+                    self.error_messages_v.display_message_error_numerical_value_view()
+            else:
+                self.error_messages_v.error_message_empty_field_view()
+        return response_attendees
