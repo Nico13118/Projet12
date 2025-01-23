@@ -201,12 +201,13 @@ class UserController:
                     result_contract = self.table_c.get_single_contract_controller(session, int(contract_id))
                     infos = result_contract.fetchone()
                     if infos.contract_id == int(contract_id):
-                        return contract_id
+                        break
                 else:
                     self.error_messages_v.display_message_error_numerical_value_view()
             else:
                 self.error_messages_v.error_message_empty_field_view()
-
+        return contract_id
+    
     def edit_info_customer_contract_controller(self, session, contract_id):
         error = False
         while True:
@@ -249,27 +250,30 @@ class UserController:
         while True:
             user_input = self.user_v.get_contract_description_view()
             if user_input:
-                return user_input
+                break
             else:
                 self.error_messages_v.error_message_empty_field_view()
+        return user_input
 
     def get_contract_total_price_controller(self):
         while True:
             user_input = self.user_v.get_contract_total_price_view()
             result = self.check_user_input_c.check_user_input_isdigit(user_input)
             if result:
-                return user_input
+                break
             else:
                 self.error_messages_v.display_message_error_numerical_value_view()
+        return user_input
 
     def get_contract_amount_remaining_controller(self):
         while True:
             user_input = self.user_v.get_contract_amount_remaining_view()
             result = self.check_user_input_c.check_user_input_isdigit(user_input)
             if result:
-                return user_input
+                break
             else:
                 self.error_messages_v.display_message_error_numerical_value_view()
+        return user_input
 
     def change_status_of_contract_controller(self, session, contract_id):
         result_contract = self.table_c.get_single_contract_controller(session, contract_id)
@@ -314,11 +318,12 @@ class UserController:
             response_start_date = self.user_v.get_start_date_view()
             if response_start_date:
                 if len(response_start_date) <= 30:
-                    return response_start_date
+                    break
                 else:
                     self.error_messages_v.error_date()
             else:
                 self.error_messages_v.error_message_empty_field_view()
+        return response_start_date
 
     def get_end_date_event_controller(self):
         """
@@ -331,8 +336,10 @@ class UserController:
             response_end_date = self.user_v.get_end_date_view()
             if response_end_date:
                 if len(response_end_date) <= 30:
-                    return response_end_date
+                    break
                 else:
                     self.error_messages_v.error_date()
             else:
                 self.error_messages_v.error_message_empty_field_view()
+        return response_end_date
+
