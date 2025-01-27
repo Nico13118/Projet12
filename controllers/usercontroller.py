@@ -181,8 +181,9 @@ class UserController:
         result_list_customer = self.table_c.get_list_of_all_customers_controller(session)
         for r in result_list_customer:
             list_customers.append(r)
-        if len(list_customers) > 1:
+        if len(list_customers) >= 1:
             self.user_v.display_list_customer_view(list_customers)
+            return len(list_customers)
         else:
             return len(list_customers)
         
