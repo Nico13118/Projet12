@@ -201,19 +201,17 @@ class UserController:
 
     def ask_user_to_select_customer_contract_controller(self, session):
         while True:
-            contract_id = self.user_v.get_contract_id_view()
-            if contract_id:
-                result = self.check_user_input_c.check_user_input_isdigit(contract_id)
-                if result:
-                    result_contract = self.table_c.get_single_contract_controller(session, int(contract_id))
-                    infos = result_contract.fetchone()
-                    if infos.contract_id == int(contract_id):
-                        break
+            user_input_contract_id = self.user_v.get_contract_id_view()
+            if user_input_contract_id:
+                result_contract = self.table_c.get_single_contract_controller(session, user_input_contract_id)
+                list_result_contract = [c for c in result_contract]
+                if list_result_contract:
+                    break
                 else:
-                    self.error_messages_v.display_message_error_numerical_value_view()
+                    self.error_messages_v.display_error_message_choice_view()
             else:
                 self.error_messages_v.error_message_empty_field_view()
-        return contract_id
+        return user_input_contract_id
 
     def edit_info_customer_contract_controller(self, session, contract_id):
         error = False
