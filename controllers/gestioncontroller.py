@@ -216,19 +216,22 @@ class GestionController:
 
     def create_customer_contract_controller(self, session):
         while True:
-            customer_id = self.user_view.get_customer_code_id_view()
-            result = self.check_user_input_c.check_user_input_isdigit(customer_id)
+            user_input_customer_id = self.user_view.get_customer_code_id_view()
+            result = self.check_user_input_c.check_user_input_isdigit(user_input_customer_id)
             if result:
-                selected_customer = self.table_c.get_single_customer_info_with_id_controller(customer_id, session)
-                infos = selected_customer.fetchone()
-                if infos.custom_id == int(customer_id):
+                selected_customer = self.table_c.get_single_customer_info_with_id_controller(user_input_customer_id,
+                                                                                             session)
+                list_customer = [c for c in selected_customer]
+                if len(list_customer):
                     contract_description = self.user_c.get_contract_description_controller()
                     contract_total_price = self.user_c.get_contract_total_price_controller()
                     contract_amount_remaining = self.user_c.get_contract_amount_remaining_controller()
                     self.table_c.save_customer_contract_in_table_controller(
                         session, contract_description, contract_total_price, contract_amount_remaining,
-                        infos.custom_id, infos.collaborator_id)
+                        list_customer[0].custom_id, list_customer[0].collaborator_id)
                     break
+                else:
+                    self.error_messages_v.display_error_message_choice_view()
             else:
                 self.error_messages_v.display_message_error_numerical_value_view()
 
