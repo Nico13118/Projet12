@@ -94,3 +94,8 @@ class ErrorMessagesView:
         text = Text("Vous avez dépassé le nombre de caractères autorisé, veuillez recommencer.")
         text.stylize("bold red")
         console.print(text)
+
+    def no_contracts_to_create_view(self):
+        text = Text("Vous ne pouvez pas créer de contrat pour le moment")
+        text.stylize("bold red")
+        console.print(text)
