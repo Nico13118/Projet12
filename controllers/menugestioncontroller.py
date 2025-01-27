@@ -60,6 +60,8 @@ class MenuGestionController:
                     if response:  # Si Gestion souhaite créer un contrat
                         self.gestion_c.create_customer_contract_controller(session)
                         break
+                    else:
+                        break
 
             elif user_input_choice_menu == '5':  # Modifier un contrat client
                 self.menu_view.clear_terminal_view()
