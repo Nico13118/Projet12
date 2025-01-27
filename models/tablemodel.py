@@ -119,7 +119,7 @@ class Contract(Base):
 
 class Event(Base):
     __tablename__ = 'event'
-    id: Mapped[int] = mapped_column(autoincrement=True, primary_key=True)
+    event_id: Mapped[int] = mapped_column(autoincrement=True, primary_key=True)
     event_date_start: Mapped[str] = mapped_column(String(30), nullable=False)
     event_date_end: Mapped[str] = mapped_column(String(30), nullable=False)
     location: Mapped[str] = mapped_column(String(200), nullable=False)
