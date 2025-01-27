@@ -23,6 +23,8 @@ class MenuGestionController:
             if error:
                 if error == 'error_1':
                     self.error_messages_v.display_error_message_choice_view()
+                elif error == 'error_4':
+                    self.error_messages_v.no_contracts_to_create_view()
                 error = ''
             user_input_choice_menu = self.user_view.get_user_input_view()
 
@@ -55,12 +57,16 @@ class MenuGestionController:
                         break
             elif user_input_choice_menu == '4':  # Créer un contrat client
                 while True:
-                    self.user_c.show_customer_list_controller(session)
-                    response = self.gestion_c.ask_user_if_wants_create_customer_contract_controller()
-                    if response:  # Si Gestion souhaite créer un contrat
-                        self.gestion_c.create_customer_contract_controller(session)
-                        break
+                    result = self.user_c.show_customer_list_controller(session)
+                    if result:
+                        response = self.gestion_c.ask_user_if_wants_create_customer_contract_controller()
+                        if response:  # Si Gestion souhaite créer un contrat
+                            self.gestion_c.create_customer_contract_controller(session)
+                            break
+                        else:
+                            break
                     else:
+                        error = "error_4"
                         break
 
             elif user_input_choice_menu == '5':  # Modifier un contrat client
