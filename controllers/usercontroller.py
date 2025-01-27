@@ -11,15 +11,17 @@ class UserController:
         self.check_user_input_c = checkuserinputcontroller
         self.session = None
 
-    def start_create_user_controller(self, session):
+    def start_create_user_controller(self, session, first_connexion=None):
         info_name = self.get_name_controller()
         info_first_name = self.get_first_name_controller()
         info_email = self.get_email_controller()
         info_username = self.get_username_controller(f"{info_name} {info_first_name}")
         info_password = self.get_password_controller()
-        info_role = self.get_role_controller()
-
-        role_id = self.get_role_id_controller(info_role)  # Récupération de role_id
+        if first_connexion:
+            role_id = 2
+        else:
+            info_role = self.get_role_controller()
+            role_id = self.get_role_id_controller(info_role)  # Récupération de role_id
 
         self.table_c.save_collaborator_in_table_controller(session, info_name, info_first_name,
                                                            info_email, info_username, info_password, role_id)
