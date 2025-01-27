@@ -183,9 +183,7 @@ class UserController:
             list_customers.append(r)
         if len(list_customers) >= 1:
             self.user_v.display_list_customer_view(list_customers)
-            return len(list_customers)
-        else:
-            return len(list_customers)
+        return len(list_customers)
         
     def ask_user_if_they_want_to_edit_contract(self):
         while True:
