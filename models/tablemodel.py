@@ -126,8 +126,8 @@ class Event(Base):
     attendees: Mapped[str] = mapped_column(String(7), nullable=False)
     notes: Mapped[str] = mapped_column(String(500), nullable=False)
 
-    collaborator_id: Mapped[int] = mapped_column(ForeignKey('collaborator.collab_id', ondelete='SET NULL'),
-                                                 nullable=True)
+    collaborator_supp_id: Mapped[int] = mapped_column(ForeignKey('collaborator.collab_id', ondelete='SET NULL'),
+                                                      nullable=True)
     # Event >> Collaborator : Many-to-One : Chaque évènement ne peut avoir qu'un seul Collaborateur
     event_collaborator: Mapped[Optional['Collaborator']] = relationship(back_populates='collaborator_event')
 
