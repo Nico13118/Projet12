@@ -74,6 +74,11 @@ class ErrorMessagesView:
         text.stylize("bold red")
         console.print(text)
 
+    def no_events_to_display_view(self):
+        text = Text("Aucun événement à afficher.")
+        text.stylize("bold red")
+        console.print(text)
+
     def no_customer_to_display_view(self):
         text = Text("Vous n'avez aucun client attribué.")
         text.stylize("bold red")
