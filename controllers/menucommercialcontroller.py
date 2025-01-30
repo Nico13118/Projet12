@@ -18,7 +18,7 @@ class MenuCommercialController:
         while True:
             self.menu_view.clear_terminal_view()
             self.menu_view.display_menu_commercial_view()
-            
+
             if error:
                 if error == 'error_1':
                     self.error_messages_v.display_error_message_choice_view()
@@ -28,6 +28,8 @@ class MenuCommercialController:
                     self.error_messages_v.no_contract_to_display_view()
                 elif error == 'error_4':
                     self.error_messages_v.no_events_to_create_view()
+                elif error == 'error_7':
+                    self.error_messages_v.no_events_to_display_view()
                 error = ''
 
             user_input = self.user_view.get_user_input_view()
@@ -76,7 +78,7 @@ class MenuCommercialController:
                                 info_title="Liste de contrats disponibles pour créations d'événements")
                             result_response = self.commercial_c.ask_user_if_wants_create_event_contract_controller()
                             if result_response:
-                                self.commercial_c.create_new_event_controller(session, result_contract_list2)
+                                self.commercial_c.create_new_event_controller(session, result_contract_list3)
                         else:
                             error = 'error_4'
                     else:
@@ -97,7 +99,15 @@ class MenuCommercialController:
                 self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
 
             elif user_input == '7':  # Afficher tous les événements
-                pass
+                self.menu_view.clear_terminal_view()
+                result_event = self.user_c.get_all_event_controller(session)
+                if result_event:
+                    list_collab_supp = self.table_c.get_information_for_all_collaborators_controller(session)
+                    self.user_view.display_list_all_events_view(result_event, list_collab_supp,
+                                                                info_title="Liste d'événements")
+                    self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
+                else:
+                    error = 'error_7'
 
             elif user_input == '8':  # Quitter l'application
                 break
