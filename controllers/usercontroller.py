@@ -402,3 +402,25 @@ class UserController:
             else:
                 self.error_messages_v.error_message_empty_field_view()
         return response_notes
+
+    def get_all_event_controller(self, session):
+        """
+        Fonction qui permet de récupérer, contrôler et retourner tous les événements
+        :param session:
+        :return: list_events
+        """
+        result_event = self.table_c.get_all_event_controller(session)
+        list_events = [c for c in result_event]
+        if len(list_events) >= 1:
+            return list_events
+
+    def get_support_collaborator_controller(self, session):
+        """
+        Fonction qui permet de récupérer la liste de tous collaborateurs puis de retourner une liste de
+        collaborateur du support.
+        :param session:
+        :return: list_collab_supp
+        """
+        info_collab = self.table_c.get_information_for_all_collaborators_controller(session)
+        list_collab_supp = [c for c in info_collab if c.role_id == 3]
+        return list_collab_supp
