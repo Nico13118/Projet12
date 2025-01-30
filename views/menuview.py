@@ -91,9 +91,9 @@ class MenuView:
         table.add_row("\n2", "\nModifier un client")
         table.add_row("\n3", "\nAfficher tous les contrats (Modification)")
         table.add_row("\n4", "\nCréer un événement")
-        table.add_row("\n5", "\nAfficher tous les clients")
+        table.add_row("\n5", "\nAfficher tous les clients (Lecture seule)")
         table.add_row("\n6", "\nAfficher tous les contrats (Lecture seule)")
-        table.add_row("\n7", "\nAfficher tous les événements")
+        table.add_row("\n7", "\nAfficher tous les événements (Lecture seule)")
         table.add_row("\n8", "\nQuitter l'application\n")
 
         console.print(table)
