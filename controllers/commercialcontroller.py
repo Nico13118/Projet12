@@ -126,11 +126,11 @@ class CommercialController:
             else:
                 self.error_messages_v.display_error_message_of_values_yes_and_no()
 
-    def create_new_event_controller(self, session, result_contract_list2):
+    def create_new_event_controller(self, session, result_contract_list3):
         while True:
             contract_id = self.user_view.get_contract_id_view()
             if contract_id:
-                result = [c for c in result_contract_list2 if c.contract_id == int(contract_id)]
+                result = [c for c in result_contract_list3 if c.contract_id == int(contract_id)]
                 if result:
                     event_date_start = self.user_c.get_start_date_event_controller()
                     event_date_end = self.user_c.get_end_date_event_controller()
