@@ -225,3 +225,22 @@ class UserView:
     def display_end_message_event_view(self):
         return Prompt.ask("[bright_cyan]Événement enregistré avec succès, appuyez sur la touche entrée de votre "
                           "clavier pour continuer...[/bright_cyan]")
+
+    def display_list_all_events_view(self, result_event, list_collab_supp, info_title):
+        table = Table(title=f"[bright_blue]Epic Events\n{info_title}[/bright_blue]",
+                      style="spring_green1")
+        table.add_column("[bright_blue]N° Événement[/bright_blue]", justify="center", style="bright_cyan")
+        table.add_column("[bright_blue]N° Contrat[/bright_blue]", justify="center", style="bright_cyan")
+        table.add_column("[bright_blue]Nom du client[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Téléphone[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Contact Support[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Date de l'événement[/bright_blue]", justify="left", style="bright_cyan")
+        for row in result_event:
+            collab_supp = [c for c in list_collab_supp if c.collab_id == row.collaborator_supp_id]
+            if collab_supp:
+                name_collab = f"{collab_supp[0].collab_name} {collab_supp[0].collab_first_name}"
+            else:
+                name_collab = "Non attribué"
+            table.add_row(f"{row.event_id}", f"{row.contract_id}", f"{row.custom_name}" f"{row.custom_first_name}",
+                          f"{row.custom_phone}", f"{name_collab}",f"{row.event_date_start}")
+        console.print(table)
