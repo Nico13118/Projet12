@@ -424,3 +424,15 @@ class UserController:
         info_collab = self.table_c.get_information_for_all_collaborators_controller(session)
         list_collab_supp = [c for c in info_collab if c.role_id == 3]
         return list_collab_supp
+
+    def get_all_contract_controller(self, session):
+        """
+        Fonction qui permet de récupérer, contrôler et retourner une liste de contrat.
+
+        :param session:
+        :return: list_contract
+        """
+        result_contract = self.table_c.get_all_contract_controller(session)
+        list_contract = [c for c in result_contract]
+        if list_contract:
+            return list_contract
