@@ -21,6 +21,8 @@ class MenuSupportController:
                     self.error_messages_v.display_error_message_choice_view()
                 elif error == 'error_2':
                     self.error_messages_v.no_customer_to_display_view()
+                elif error == 'error_3':
+                    self.error_messages_v.no_contract_to_display_view()
                 elif error == 'error_4':
                     self.error_messages_v.no_events_to_display_view()
                 error = ''
@@ -38,8 +40,15 @@ class MenuSupportController:
                     self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
                 else:
                     error = "error_2"
+
             elif user_input_choice_menu == '3':  # Afficher tous les contrats (Lecture seule)
-                pass
+                self.menu_view.clear_terminal_view()
+                result_contract = self.user_c.get_all_contract_controller(session)
+                if result_contract:
+                    self.user_view.display_list_contract_view(result_contract, info_title="Liste des contrats")
+                    self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
+                else:
+                    error = 'error_3'
 
             elif user_input_choice_menu == '4':  # Afficher tous les événements (Lecture seule)
                 self.menu_view.clear_terminal_view()
