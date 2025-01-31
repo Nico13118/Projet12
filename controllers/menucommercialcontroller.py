@@ -28,6 +28,8 @@ class MenuCommercialController:
                     self.error_messages_v.no_contract_to_display_view()
                 elif error == 'error_4':
                     self.error_messages_v.no_events_to_create_view()
+                elif error == 'error_6':
+                    self.error_messages_v.no_contract_to_display_view()
                 elif error == 'error_7':
                     self.error_messages_v.no_events_to_display_view()
                 error = ''
@@ -86,7 +88,7 @@ class MenuCommercialController:
                 else:
                     error = 'error_4'
 
-            elif user_input == '5':  # Afficher tous les clients
+            elif user_input == '5':  # Afficher tous les clients (Lecture seule)
                 self.menu_view.clear_terminal_view()
                 list_customer = self.table_c.get_list_of_all_customers_controller(session)
                 self.user_view.display_list_customer_view(list_customer)
@@ -94,11 +96,14 @@ class MenuCommercialController:
 
             elif user_input == '6':  # Afficher tous les contrats (Lecture seule)
                 self.menu_view.clear_terminal_view()
-                result_contract = self.table_c.get_all_contract_controller(session)
-                self.user_view.display_list_contract_view(result_contract, info_title="Liste des contrats")
-                self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
+                result_contract = self.user_c.get_all_contract_controller(session)
+                if result_contract:
+                    self.user_view.display_list_contract_view(result_contract, info_title="Liste des contrats")
+                    self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
+                else:
+                    error = 'error_6'
 
-            elif user_input == '7':  # Afficher tous les événements
+            elif user_input == '7':  # Afficher tous les événements (Lecture seule)
                 self.menu_view.clear_terminal_view()
                 result_event = self.user_c.get_all_event_controller(session)
                 if result_event:
