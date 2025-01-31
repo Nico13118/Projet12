@@ -241,6 +241,6 @@ class UserView:
                 name_collab = f"{collab_supp[0].collab_name} {collab_supp[0].collab_first_name}"
             else:
                 name_collab = "Non attribué"
-            table.add_row(f"{row.event_id}", f"{row.contract_id}", f"{row.custom_name}" f"{row.custom_first_name}",
-                          f"{row.custom_phone}", f"{name_collab}",f"{row.event_date_start}")
+            table.add_row(f"{row.event_id}", f"{row.contract_id}", f"{row.custom_name} {row.custom_first_name}",
+                          f"{row.custom_phone}", f"{name_collab}", f"{row.event_date_start}")
         console.print(table)
