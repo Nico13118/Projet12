@@ -24,6 +24,8 @@ class MenuGestionController:
                     self.error_messages_v.display_error_message_choice_view()
                 elif error == 'error_4':
                     self.error_messages_v.no_contracts_to_create_view()
+                elif error == 'error_5':
+                    self.error_messages_v.no_contract_to_display_view()
                 elif error == 'error_9':
                     self.error_messages_v.no_contract_to_display_view()
                 elif error == 'error_10':
@@ -74,13 +76,16 @@ class MenuGestionController:
 
             elif user_input_choice_menu == '5':  # Modifier un contrat client
                 self.menu_view.clear_terminal_view()
-                result_contract = self.table_c.get_all_contract_controller(session)
+                result_contract = self.user_c.get_all_contract_controller(session)
                 # Affiche tous les contrats
-                self.user_view.display_list_contract_view(result_contract, info_title="Liste des contrats")
-                result_response_y_n = self.user_c.ask_user_if_they_want_to_edit_contract()
-                if result_response_y_n:
-                    contract_id = self.user_c.ask_user_to_select_customer_contract_controller(session)
-                    self.user_c.edit_info_customer_contract_controller(session, contract_id)
+                if result_contract:
+                    self.user_view.display_list_contract_view(result_contract, info_title="Liste des contrats")
+                    result_response_y_n = self.user_c.ask_user_if_they_want_to_edit_contract()
+                    if result_response_y_n:
+                        contract_id = self.user_c.ask_user_to_select_customer_contract_controller(session)
+                        self.user_c.edit_info_customer_contract_controller(session, contract_id)
+                else:
+                    error = "error_5"
 
             elif user_input_choice_menu == '6':  # Modifier un événement non attribué
                 pass
