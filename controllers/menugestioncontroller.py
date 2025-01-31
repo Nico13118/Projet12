@@ -1,7 +1,6 @@
 class MenuGestionController:
     def __init__(self, menuview, userview, errormessagesview, gestioncontroller, tablecontroller, usercontroller,
                  databasecontroller):
-        self.session = None
         self.menu_view = menuview
         self.user_view = userview
         self.error_messages_v = errormessagesview
@@ -25,6 +24,8 @@ class MenuGestionController:
                     self.error_messages_v.display_error_message_choice_view()
                 elif error == 'error_4':
                     self.error_messages_v.no_contracts_to_create_view()
+                elif error == 'error_9':
+                    self.error_messages_v.no_contract_to_display_view()
                 elif error == 'error_10':
                     self.error_messages_v.no_events_to_display_view()
                 error = ''
@@ -95,9 +96,12 @@ class MenuGestionController:
 
             elif user_input_choice_menu == '9':  # Afficher tous les contrats
                 self.menu_view.clear_terminal_view()
-                result_contract = self.table_c.get_all_contract_controller(session)
-                self.user_view.display_list_contract_view(result_contract, info_title="Liste des contrats")
-                self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
+                result_contract = self.user_c.get_all_contract_controller(session)
+                if result_contract:
+                    self.user_view.display_list_contract_view(result_contract, info_title="Liste des contrats")
+                    self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
+                else:
+                    error = 'error_9'
 
             elif user_input_choice_menu == '10':  # Afficher tous les événements
                 self.menu_view.clear_terminal_view()
