@@ -19,6 +19,8 @@ class MenuSupportController:
             if error:
                 if error == 'error_1':
                     self.error_messages_v.display_error_message_choice_view()
+                elif error == 'error_2':
+                    self.error_messages_v.no_customer_to_display_view()
                 elif error == 'error_4':
                     self.error_messages_v.no_events_to_display_view()
                 error = ''
@@ -29,8 +31,13 @@ class MenuSupportController:
                 pass
 
             elif user_input_choice_menu == '2':  # Afficher tous les clients (Lecture seule)
-                pass
-
+                self.menu_view.clear_terminal_view()
+                list_customer = self.user_c.get_list_all_customer_controller(session)
+                if list_customer:
+                    self.user_view.display_list_customer_view(list_customer)
+                    self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
+                else:
+                    error = "error_2"
             elif user_input_choice_menu == '3':  # Afficher tous les contrats (Lecture seule)
                 pass
 
