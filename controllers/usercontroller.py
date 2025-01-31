@@ -436,3 +436,14 @@ class UserController:
         list_contract = [c for c in result_contract]
         if list_contract:
             return list_contract
+
+    def get_list_all_customer_controller(self, session):
+        """
+        Fonction qui permet de récupérer, contrôler et retourner une liste de client.
+        :param session:
+        :return:
+        """
+        result_customer = self.table_c.get_list_of_all_customers_controller(session)
+        list_customer = [c for c in result_customer]
+        if list_customer:
+            return list_customer
