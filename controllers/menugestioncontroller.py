@@ -25,6 +25,8 @@ class MenuGestionController:
                     self.error_messages_v.display_error_message_choice_view()
                 elif error == 'error_4':
                     self.error_messages_v.no_contracts_to_create_view()
+                elif error == 'error_10':
+                    self.error_messages_v.no_events_to_display_view()
                 error = ''
             user_input_choice_menu = self.user_view.get_user_input_view()
 
@@ -98,7 +100,15 @@ class MenuGestionController:
                 self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
 
             elif user_input_choice_menu == '10':  # Afficher tous les événements
-                pass
+                self.menu_view.clear_terminal_view()
+                result_event = self.user_c.get_all_event_controller(session)
+                if result_event:
+                    list_collab_supp = self.table_c.get_information_for_all_collaborators_controller(session)
+                    self.user_view.display_list_all_events_view(result_event, list_collab_supp,
+                                                                info_title="Liste d'événements")
+                    self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
+                else:
+                    error = 'error_10'
 
             elif user_input_choice_menu == '11':
                 break
