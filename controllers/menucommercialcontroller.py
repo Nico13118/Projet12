@@ -28,6 +28,8 @@ class MenuCommercialController:
                     self.error_messages_v.no_contract_to_display_view()
                 elif error == 'error_4':
                     self.error_messages_v.no_events_to_create_view()
+                elif error == 'error_5':
+                    self.error_messages_v.no_customer_to_display_view()
                 elif error == 'error_6':
                     self.error_messages_v.no_contract_to_display_view()
                 elif error == 'error_7':
@@ -90,9 +92,12 @@ class MenuCommercialController:
 
             elif user_input == '5':  # Afficher tous les clients (Lecture seule)
                 self.menu_view.clear_terminal_view()
-                list_customer = self.table_c.get_list_of_all_customers_controller(session)
-                self.user_view.display_list_customer_view(list_customer)
-                self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
+                list_customer = self.user_c.get_list_all_customer_controller(session)
+                if list_customer:
+                    self.user_view.display_list_customer_view(list_customer)
+                    self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
+                else:
+                    error = "error_5"
 
             elif user_input == '6':  # Afficher tous les contrats (Lecture seule)
                 self.menu_view.clear_terminal_view()
