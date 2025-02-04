@@ -244,3 +244,18 @@ class UserView:
             table.add_row(f"{row.event_id}", f"{row.contract_id}", f"{row.custom_name} {row.custom_first_name}",
                           f"{row.custom_phone}", f"{name_collab}", f"{row.event_date_start}")
         console.print(table)
+
+    def display_collaborator_event_list(self, result_event, info_title):
+        table = Table(title=f"[bright_blue]Epic Events\n{info_title}[/bright_blue]",
+                      style="spring_green1")
+        table.add_column("[bright_blue]N° Événement[/bright_blue]", justify="center", style="bright_cyan")
+        table.add_column("[bright_blue]N° Contrat[/bright_blue]", justify="center", style="bright_cyan")
+        table.add_column("[bright_blue]Nom du client[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Téléphone[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Contact Support[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Date de l'événement[/bright_blue]", justify="left", style="bright_cyan")
+        for row in result_event:
+            table.add_row(f"{row.event_id}", f"{row.contract_id}", f"{row.custom_name} {row.custom_first_name}",
+                          f"{row.custom_phone}", f"{row.collab_name} {row.collab_first_name}",
+                          f"{row.event_date_start}")
+        console.print(table)
