@@ -447,3 +447,14 @@ class UserController:
         list_customer = [c for c in result_customer]
         if list_customer:
             return list_customer
+
+    def get_user_event_list_support_controller(self, session):
+        """
+        Fonction qui permet de récupérer, contrôler et retourner une liste d'événement lié à un collaborateur.
+        :param session:
+        :return: result_event2
+        """
+        result_event1 = self.table_c.get_event_list_by_user_controller(session)
+        result_event2 = [c for c in result_event1]
+        if result_event2:
+            return result_event2
