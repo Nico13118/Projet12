@@ -350,7 +350,7 @@ class TableController:
             result_event = connection.execute(text(f"SELECT * From event WHERE contract_id = {contract_id}"))
             return result_event
 
-    def get_all_event_controller(self,session):
+    def get_all_event_controller(self, session):
         """
         Fonction qui permet de récupérer et de retourner une liste d'événements associés à chaques clients.
         :param session:
@@ -364,4 +364,22 @@ class TableController:
             result_event = connection.execute(text(
                 "SELECT * FROM event"
                 " JOIN customer ON customer.custom_id = event.customer_id"))
+            return result_event
+
+    def get_event_list_by_user_controller(self, session):
+        """
+        Fonction qui permet de récupérer et de retourner une liste d'événement de l'utilisateur connecté.
+        :param session:
+        :return: result_event
+        """
+        self.session = session
+        password = quote(self.session.password)
+        database_name = self.json_c.get_database_name_in_json_file()
+        engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
+        with engine.connect() as connection:
+            result_event = connection.execute(text(
+                "SELECT * FROM event"
+                " JOIN customer ON customer.custom_id = event.customer_id"
+                " JOIN collaborator ON collaborator.collab_id = event.collaborator_supp_id"
+                f" WHERE collaborator_supp_id = {self.session.collab_id}"))
             return result_event
