@@ -40,7 +40,8 @@ class MainController:
         self.menu_commercial_c = MenuCommercialController(MenuView(), UserView(), ErrorMessagesView(),
                                                           self.commercial_c, self.table_c, self.user_c)
 
-        self.menu_support_c = MenuSupportController()
+        self.menu_support_c = MenuSupportController(MenuView(), UserView(), ErrorMessagesView(), self.user_c,
+                                                    self.table_c)
 
         self.user_menu_c = UserMenuController(self.menu_gestion_c, self.menu_commercial_c, self.menu_support_c,
                                               self.table_c)
