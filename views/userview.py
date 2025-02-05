@@ -157,6 +157,10 @@ class UserView:
         user_input = Prompt.ask("[bright_cyan]Souhaitez-vous modifier un contrat client [Y/N] ?[/bright_cyan]")
         return user_input
 
+    def display_message_edit_event_view(self):
+        user_input = Prompt.ask("[bright_cyan]Souhaitez-vous modifier un événement [Y/N] ?[/bright_cyan]")
+        return user_input
+
     def get_contract_description_view(self):
         user_input = Prompt.ask("[bright_cyan]Veuillez saisir la description du contrat [/bright_cyan]")
         return user_input
