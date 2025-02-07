@@ -108,6 +108,10 @@ class UserView:
         user_input = Prompt.ask("[bright_cyan]Veuillez saisir le N° Contrat [/bright_cyan]")
         return user_input
 
+    def get_event_id_view(self):
+        info_notes = Prompt.ask("[bright_cyan]Veuillez saisir le numéro d'événement [/bright_cyan]")
+        return info_notes
+
     def display_list_customer_view(self, result_customer):
         table = Table(title="[bright_blue]Epic Events\nListe des clients[/bright_blue]",
                       style="spring_green1")
