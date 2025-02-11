@@ -15,12 +15,11 @@ class MenuView:
         table.add_row("\n3", "\nSupprimer un collaborateur")
         table.add_row("\n4", "\nCréer un contrat client")
         table.add_row("\n5", "\nModifier un contrat client")
-        table.add_row("\n6", "\nModifier un événement non attribué")
-        table.add_row("\n7", "\nModifier un événement attribué")
-        table.add_row("\n8", "\nAfficher tous les clients (Lecture seule)")
-        table.add_row("\n9", "\nAfficher tous les contrats (Lecture seule)")
-        table.add_row("\n10", "\nAfficher tous les événements (Lecture seule)")
-        table.add_row("\n11", "\nQuitter l'application\n")
+        table.add_row("\n6", "\nAfficher tous les événements (Modification)")
+        table.add_row("\n7", "\nAfficher tous les clients (Lecture seule)")
+        table.add_row("\n8", "\nAfficher tous les contrats (Lecture seule)")
+        table.add_row("\n9", "\nAfficher tous les événements (Lecture seule)")
+        table.add_row("\n10", "\nQuitter l'application\n")
 
         console.print(table)
 
