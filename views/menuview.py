@@ -82,6 +82,29 @@ class MenuView:
 
         console.print(table)
 
+    def display_edit_menu_of_a_event_view(self, result_event):
+        table = Table(title="[bright_blue]Epic Events\nModifier l'événement d'un contrat.[/bright_blue]",
+                      style="spring_green1")
+        table.add_column("[bright_blue]Choix[/bright_blue]", justify="center", style="bright_cyan")
+        table.add_column("[bright_blue]Actions[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Infos événement[/bright_blue]", justify="left", style="bright_cyan")
+        table.add_column("[bright_blue]Infos supplémentaires[/bright_blue]", justify="left", style="bright_cyan")
+        for row in result_event:
+            table.add_row(" ", " ", " ", f"Nom du client: {row.custom_name} {row.custom_first_name}")
+            table.add_row(" ", " ", " ", f"Email: {row.custom_email}")
+            table.add_row(" ", " ", " ", f"Téléphone: {row.custom_phone}")
+            table.add_row(" ", " ", " ", f"N° Événement: {row.custom_phone}")
+            table.add_row(" ", " ", " ", f"N° Contrat: {row.custom_phone}")
+            table.add_row(" ", " ", " ", f"Contact Support: {row.collab_name} {row.collab_first_name}")
+            table.add_row("1", "Modifier la date et l'heure de début", f"{row.event_date_start}")
+            table.add_row("2", "Modifier la date et l'heure de fin", f"{row.event_date_end}")
+            table.add_row("3", "Modifier l'adresse de l'événement", f"{row.location}")
+            table.add_row("4", "Modifier le nombre d'invités", f"{row.attendees}")
+            table.add_row("5", "Modifier la note d'information", f"{row.notes}")
+            table.add_row("6", "Quitter", "")
+
+            console.print(table)
+
     def display_menu_commercial_view(self):
         table = Table(title="[deep_sky_blue1] Epic Events - Service Commercial[/deep_sky_blue1]", style="spring_green1")
         table.add_column("[bright_blue]Choix[/bright_blue]", justify="center", style="bright_cyan")
