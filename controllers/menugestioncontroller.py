@@ -26,11 +26,11 @@ class MenuGestionController:
                     self.error_messages_v.no_contracts_to_create_view()
                 elif error == 'error_5':
                     self.error_messages_v.no_contract_to_display_view()
-                elif error == 'error_8':
+                elif error == 'error_7':
                     self.error_messages_v.no_customer_to_display_view()
-                elif error == 'error_9':
+                elif error == 'error_8':
                     self.error_messages_v.no_contract_to_display_view()
-                elif error == 'error_10':
+                elif error == 'error_9':
                     self.error_messages_v.no_events_to_display_view()
                 error = ''
             user_input_choice_menu = self.user_view.get_user_input_view()
@@ -89,31 +89,28 @@ class MenuGestionController:
                 else:
                     error = "error_5"
 
-            elif user_input_choice_menu == '6':  # Modifier un événement non attribué
+            elif user_input_choice_menu == '6':  # Afficher tous les événements (Modification)
                 pass
 
-            elif user_input_choice_menu == '7':  # Modifier un événement attribué
-                pass
-
-            elif user_input_choice_menu == '8':  # Afficher tous les clients
+            elif user_input_choice_menu == '7':  # Afficher tous les clients
                 self.menu_view.clear_terminal_view()
                 list_customer = self.user_c.get_list_all_customer_controller(session)
                 if list_customer:
                     self.user_view.display_list_customer_view(list_customer)
                     self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
                 else:
-                    error = "error_8"
+                    error = "error_7"
 
-            elif user_input_choice_menu == '9':  # Afficher tous les contrats
+            elif user_input_choice_menu == '8':  # Afficher tous les contrats
                 self.menu_view.clear_terminal_view()
                 result_contract = self.user_c.get_all_contract_controller(session)
                 if result_contract:
                     self.user_view.display_list_contract_view(result_contract, info_title="Liste des contrats")
                     self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
                 else:
-                    error = 'error_9'
+                    error = 'error_8'
 
-            elif user_input_choice_menu == '10':  # Afficher tous les événements
+            elif user_input_choice_menu == '9':  # Afficher tous les événements
                 self.menu_view.clear_terminal_view()
                 result_event = self.user_c.get_all_event_controller(session)
                 if result_event:
@@ -122,9 +119,9 @@ class MenuGestionController:
                                                                 info_title="Liste d'événements")
                     self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
                 else:
-                    error = 'error_10'
+                    error = 'error_9'
 
-            elif user_input_choice_menu == '11':
+            elif user_input_choice_menu == '10':
                 break
             else:
                 error = 'error_1'
