@@ -383,3 +383,22 @@ class TableController:
                 " JOIN collaborator ON collaborator.collab_id = event.collaborator_supp_id"
                 f" WHERE collaborator_supp_id = {self.session.collab_id}"))
             return result_event
+
+    def get_single_event_with_event_id_controller(self, session, info_event_id):
+        """
+        Fonction qui permet de récupérer un événement avec l'aide de son identifiant.
+        :param session:
+        :param info_event_id:
+        :return: result_event1
+        """
+        self.session = session
+        password = quote(self.session.password)
+        database_name = self.json_c.get_database_name_in_json_file()
+        engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
+        with engine.connect() as connection:
+            result_event1 = connection.execute(text(
+                "SELECT * FROM event "
+                "JOIN customer ON customer.custom_id = event.customer_id "
+                "JOIN collaborator ON collaborator.collab_id = event.collaborator_supp_id "
+                f"WHERE event_id = {info_event_id}"))
+            return result_event1
