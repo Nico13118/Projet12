@@ -326,6 +326,63 @@ class UserController:
                 else:
                     self.error_messages_v.error_message_empty_field_view()
 
+    def edit_info_event_contract_controller(self, session, user_input_event_id):
+        """
+        Fonction qui permet de gérer un sous menu permettant l'affichage et la modification d'informations concernant
+        un événement.
+
+        :param session:
+        :param user_input_event_id:
+        :return:
+        """
+        error = False
+        while True:
+            self.menu_view.clear_terminal_view()
+            result_event = self.table_c.get_single_event_with_event_id_controller(session, user_input_event_id)
+            self.menu_view.display_edit_menu_of_a_event_view(result_event)  # Affiche le menu
+
+            if error:
+                self.error_messages_v.display_error_message_choice_view()
+                error = False
+
+            result_choice = self.user_v.get_user_input_view()  # Demande à l'utilisateur de faire un choix
+
+            if result_choice == '1':  # Modifier la date et l'heure de début
+                new_value_event_date_start = self.get_start_date_event_controller()
+                self.table_c.edit_a_field_in_table(session, table_name='event', field="event_date_start",
+                                                   new_value=new_value_event_date_start, object_id="event_id",
+                                                   info_id=user_input_event_id)
+
+            elif result_choice == '2':  # Modifier la date et l'heure de fin
+                new_value_event_date_end = self.get_end_date_event_controller()
+                self.table_c.edit_a_field_in_table(session, table_name='event', field="event_date_end",
+                                                   new_value=new_value_event_date_end, object_id="event_id",
+                                                   info_id=user_input_event_id)
+
+            elif result_choice == '3':  # Modifier l'adresse de l'événement
+                new_value_location = self.get_location_event_controller()
+                self.table_c.edit_a_field_in_table(session, table_name='event', field="location",
+                                                   new_value=new_value_location, object_id="event_id",
+                                                   info_id=user_input_event_id)
+
+            elif result_choice == '4':  # Modifier le nombre d'invités
+                new_value_attendees = self.get_attendees_event_controller()
+                self.table_c.edit_a_field_in_table(session, table_name='event', field="attendees",
+                                                   new_value=new_value_attendees, object_id="event_id",
+                                                   info_id=user_input_event_id)
+
+            elif result_choice == '5':  # Modifier la note d'information
+                new_value_notes = self.get_notes_event_controller()
+                self.table_c.edit_a_field_in_table(session, table_name='event', field="notes",
+                                                   new_value=new_value_notes, object_id="event_id",
+                                                   info_id=user_input_event_id)
+
+            elif result_choice == '6':  # Quitter
+                break
+
+            else:
+                error = True
+                
     def get_start_date_event_controller(self):
         """
         Fonction qui permet de récupérer la date et de contrôler que la saisie ne soit pas vide ou ne dépasse pas
