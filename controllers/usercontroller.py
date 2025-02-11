@@ -472,3 +472,22 @@ class UserController:
         result_event2 = [c for c in result_event1]
         if result_event2:
             return result_event2
+
+    def ask_user_to_select_event_id_controller(self, result_event1):
+        """
+        Fonction qui permet de récupérer l'identifiant de l'événement saisi par l'utilisateur puis de contrôler que la
+        saisie correspond à l'identifiant de la liste d'événement.
+
+        :param result_event1:
+        :return: user_input_event_id
+        """
+        while True:
+            user_input_event_id = self.user_v.get_event_id_view()
+            if user_input_event_id:
+                infos_event = [c for c in result_event1 if c.event_id == int(user_input_event_id)]
+                if infos_event:
+                    return user_input_event_id
+                else:
+                    self.error_messages_v.display_error_message_choice_view()
+            else:
+                self.error_messages_v.error_message_empty_field_view()
