@@ -80,11 +80,6 @@ class ErrorMessagesView:
         console.print(text)
 
     def no_customer_to_display_view(self):
-        text = Text("Aucun client à afficher.")
-        text.stylize("bold red")
-        console.print(text)
-
-    def no_customer_to_display_view(self):
         text = Text("Vous n'avez aucun client attribué.")
         text.stylize("bold red")
         console.print(text)
@@ -107,5 +102,11 @@ class ErrorMessagesView:
 
     def no_contracts_to_create_view(self):
         text = Text("Vous ne pouvez pas créer de contrat pour le moment")
+        text.stylize("bold red")
+        console.print(text)
+
+    def no_collaborator_support_to_display_view(self):
+        text = Text("Vous ne pouvez pas assigner ou réassigner un événement à un collaborateur du support pour le "
+                    "moment. Veuillez recommencer plus tard.")
         text.stylize("bold red")
         console.print(text)
