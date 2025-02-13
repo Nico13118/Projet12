@@ -26,6 +26,8 @@ class MenuGestionController:
                     self.error_messages_v.no_contracts_to_create_view()
                 elif error == 'error_5':
                     self.error_messages_v.no_contract_to_display_view()
+                elif error == 'error_6':
+                    self.error_messages_v.no_events_to_display_view()
                 elif error == 'error_7':
                     self.error_messages_v.no_customer_to_display_view()
                 elif error == 'error_8':
@@ -90,9 +92,14 @@ class MenuGestionController:
                     error = "error_5"
 
             elif user_input_choice_menu == '6':  # Afficher tous les événements (Modification)
-                pass
+                self.menu_view.clear_terminal_view()
+                result_event_list = self.user_c.get_all_event_controller(session)  # Récupère la liste complète
+                if result_event_list:
+                    self.ask_the_user_to_choose_how_to_display_event_controller(session)
+                else:
+                    error = "error_6"
 
-            elif user_input_choice_menu == '7':  # Afficher tous les clients
+            elif user_input_choice_menu == '7':  # Afficher tous les clients (Lecture seule)
                 self.menu_view.clear_terminal_view()
                 list_customer = self.user_c.get_list_all_customer_controller(session)
                 if list_customer:
@@ -101,7 +108,7 @@ class MenuGestionController:
                 else:
                     error = "error_7"
 
-            elif user_input_choice_menu == '8':  # Afficher tous les contrats
+            elif user_input_choice_menu == '8':  # Afficher tous les contrats (Lecture seule)
                 self.menu_view.clear_terminal_view()
                 result_contract = self.user_c.get_all_contract_controller(session)
                 if result_contract:
@@ -110,11 +117,11 @@ class MenuGestionController:
                 else:
                     error = 'error_8'
 
-            elif user_input_choice_menu == '9':  # Afficher tous les événements
+            elif user_input_choice_menu == '9':  # Afficher tous les événements (Lecture seule)
                 self.menu_view.clear_terminal_view()
                 result_event = self.user_c.get_all_event_controller(session)
                 if result_event:
-                    list_collab_supp = self.table_c.get_information_for_all_collaborators_controller(session)
+                    list_collab_supp = self.user_c.get_support_collaborator_controller(session)
                     self.user_view.display_list_all_events_view(result_event, list_collab_supp,
                                                                 info_title="Liste d'événements")
                     self.user_view.prompt_the_user_to_press_the_enter_to_return_main_menu()
@@ -125,6 +132,86 @@ class MenuGestionController:
                 break
             else:
                 error = 'error_1'
+
+    def ask_the_user_to_choose_how_to_display_event_controller(self, session):
+        """
+        Fonction qui permet de gérer l'affichage de tous les événements, les événements non associés afin que
+        l'utilisateur puisse assigner ou réassigner un événement à un collaborateur du support.
+        :param session:
+        """
+        error = ''
+        while True:
+            self.menu_view.clear_terminal_view()
+            self.menu_view.ask_the_user_to_choose_how_to_display_events_view()
+            if error:
+                if error == 'error_1':
+                    self.error_messages_v.no_collaborator_support_to_display_view()
+                elif error == 'error_2':
+                    self.error_messages_v.no_events_to_display_view()
+                elif error == 'error_3':
+                    self.error_messages_v.display_error_message_choice_view()
+                error = ''
+
+            user_input = self.user_view.get_user_input_view()
+
+            if user_input == '1':  # Afficher tous les événements
+                self.menu_view.clear_terminal_view()
+                result_event_list = self.user_c.get_all_event_controller(session)
+                list_collab_supp = self.user_c.get_support_collaborator_controller(session)
+                self.user_view.display_list_all_events_view(result_event_list, list_collab_supp=list_collab_supp,
+                                                            info_title="Liste d'événements")
+                # On demande s'il souhaite assigner ou réassigner un événement à un collaborateur du support
+                result_response_y_n = \
+                    self.user_c.ask_user_if_they_want_assign_reassign_event_to_a_collaborator_controller()
+                if result_response_y_n:
+                    if list_collab_supp:
+                        #  L'utilisateur saisi l'id de l'événement et on vérifie qu'il correspond à celle de la liste.
+                        user_input_event_id = self.user_c.ask_user_to_select_event_id_controller(result_event_list)
+                        #  Afficher la liste des collaborateurs du support
+                        self.user_view.display_list_collaborator(list_collab_supp, session)
+                        #  Demande de selectionner le collaborateur.
+                        result_user_id = self.gestion_c.ask_user_to_select_collaborator_controller2(list_collab_supp)
+                        if result_user_id:
+                            self.table_c.edit_a_field_in_table(session,
+                                                               table_name='event', field='collaborator_supp_id',
+                                                               new_value=result_user_id, object_id='event_id',
+                                                               info_id=user_input_event_id)
+                    else:
+                        error = 'error_1'
+
+            elif user_input == '2':  # Afficher uniquement les événements non associés.
+                self.menu_view.clear_terminal_view()
+                result_event_list = self.user_c.get_event_without_support_controller(session)
+                if result_event_list:
+                    self.user_view.display_list_all_events_view(result_event_list, list_collab_supp=False,
+                                                                info_title="Liste d'événements")
+                    # On demande s'il souhaite assigner un événement à un collaborateur du support
+                    result_response_y_n = self.user_c.ask_user_if_they_want_assign_event_to_a_collaborator_controller()
+                    if result_response_y_n:
+                        list_collab_supp = self.user_c.get_support_collaborator_controller(session)
+                        if list_collab_supp:
+                            # L'utilisateur saisi l'id de l'événement et on vérifie qu'il correspond à celle
+                            # de la liste.
+                            user_input_event_id = self.user_c.ask_user_to_select_event_id_controller(result_event_list)
+                            #  Afficher la liste des collaborateurs du support
+                            self.user_view.display_list_collaborator(list_collab_supp, session)
+                            #  Demande de selectionner le collaborateur.
+                            result_user_id = self.gestion_c.ask_user_to_select_collaborator_controller2(
+                                list_collab_supp)
+                            if result_user_id:
+                                self.table_c.edit_a_field_in_table(session,
+                                                                   table_name='event', field='collaborator_supp_id',
+                                                                   new_value=result_user_id, object_id='event_id',
+                                                                   info_id=user_input_event_id)
+                        else:
+                            error = 'error_1'
+                else:
+                    error = 'error_2'
+
+            elif user_input == '3':  # Retourner au menu principal
+                break
+            else:
+                error = 'error_3'
 
     def edit_collaborator_info_controller(self, session, user_id):
         """
