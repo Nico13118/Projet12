@@ -244,9 +244,12 @@ class UserView:
         table.add_column("[bright_blue]Contact Support[/bright_blue]", justify="left", style="bright_cyan")
         table.add_column("[bright_blue]Date de l'événement[/bright_blue]", justify="left", style="bright_cyan")
         for row in result_event:
-            collab_supp = [c for c in list_collab_supp if c.collab_id == row.collaborator_supp_id]
-            if collab_supp:
-                name_collab = f"{collab_supp[0].collab_name} {collab_supp[0].collab_first_name}"
+            if list_collab_supp:
+                collab_supp = [c for c in list_collab_supp if c.collab_id == row.collaborator_supp_id]
+                if collab_supp:
+                    name_collab = f"{collab_supp[0].collab_name} {collab_supp[0].collab_first_name}"
+                else:
+                    name_collab = "Non attribué"
             else:
                 name_collab = "Non attribué"
             table.add_row(f"{row.event_id}", f"{row.contract_id}", f"{row.custom_name} {row.custom_first_name}",
