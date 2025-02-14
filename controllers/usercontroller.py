@@ -194,7 +194,7 @@ class UserController:
                     return True
                 elif response == "N":
                     break
-                elif response != "Y" or response != "N":
+                else:
                     self.error_messages_v.display_error_message_of_values_yes_and_no()
             else:
                 self.error_messages_v.error_message_empty_field_view()
