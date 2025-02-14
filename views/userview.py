@@ -165,6 +165,16 @@ class UserView:
         user_input = Prompt.ask("[bright_cyan]Souhaitez-vous modifier un événement [Y/N] ?[/bright_cyan]")
         return user_input
 
+    def display_message_to_assign_reassign_event_to_a_collaborator_view(self):
+        user_input = Prompt.ask("[bright_cyan]Souhaitez-vous attribuer ou réattribuer un événement à un "
+                                "collaborateur du support [Y/N] ?[/bright_cyan]")
+        return user_input
+
+    def display_message_to_assign_event_to_a_collaborator_view(self):
+        user_input = Prompt.ask("[bright_cyan]Souhaitez-vous attribuer un événement à un collaborateur du support "
+                                "[Y/N] ?[/bright_cyan]")
+        return user_input
+    
     def get_contract_description_view(self):
         user_input = Prompt.ask("[bright_cyan]Veuillez saisir la description du contrat [/bright_cyan]")
         return user_input
