@@ -485,6 +485,17 @@ class UserController:
         if len(list_events) >= 1:
             return list_events
 
+    def get_event_without_support_controller(self, session):
+        """
+        Fonction qui permet de récupérer, contrôler et retourner tous les événements non assignés.
+        :param session:
+        :return:
+        """
+        result_event = self.table_c.get_list_event_without_support_controller(session)
+        list_event = [c for c in result_event]
+        if len(list_event) >= 1:
+            return list_event
+
     def get_support_collaborator_controller(self, session):
         """
         Fonction qui permet de récupérer la liste de tous collaborateurs puis de retourner une liste de
