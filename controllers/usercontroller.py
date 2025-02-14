@@ -213,6 +213,25 @@ class UserController:
             else:
                 self.error_messages_v.error_message_empty_field_view()
 
+    def ask_user_if_they_want_assign_reassign_event_to_a_collaborator_controller(self):
+        """
+        Fonction qui permet de demander à l'utilisateur s'il souhaite assigner ou réassigner un événement à
+        un collaborateur puis un contrôle de saisi utilisateur est effectué. 
+        :return: bool
+        """
+        while True:
+            user_input_y_n = self.user_v.display_message_to_assign_reassign_event_to_a_collaborator_view()
+            if user_input_y_n:
+                response = self.check_user_input_c.check_user_input_yes_no_controller(user_input_y_n)
+                if response == "Y":
+                    return True
+                elif response == "N":
+                    break
+                else:
+                    self.error_messages_v.display_error_message_of_values_yes_and_no()
+            else:
+                self.error_messages_v.error_message_empty_field_view()
+
     def ask_user_to_select_customer_contract_controller(self, session):
         while True:
             user_input_contract_id = self.user_v.get_contract_id_view()
