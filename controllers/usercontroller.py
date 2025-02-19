@@ -392,42 +392,30 @@ class UserController:
 
             else:
                 error = True
-                
-    def get_start_date_event_controller(self):
+
+    def check_date_event_controller(self, message_fonction):
         """
         Fonction qui permet de récupérer la date et de contrôler que la saisie ne soit pas vide ou ne dépasse pas
         la limite imposée.
-
-        :return response_start_date
+        :param message_fonction:
+        :return:
         """
         while True:
-            response_start_date = self.user_v.get_start_date_view()
-            if response_start_date:
-                if len(response_start_date) <= 30:
+            response_date = message_fonction()
+            if response_date:
+                if len(response_date) <= 30:
                     break
                 else:
                     self.error_messages_v.error_date()
             else:
                 self.error_messages_v.error_message_empty_field_view()
-        return response_start_date
+        return response_date
+
+    def get_start_date_event_controller(self):
+        return self.check_date_event_controller(self.user_v.get_start_date_view)
 
     def get_end_date_event_controller(self):
-        """
-        Fonction qui permet de récupérer la date et de contrôler que la saisie ne soit pas vide ou ne dépasse pas
-        la limite imposée.
-
-        :return response_end_date
-        """
-        while True:
-            response_end_date = self.user_v.get_end_date_view()
-            if response_end_date:
-                if len(response_end_date) <= 30:
-                    break
-                else:
-                    self.error_messages_v.error_date()
-            else:
-                self.error_messages_v.error_message_empty_field_view()
-        return response_end_date
+        return self.check_date_event_controller(self.user_v.get_end_date_view)
 
     def get_location_event_controller(self):
         """
