@@ -277,25 +277,32 @@ class UserController:
                 self.error_messages_v.error_message_empty_field_view()
         return user_input
 
-    def get_contract_total_price_controller(self):
+    def check_that_the_numeric_value_is_valid_controller(self, message_fonction):
+        """
+        Fonction qui permet de contrôler que la saisie utilisateur soit bien une valeur numérique.
+        :param message_fonction:
+        :return: user_input
+        """
         while True:
-            user_input = self.user_v.get_contract_total_price_view()
-            result = self.check_user_input_c.check_user_input_isdigit(user_input)
-            if result:
-                break
+            user_input = message_fonction()
+            if user_input:
+                result = self.check_user_input_c.check_user_input_isdigit(user_input)
+                if result:
+                    break
+                else:
+                    self.error_messages_v.display_message_error_numerical_value_view()
             else:
-                self.error_messages_v.display_message_error_numerical_value_view()
+                self.error_messages_v.error_message_empty_field_view()
         return user_input
 
+    def get_contract_total_price_controller(self):
+        return self.check_that_the_numeric_value_is_valid_controller(self.user_v.get_contract_total_price_view)
+
     def get_contract_amount_remaining_controller(self):
-        while True:
-            user_input = self.user_v.get_contract_amount_remaining_view()
-            result = self.check_user_input_c.check_user_input_isdigit(user_input)
-            if result:
-                break
-            else:
-                self.error_messages_v.display_message_error_numerical_value_view()
-        return user_input
+        return self.check_that_the_numeric_value_is_valid_controller(self.user_v.get_contract_amount_remaining_view)
+
+    def get_attendees_event_controller(self):
+        return self.check_that_the_numeric_value_is_valid_controller(self.user_v.get_attendees_view)
 
     def change_status_of_contract_controller(self, session, contract_id):
         result_contract = self.table_c.get_single_contract_controller(session, contract_id)
@@ -438,28 +445,6 @@ class UserController:
             else:
                 self.error_messages_v.error_message_empty_field_view()
         return response_location
-
-    def get_attendees_event_controller(self):
-        """
-        Fonction qui permet de récupérer et de contrôler la valeur saisie par l'utilisateur permettant de connaitre
-        le nombre personnes invitées à l'événement.
-
-        :return response_attendees
-        """
-        while True:
-            response_attendees = self.user_v.get_attendees_view()
-            if response_attendees:
-                result = self.check_user_input_c.check_user_input_isdigit(response_attendees)
-                if result:
-                    if len(response_attendees) <= 7:
-                        break
-                    else:
-                        self.error_messages_v.exceeded_number_of_characters()
-                else:
-                    self.error_messages_v.display_message_error_numerical_value_view()
-            else:
-                self.error_messages_v.error_message_empty_field_view()
-        return response_attendees
 
     def get_notes_event_controller(self):
         """
