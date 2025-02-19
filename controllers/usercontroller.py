@@ -184,10 +184,15 @@ class UserController:
         if len(list_customers) >= 1:
             self.user_v.display_list_customer_view(list_customers)
         return len(list_customers)
-        
-    def ask_user_if_they_want_to_edit_contract(self):
+
+    def ask_user_confirmation(self, message_function):
+        """
+        Fonction qui permet de demander à l'utilisateur confirmation selon l'action qui s'affiche à l'écran.
+        :param message_function:
+        :return: bool
+        """
         while True:
-            user_input_y_n = self.user_v.display_message_edit_customer_contract_view()
+            user_input_y_n = message_function()
             if user_input_y_n:
                 response = self.check_user_input_c.check_user_input_yes_no_controller(user_input_y_n)
                 if response == "Y":
@@ -198,6 +203,9 @@ class UserController:
                     self.error_messages_v.display_error_message_of_values_yes_and_no()
             else:
                 self.error_messages_v.error_message_empty_field_view()
+
+    def ask_user_if_they_want_to_edit_contract(self):
+        return self.ask_user_confirmation(self.user_v.display_message_edit_customer_contract_view)
 
     def ask_user_if_they_want_to_edit_event(self):
         while True:
