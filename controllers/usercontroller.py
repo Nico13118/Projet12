@@ -450,27 +450,24 @@ class UserController:
                 self.error_messages_v.error_message_empty_field_view()
         return response_notes
 
-    def get_all_event_controller(self, session):
+    def fetch_and_check_table_data(self, search_table, session):
         """
-        Fonction qui permet de récupérer, contrôler et retourner tous les événements
+        Fonction qui permet de récupérer des données selon la table choisie et vérifie si elles contiennent au moins une
+        valeur avant de les retourner.
+        :param search_table:
         :param session:
-        :return: list_events
+        :return: result_list si des données sont trouvées, sinon None.
         """
-        result_event = self.table_c.get_all_event_controller(session)
-        list_events = [c for c in result_event]
-        if len(list_events) >= 1:
-            return list_events
+        result = search_table(session)
+        result_list = [c for c in result]
+        if len(result_list) >= 1:
+            return result_list
+
+    def get_all_event_controller(self, session):
+        return self.fetch_and_check_table_data(self.table_c.get_all_event_controller, session)
 
     def get_event_without_support_controller(self, session):
-        """
-        Fonction qui permet de récupérer, contrôler et retourner tous les événements non assignés.
-        :param session:
-        :return:
-        """
-        result_event = self.table_c.get_list_event_without_support_controller(session)
-        list_event = [c for c in result_event]
-        if len(list_event) >= 1:
-            return list_event
+        return self.fetch_and_check_table_data(self.table_c.get_list_event_without_support_controller, session)
 
     def get_support_collaborator_controller(self, session):
         """
