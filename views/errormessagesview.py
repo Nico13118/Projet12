@@ -1,5 +1,6 @@
 from rich.text import Text
 from rich.console import Console
+
 console = Console()
 
 
@@ -90,11 +91,6 @@ class ErrorMessagesView:
         text.stylize("bold red")
         console.print(text)
 
-    def error_date(self):
-        text = Text("Une erreur s'est produite, veuillez respecter cet exemple : 31 Décembre 2025 18:00")
-        text.stylize("bold red")
-        console.print(text)
-
     def exceeded_number_of_characters(self):
         text = Text("Vous avez dépassé le nombre de caractères autorisé, veuillez recommencer.")
         text.stylize("bold red")
@@ -110,3 +106,9 @@ class ErrorMessagesView:
                     "moment. Veuillez recommencer plus tard.")
         text.stylize("bold red")
         console.print(text)
+
+    def display_error_message_input_too_long(self, max_length):
+        text = Text(f"Erreur: La saisie dépasse la longueur maximale autorisée de {max_length} caractères.")
+        text.stylize("bold red")
+        console.print(text)
+        
