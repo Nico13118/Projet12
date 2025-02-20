@@ -48,39 +48,33 @@ class UserController:
             role_id = 3
         return role_id
 
-    def get_name_controller(self):
+    def control_name_and_first_name(self, message_function, max_length):
         """
-        Fonction qui permet de contrôler la saisie utilisateur concernant le champ name.
-
-        :return: name
+        Fonction qui permet de récupérer la saisie utilisateur (nom prénom) et vérifie quelle ne soit pas vide, qu'elle
+        contienne que des lettres et qu'elle ne dépasse pas longueur autorisée.
+        :param message_function:
+        :param max_length:
+        :return: user_input
         """
         while True:
-            name = self.user_v.get_name_view()  # Récupère la saisie de l'utilisateur
-            if name:  # Vérifie que la saisie n'est pas vide
-                # Vérifie que la saisie contient que des lettres
-                if self.check_user_input_c.search_is_alpha_controller(name):
-                    break
+            user_input = message_function()
+            if user_input:
+                if self.check_user_input_c.search_is_alpha_controller(user_input):
+                    if self.check_user_input_c.check_input_length(user_input, max_length):
+                        break
+                    else:
+                        self.error_messages_v.display_error_message_input_too_long(max_length)
                 else:
                     self.error_messages_v.error_message_field_contains_number()
             else:
                 self.error_messages_v.error_message_empty_field_view()
-        return name
+        return user_input
+
+    def get_name_controller(self):
+        return self.control_name_and_first_name(self.user_v.get_name_view, max_length=40)
 
     def get_first_name_controller(self):
-        """
-        Fonction qui permet de contrôler la saisie utilisateur concernant le champ first_name.
-
-        :return: first_name
-        """
-        while True:
-            first_name = self.user_v.get_first_name_view()  # Récupère la saisie de l'utilisateur
-            if first_name:  # Vérifie que la saisie n'est pas vide
-                # Vérifie que la saisie contient que des lettres
-                if self.check_user_input_c.search_is_alpha_controller(first_name):
-                    break
-            else:
-                self.error_messages_v.error_message_empty_field_view()
-        return first_name
+        return self.control_name_and_first_name(self.user_v.get_first_name_view, max_length=40)
 
     def get_email_controller(self):
         """
