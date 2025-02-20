@@ -398,7 +398,7 @@ class UserController:
         while True:
             user_input = message_fonction()
             if user_input:
-                if len(user_input) <= max_length:
+                if self.check_user_input_c.check_input_length(user_input, max_length):
                     break
                 else:
                     self.error_messages_v.display_error_message_input_too_long(max_length)
