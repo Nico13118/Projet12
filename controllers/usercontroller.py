@@ -163,22 +163,6 @@ class UserController:
                 self.error_messages_v.error_message_empty_field_view()
         return info_role
 
-    def show_customer_list_controller(self, session):
-        """
-        Fonction qui permet de récupérer la liste des clients puis transmet les informations à la vue
-        pour être affichées.
-
-        :param session:
-        """
-        list_customers = []
-        self.menu_view.clear_terminal_view()
-        result_list_customer = self.table_c.get_list_of_all_customers_controller(session)
-        for r in result_list_customer:
-            list_customers.append(r)
-        if len(list_customers) >= 1:
-            self.user_v.display_list_customer_view(list_customers)
-        return len(list_customers)
-
     def ask_user_confirmation(self, message_function):
         """
         Fonction qui permet de demander à l'utilisateur confirmation selon l'action qui s'affiche à l'écran.
@@ -445,6 +429,9 @@ class UserController:
 
     def get_user_event_list_support_controller(self, session):
         return self.fetch_and_check_table_data(self.table_c.get_event_list_by_user_controller, session)
+
+    def get_customer_list_controller(self, session):
+        return self.fetch_and_check_table_data(self.table_c.get_list_of_all_customers_controller, session)
 
     def get_support_collaborator_controller(self, session):
         """
