@@ -393,62 +393,36 @@ class UserController:
             else:
                 error = True
 
-    def check_date_event_controller(self, message_fonction):
+    def get_and_validate_input_length(self, message_fonction, max_length):
         """
-        Fonction qui permet de récupérer la date et de contrôler que la saisie ne soit pas vide ou ne dépasse pas
+        Fonction qui permet de récupérer la saisie utilisateur et contrôle qu'elle ne soit pas vide ou ne dépasse pas
         la limite imposée.
         :param message_fonction:
-        :return:
+        :param max_length:
+        :return: user_input
         """
         while True:
-            response_date = message_fonction()
-            if response_date:
-                if len(response_date) <= 30:
+            user_input = message_fonction()
+            if user_input:
+                if len(user_input) <= max_length:
                     break
                 else:
-                    self.error_messages_v.error_date()
+                    self.error_messages_v.display_error_message_input_too_long(max_length)
             else:
                 self.error_messages_v.error_message_empty_field_view()
-        return response_date
+        return user_input
 
     def get_start_date_event_controller(self):
-        return self.check_date_event_controller(self.user_v.get_start_date_view)
+        return self.get_and_validate_input_length(self.user_v.get_start_date_view, max_length=30)
 
     def get_end_date_event_controller(self):
-        return self.check_date_event_controller(self.user_v.get_end_date_view)
+        return self.get_and_validate_input_length(self.user_v.get_end_date_view, max_length=30)
 
     def get_location_event_controller(self):
-        """
-        Fonction qui permet de récupérer et de contrôler la saisie de l'adresse.
-         
-        :return: response_location
-        """
-        while True:
-            response_location = self.user_v.get_location_view()
-            if response_location:
-                if len(response_location) <= 200:
-                    break
-                else:
-                    self.error_messages_v.exceeded_number_of_characters()
-            else:
-                self.error_messages_v.error_message_empty_field_view()
-        return response_location
+        return self.get_and_validate_input_length(self.user_v.get_location_view, max_length=200)
 
     def get_notes_event_controller(self):
-        """
-        Fonction qui permet de récupérer et contrôler la note d'événement saisie par l'utilisateur
-        :return response_notes
-        """
-        while True:
-            response_notes = self.user_v.get_notes_event_view()
-            if response_notes:
-                if len(response_notes) <= 500:
-                    break
-                else:
-                    self.error_messages_v.exceeded_number_of_characters()
-            else:
-                self.error_messages_v.error_message_empty_field_view()
-        return response_notes
+        return self.get_and_validate_input_length(self.user_v.get_notes_event_view, max_length=500)
 
     def fetch_and_check_table_data(self, search_table, session):
         """
