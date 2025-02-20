@@ -65,18 +65,15 @@ class MenuGestionController:
                     else:
                         break
             elif user_input_choice_menu == '4':  # Créer un contrat client
-                while True:
-                    result = self.user_c.show_customer_list_controller(session)
-                    if result:
-                        response = self.gestion_c.ask_user_if_wants_create_customer_contract_controller()
-                        if response:  # Si Gestion souhaite créer un contrat
-                            self.gestion_c.create_customer_contract_controller(session)
-                            break
-                        else:
-                            break
-                    else:
-                        error = "error_4"
-                        break
+                self.menu_view.clear_terminal_view()
+                result = self.user_c.get_customer_list_controller(session)
+                if result:
+                    self.user_view.display_list_customer_view(result)
+                    response = self.gestion_c.ask_user_if_wants_create_customer_contract_controller()
+                    if response:  # Si Gestion souhaite créer un contrat
+                        self.gestion_c.create_customer_contract_controller(session)
+                else:
+                    error = "error_4"
 
             elif user_input_choice_menu == '5':  # Modifier un contrat client
                 self.menu_view.clear_terminal_view()
