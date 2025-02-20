@@ -469,6 +469,15 @@ class UserController:
     def get_event_without_support_controller(self, session):
         return self.fetch_and_check_table_data(self.table_c.get_list_event_without_support_controller, session)
 
+    def get_all_contract_controller(self, session):
+        return self.fetch_and_check_table_data(self.table_c.get_all_contract_controller, session)
+
+    def get_list_all_customer_controller(self, session):
+        return self.fetch_and_check_table_data(self.table_c.get_list_of_all_customers_controller, session)
+
+    def get_user_event_list_support_controller(self, session):
+        return self.fetch_and_check_table_data(self.table_c.get_event_list_by_user_controller, session)
+
     def get_support_collaborator_controller(self, session):
         """
         Fonction qui permet de récupérer la liste de tous collaborateurs puis de retourner une liste de
@@ -479,40 +488,6 @@ class UserController:
         info_collab = self.table_c.get_information_for_all_collaborators_controller(session)
         list_collab_supp = [c for c in info_collab if c.role_id == 3]
         return list_collab_supp
-
-    def get_all_contract_controller(self, session):
-        """
-        Fonction qui permet de récupérer, contrôler et retourner une liste de contrat.
-
-        :param session:
-        :return: list_contract
-        """
-        result_contract = self.table_c.get_all_contract_controller(session)
-        list_contract = [c for c in result_contract]
-        if list_contract:
-            return list_contract
-
-    def get_list_all_customer_controller(self, session):
-        """
-        Fonction qui permet de récupérer, contrôler et retourner une liste de client.
-        :param session:
-        :return:
-        """
-        result_customer = self.table_c.get_list_of_all_customers_controller(session)
-        list_customer = [c for c in result_customer]
-        if list_customer:
-            return list_customer
-
-    def get_user_event_list_support_controller(self, session):
-        """
-        Fonction qui permet de récupérer, contrôler et retourner une liste d'événement lié à un collaborateur.
-        :param session:
-        :return: result_event2
-        """
-        result_event1 = self.table_c.get_event_list_by_user_controller(session)
-        result_event2 = [c for c in result_event1]
-        if result_event2:
-            return result_event2
 
     def ask_user_to_select_event_id_controller(self, result_event1):
         """
