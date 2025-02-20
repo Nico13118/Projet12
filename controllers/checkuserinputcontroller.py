@@ -6,9 +6,6 @@ ROLE = ["COM", "GES", "SUP"]
 
 class CheckUserInputController:
 
-    def __init__(self):
-        self.session = None
-
     def check_user_input_yes_no_controller(self, user_input):
         """
         Fonction qui contrôle que la saisie correspond aux constantes.
@@ -46,3 +43,7 @@ class CheckUserInputController:
         role = role.upper()
         if role in ROLE:
             return role
+
+    def check_input_length(self, user_input, max_length):
+        if len(user_input) <= max_length:
+            return True
