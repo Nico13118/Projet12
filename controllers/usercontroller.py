@@ -194,20 +194,6 @@ class UserController:
     def ask_user_if_they_want_assign_event_to_a_collaborator_controller(self):
         return self.ask_user_confirmation(self.user_v.display_message_to_assign_event_to_a_collaborator_view)
 
-    def ask_user_to_select_customer_contract_controller(self, session):
-        while True:
-            user_input_contract_id = self.user_v.get_contract_id_view()
-            if user_input_contract_id:
-                result_contract = self.table_c.get_single_contract_controller(session, user_input_contract_id)
-                list_result_contract = [c for c in result_contract]
-                if list_result_contract:
-                    break
-                else:
-                    self.error_messages_v.display_error_message_choice_view()
-            else:
-                self.error_messages_v.error_message_empty_field_view()
-        return user_input_contract_id
-
     def edit_info_customer_contract_controller(self, session, contract_id):
         error = False
         while True:
@@ -444,21 +430,30 @@ class UserController:
         list_collab_supp = [c for c in info_collab if c.role_id == 3]
         return list_collab_supp
 
-    def ask_user_to_select_event_id_controller(self, result_event1):
+    def get_and_validate_entity_id(self, message_fonction, entity_list):
         """
-        Fonction qui permet de récupérer l'identifiant de l'événement saisi par l'utilisateur puis de contrôler que la
-        saisie correspond à l'identifiant de la liste d'événement.
+        Fonction qui permet de récupérer l'id (event, contrat ...) saisi par l'utilisateur puis contrôle qu'il
+        correspond dans la liste.
 
-        :param result_event1:
-        :return: user_input_event_id
+        :param message_fonction:
+        :param entity_list:
+        :return: user_input_id
         """
         while True:
-            user_input_event_id = self.user_v.get_event_id_view()
-            if user_input_event_id:
-                infos_event = [c for c in result_event1 if c.event_id == int(user_input_event_id)]
-                if infos_event:
-                    return user_input_event_id
+            user_input_id = message_fonction()
+            if user_input_id:
+                result = [c for c in entity_list if c[0] == int(user_input_id)]
+                if result:
+                    break
                 else:
                     self.error_messages_v.display_error_message_choice_view()
             else:
                 self.error_messages_v.error_message_empty_field_view()
+        return user_input_id
+
+    def ask_user_to_select_event_id_controller(self, result_event):
+        return self.get_and_validate_entity_id(self.user_v.get_event_id_view, result_event)
+
+    def ask_user_to_select_customer_contract_controller(self, result_contract):
+        return self.get_and_validate_entity_id(self.user_v.get_contract_id_view, result_contract)
+
