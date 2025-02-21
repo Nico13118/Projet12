@@ -35,61 +35,13 @@ class GestionController:
         self.user_view.display_list_collaborator(result, session)
 
     def ask_user_if_they_want_to_delete_collaborator(self):
-        """
-        Fonction qui permet de demander à l'utilisateur s'il souhaite supprimer un collaborateur.
-        La reponse de l'utilisateur est contrôlé.
-
-        :return: True
-        """
-        while True:
-            user_input_y_n = self.user_view.display_message_delete_collaborator_list()
-            if user_input_y_n:
-                response = self.check_user_input_c.check_user_input_yes_no_controller(user_input_y_n)
-                if response == "Y":
-                    return True
-                elif response == "N":
-                    break
-                else:
-                    self.error_messages_v.display_error_message_of_values_yes_and_no()
-            else:
-                self.error_messages_v.error_message_empty_field_view()
+        return self.user_c.ask_user_confirmation(self.user_view.display_message_delete_collaborator_list)
 
     def ask_user_if_they_want_to_edit_collaborator(self):
-        """
-        Fonction qui permet de demander à l'utilisateur s'il souhaite modifier un collaborateur.
-        La reponse de l'utilisateur est contrôlé.
+        return self.user_c.ask_user_confirmation(self.user_view.display_message_edit_collaborator_list)
 
-        :return: True
-        """
-        while True:
-            user_input_y_n = self.user_view.display_message_edit_collaborator_list()
-            response = self.check_user_input_c.check_user_input_yes_no_controller(user_input_y_n)
-            if response == "Y":
-                return True
-            elif response == "N":
-                break
-            else:
-                self.error_messages_v.display_error_message_of_values_yes_and_no()
-
-    def ask_user_to_select_collaborator_controller(self, session):
-        """
-        Fonction qui permet de demander à l'utilisateur de saisir l'id du collaborateur à modifier.
-        On contrôle la saisie de l'utilisateur.
-
-        :param session
-        """
-        while True:
-            user_id = self.user_view.get_collaborator_id_view()
-            result = self.check_user_input_c.check_user_input_isdigit(user_id)
-            if result:
-                selected_user = self.table_c.get_single_collaborator_info_with_id_controller(user_id, session)
-                infos = selected_user.fetchone()
-                if infos.collab_id == int(user_id):
-                    return infos.collab_id, infos.collab_username
-                else:
-                    self.error_messages_v.display_error_message_choice_view()
-            else:
-                self.error_messages_v.display_error_message_choice_view()
+    def ask_user_to_select_collaborator_controller(self, collab_list):
+        return self.user_c.get_and_validate_entity_id(self.user_view.get_collaborator_id_view, collab_list)
 
     def ask_user_which_field_to_edit(self):
         """
