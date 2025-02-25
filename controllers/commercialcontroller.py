@@ -50,6 +50,14 @@ class CommercialController:
             else:
                 self.error_messages_v.display_error_message_choice_view()
 
+    def get_customers_by_collaborator_controller(self, session):
+        """
+        Fonction qui permet de récupérer une liste de clients associés au collaborateur connecté.
+        :param session:
+        :return: liste client
+        """
+        return self.user_c.fetch_and_check_table_data(self.table_c.get_customers_by_collaborator, session)
+
     def get_unsigned_contracts(self, result_contract):
         """
         Fonction qui permet de retourner uniquement les contrats non signés
