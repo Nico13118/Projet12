@@ -251,6 +251,23 @@ class TableController:
                 f"SELECT * FROM customer JOIN collaborator ON customer.collaborator_id = collaborator.collab_id"))
             return result_customer
 
+    def get_customers_by_collaborator(self, session):
+        """
+        Fonction qui permet de récupérer et retourner une liste de client associé à un collaborateur.
+        :param session:
+        :return: result_customer
+        """
+        self.session = session
+        password = quote(self.session.password)
+        database_name = self.json_c.get_database_name_in_json_file()
+        engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
+        with engine.connect() as connection:
+            result_customer = connection.execute(text(
+                "SELECT * FROM customer "
+                "JOIN collaborator ON customer.collaborator_id = collaborator.collab_id "
+                f"WHERE customer.collaborator_id = {session.collab_id}"))
+            return result_customer
+
     def delete_collaborator_in_table_controller(self, session, user_id):
         self.session = session
         password = quote(self.session.password)
@@ -402,3 +419,20 @@ class TableController:
                 "JOIN collaborator ON collaborator.collab_id = event.collaborator_supp_id "
                 f"WHERE event_id = {info_event_id}"))
             return result_event1
+
+    def get_list_event_without_support_controller(self, session):
+        """
+        Fonction qui permet de retourner une liste d'événement sans support assigné.
+
+        :param session:
+        :return: result_customer
+        """
+        self.session = session
+        password = quote(self.session.password)
+        database_name = self.json_c.get_database_name_in_json_file()
+        engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
+        with engine.connect() as connection:
+            result_customer = connection.execute(text(f"SELECT * FROM event "
+                                                      f"JOIN customer ON customer.custom_id = event.customer_id "
+                                                      f"WHERE collaborator_supp_id IS NULL "))
+            return result_customer
