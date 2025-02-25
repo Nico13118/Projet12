@@ -58,18 +58,14 @@ class CommercialController:
         """
         return self.user_c.fetch_and_check_table_data(self.table_c.get_customers_by_collaborator, session)
 
-    def get_unsigned_contracts(self, result_contract):
+    def get_unsigned_contracts(self, session):
         """
-        Fonction qui permet de retourner uniquement les contrats non signés
+        Fonction qui permet de retourner uniquement les contrats non signés associés au collaborateur connecté.
 
-        :param result_contract
+        :param session:
         :return: list_contract
         """
-        list_contract = []
-        for row in result_contract:
-            if row.contract_status_id == 2:
-                list_contract.append(row)
-        return list_contract
+        return self.user_c.fetch_and_check_table_data(self.table_c.get_unsigned_contracts_table_c, session)
 
     def get_unpaid_contracts(self, result_contract):
         """
