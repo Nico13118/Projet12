@@ -85,11 +85,7 @@ class CommercialController:
         :param session:
         :return:
         """
-        result_contract = self.user_c.get_all_contract_controller(session)
-        if result_contract:
-            contract_collab_list = [c for c in result_contract if session.collab_id == c.collaborator_id]
-            if contract_collab_list:
-                return contract_collab_list
+        return self.user_c.fetch_and_check_table_data(self.table_c.get_all_contract_by_collaborator, session)
 
     def ask_user_if_wants_create_event_contract_controller(self):
         return self.user_c.ask_user_confirmation(self.user_view.display_message_create_contract_event_view)
