@@ -28,21 +28,7 @@ class CommercialController:
                                                        info_company_name)
 
     def ask_user_if_wants_they_want_to_edit_customer(self):
-        """
-        Fonction qui permet de demander à l'utilisateur s'il souhaite apporter une modification à un utilisateur.
-        La reponse de l'utilisateur est contrôlé.
-
-        :return: Y
-        """
-        while True:
-            user_input = self.user_view.display_message_edit_customer_list_view()
-            response = self.check_user_input_c.check_user_input_yes_no_controller(user_input)
-            if response == "Y":
-                return True
-            elif response == "N":
-                break
-            else:
-                self.error_messages_v.display_error_message_of_values_yes_and_no()
+        return self.user_c.ask_user_confirmation(self.user_view.display_message_edit_customer_list_view)
 
     def ask_user_to_select_customer_controller(self, session):
         """
