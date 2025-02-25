@@ -111,4 +111,8 @@ class ErrorMessagesView:
         text = Text(f"Erreur: La saisie dépasse la longueur maximale autorisée de {max_length} caractères.")
         text.stylize("bold red")
         console.print(text)
-        
+
+    def display_message_error_no_collaborator(self):
+        text = Text("Aucun collaborateur disponible pour le moment.")
+        text.stylize("bold red")
+        console.print(text)
