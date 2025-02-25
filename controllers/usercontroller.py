@@ -416,9 +416,6 @@ class UserController:
     def get_user_event_list_support_controller(self, session):
         return self.fetch_and_check_table_data(self.table_c.get_event_list_by_user_controller, session)
 
-    def get_customer_list_controller(self, session):
-        return self.fetch_and_check_table_data(self.table_c.get_list_of_all_customers_controller, session)
-
     def get_collaborator_list_controller(self, session):
         return self.fetch_and_check_table_data(self.table_c.get_information_for_all_collaborators_controller, session)
 
