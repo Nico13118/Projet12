@@ -22,6 +22,8 @@ class MenuGestionController:
             if error:
                 if error == 'error_1':
                     self.error_messages_v.display_error_message_choice_view()
+                elif error == 'error_2':
+                    self.error_messages_v.display_message_error_no_collaborator()
                 elif error == 'error_4':
                     self.error_messages_v.no_contracts_to_create_view()
                 elif error == 'error_5':
@@ -41,16 +43,22 @@ class MenuGestionController:
                 self.gestion_c.register_new_collaborator_controller(session)
 
             elif user_input_choice_menu == '2':  # Modifier un collaborateur
-                while True:
-                    self.gestion_c.show_collaborator_list_controller(session)
-                    # Demande si l'utilisateur souhaite modifier un collaborateur
-                    response_y_n = self.gestion_c.ask_user_if_they_want_to_edit_collaborator()
-                    if response_y_n:
-                        # Demander à l'utilisateur de selectionner le collaborateur à modifier
-                        user_id_username = self.gestion_c.ask_user_to_select_collaborator_controller(session)
-                        self.edit_collaborator_info_controller(session, user_id=user_id_username[0])
-                    else:
-                        break
+                collab_list = self.user_c.get_collaborator_list_controller(session)
+                if collab_list:
+                    while True:
+                        self.menu_view.clear_terminal_view()
+                        self.user_view.display_list_collaborator(collab_list, session)
+                        # Demande si l'utilisateur souhaite modifier un collaborateur
+                        response_y_n = self.gestion_c.ask_user_if_they_want_to_edit_collaborator()
+                        if response_y_n:
+                            # Demander à l'utilisateur de selectionner le collaborateur à modifier
+                            user_id_username = self.gestion_c.ask_user_to_select_collaborator_controller(collab_list)
+                            if user_id_username:
+                                self.edit_collaborator_info_controller(session, user_id=user_id_username)
+                        else:
+                            break
+                else:
+                    error = "error_2"
 
             elif user_input_choice_menu == '3':  # Supprimer un collaborateur
                 while True:
@@ -58,8 +66,8 @@ class MenuGestionController:
                     response_y_n = self.gestion_c.ask_user_if_they_want_to_delete_collaborator()
                     if response_y_n:
                         user_id_username = self.gestion_c.ask_user_to_select_collaborator_controller(session)
-                        self.database_c.delete_a_mysql_user_controller(session, username=user_id_username[1])
-                        self.table_c.delete_collaborator_in_table_controller(session, user_id=user_id_username[0])
+                        self.database_c.delete_a_mysql_user_controller(session, username=user_id_username)
+                        self.table_c.delete_collaborator_in_table_controller(session, user_id=user_id_username)
                         self.gestion_c.reassign_customers_to_commercials_controller(session)
                         self.user_view.prompt_the_user_to_press_the_enter_key()
                     else:
@@ -167,7 +175,7 @@ class MenuGestionController:
                         #  Afficher la liste des collaborateurs du support
                         self.user_view.display_list_collaborator(list_collab_supp, session)
                         #  Demande de selectionner le collaborateur.
-                        result_user_id = self.gestion_c.ask_user_to_select_collaborator_controller2(list_collab_supp)
+                        result_user_id = self.gestion_c.ask_user_to_select_collaborator_controller(list_collab_supp)
                         if result_user_id:
                             self.table_c.edit_a_field_in_table(session,
                                                                table_name='event', field='collaborator_supp_id',
@@ -193,8 +201,7 @@ class MenuGestionController:
                             #  Afficher la liste des collaborateurs du support
                             self.user_view.display_list_collaborator(list_collab_supp, session)
                             #  Demande de selectionner le collaborateur.
-                            result_user_id = self.gestion_c.ask_user_to_select_collaborator_controller2(
-                                list_collab_supp)
+                            result_user_id = self.gestion_c.ask_user_to_select_collaborator_controller(list_collab_supp)
                             if result_user_id:
                                 self.table_c.edit_a_field_in_table(session,
                                                                    table_name='event', field='collaborator_supp_id',
