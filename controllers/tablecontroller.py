@@ -268,6 +268,25 @@ class TableController:
                 f"WHERE customer.collaborator_id = {session.collab_id}"))
             return result_customer
 
+    def get_unsigned_contracts_table_c(self, session):
+        """
+        Fonction qui permet de récupérer une liste de contrats non signés associés au collaborateur connecté.
+        :param session:
+        :return: result_contract
+        """
+        self.session = session
+        password = quote(self.session.password)
+        database_name = self.json_c.get_database_name_in_json_file()
+        engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
+        with engine.connect() as connection:
+            result_contract = connection.execute(text(
+                "SELECT * FROM contract "
+                "JOIN contractstatus ON contract.contract_status_id = contractstatus.contract_status_id "
+                "JOIN customer ON customer.custom_id = contract.customer_id "
+                "WHERE contract.contract_status_id = 2 "
+                f"AND contract.collaborator_id = {session.collab_id}"))
+            return result_contract
+
     def delete_collaborator_in_table_controller(self, session, user_id):
         self.session = session
         password = quote(self.session.password)
