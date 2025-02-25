@@ -75,18 +75,6 @@ class CommercialController:
                 list_contract.append(row)
         return list_contract
 
-    def get_collaborator_customer_list(self, session):
-        """
-        Fonction qui permet de retourner la liste de client attribué à l'utilisateur connecté.
-        :param session:
-        :return: customer_list
-        """
-        result = self.user_c.get_list_all_customer_controller(session)
-        if result:
-            customer_list = [c for c in result if c.collaborator_id == session.collab_id]
-            if customer_list:
-                return customer_list
-
     def get_collaborator_contract_list(self, session):
         """
         Fonction qui permet de retourner une liste de contrats attribués à l'utilisateur connecté.
