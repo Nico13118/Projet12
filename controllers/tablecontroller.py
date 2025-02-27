@@ -356,6 +356,26 @@ class TableController:
                 f"WHERE contract.collaborator_id = {session.collab_id}"))
             return result_contract
 
+    def get_list_contracts_by_collaborator_and_unpaid(self, session):
+        """
+        Fonction qui permet de récupérer et retourner une liste de contrats non soldés et associés au collaborateur
+        connecté.
+        :param session:
+        :return: result_contract
+        """
+        self.session = session
+        password = quote(self.session.password)
+        database_name = self.json_c.get_database_name_in_json_file()
+        engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
+        with engine.connect() as connection:
+            result_contract = connection.execute(text(
+                "SELECT * FROM contract "
+                "JOIN contractstatus ON contract.contract_status_id = contractstatus.contract_status_id "
+                "JOIN customer ON customer.custom_id = contract.customer_id "
+                f"WHERE contract.collaborator_id = {session.collab_id} "
+                "AND contract.contract_amount_remaining > 0"))
+            return result_contract
+
     def get_single_contract_controller(self, session, contract_id):
         self.session = session
         password = quote(self.session.password)
