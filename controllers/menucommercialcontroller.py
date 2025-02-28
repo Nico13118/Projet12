@@ -43,12 +43,13 @@ class MenuCommercialController:
             elif user_input == '2':  # Modifier un client
                 while True:
                     self.menu_view.clear_terminal_view()
-                    result = self.commercial_c.get_customers_by_collaborator_controller(session)
-                    if result:
-                        self.user_view.display_list_customer_view(result)
+                    # Récupère la liste des clients associés au collaborateur
+                    result_customer = self.commercial_c.get_customers_by_collaborator_controller(session)
+                    if result_customer:
+                        self.user_view.display_list_customer_view(result_customer)
                         response = self.commercial_c.ask_user_if_wants_they_want_to_edit_customer()
                         if response:
-                            customer_id = self.commercial_c.ask_user_to_select_customer_controller(session)
+                            customer_id = self.commercial_c.ask_user_to_select_customer_controller(result_customer)
                             self.edit_customer_info_controller(customer_id, session)
                         else:
                             break
