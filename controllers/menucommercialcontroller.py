@@ -66,25 +66,18 @@ class MenuCommercialController:
 
             elif user_input == '4':  # Créer un événement
                 self.menu_view.clear_terminal_view()
-                # Vérification que le commercial à des contrats en cours
-                result_contract_list1 = self.commercial_c.get_collaborator_contract_list(session)
+                # Vérification qu'il y a un ou plusieurs contrats signés et soldés.
+                result_contract_list1 = self.commercial_c.get_contract_signed_and_paid(session)
                 if result_contract_list1:
-                    # Vérification qu'il y a un contrat signé et soldé
-                    result_contract_list2 = self.commercial_c.search_for_signed_and_paid_contracts(
-                        result_contract_list1)
+                    # Permet de vérifier et retourner les contrats non associés à un événement.
+                    result_contract_list2 = self.commercial_c.search_if_contract_has_event(session,
+                                                                                           result_contract_list1)
                     if result_contract_list2:
-                        # vérifier les contrats associés à un événement.
-                        result_contract_list3 = self.commercial_c.search_if_contract_has_event(session,
-                                                                                               result_contract_list2)
-                        if result_contract_list3:
-                            self.user_view.display_list_contract_view(
-                                result_contract_list3,
-                                info_title="Liste de contrats disponibles pour créations d'événements")
-                            result_response = self.commercial_c.ask_user_if_wants_create_event_contract_controller()
-                            if result_response:
-                                self.commercial_c.create_new_event_controller(session, result_contract_list3)
-                        else:
-                            error = 'error_4'
+                        info_title = "Liste de contrats disponibles pour créations d'événements"
+                        self.user_view.display_list_contract_view(result_contract_list2, info_title=info_title)
+                        response = self.commercial_c.ask_user_if_wants_create_event_contract_controller()
+                        if response:
+                            self.commercial_c.create_new_event_controller(session, result_contract_list2)
                     else:
                         error = 'error_4'
                 else:
