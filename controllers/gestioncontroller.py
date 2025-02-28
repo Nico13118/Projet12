@@ -156,15 +156,7 @@ class GestionController:
                                                    info_id=customer_contract.contract_id)
 
     def ask_user_if_wants_create_customer_contract_controller(self):
-        while True:
-            user_input = self.user_view.display_message_create_customer_contract_view()
-            response = self.check_user_input_c.check_user_input_yes_no_controller(user_input)
-            if response == "Y":
-                return True
-            elif response == "N":
-                break
-            else:
-                self.error_messages_v.display_error_message_of_values_yes_and_no()
+        return self.user_c.ask_user_confirmation(self.user_view.display_message_create_customer_contract_view, )
 
     def create_customer_contract_controller(self, session):
         while True:
