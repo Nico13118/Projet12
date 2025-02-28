@@ -30,25 +30,12 @@ class CommercialController:
     def ask_user_if_wants_they_want_to_edit_customer(self):
         return self.user_c.ask_user_confirmation(self.user_view.display_message_edit_customer_list_view)
 
-    def ask_user_to_select_customer_controller(self, session):
+    def ask_user_to_select_customer_controller(self, result_customer):
         """
-        Fonction qui permet de demander à l'utilisateur de saisir le N° client à modifier.
-        Une recherche est effectuée dans la base avec l'id du client concerné.
-
-        :param session
+        Fonction qui permet de demander à l'utilisateur de saisir le N° client à modifier et retourne l'id selectionné.
+        :param result_customer
         """
-        while True:
-            customer_id = self.user_view.get_customer_code_id_view()
-            result = self.check_user_input_c.check_user_input_isdigit(customer_id)
-            if result:
-                customer_list = self.table_c.get_single_customer_info_with_id_controller(customer_id, session)
-                result_info = [c for c in customer_list if c.custom_id == int(customer_id)]
-                if result_info:
-                    return customer_id
-                else:
-                    self.error_messages_v.display_error_message_choice_view()
-            else:
-                self.error_messages_v.display_error_message_choice_view()
+        return self.user_c.get_and_validate_entity_id(self.user_view.get_event_id_view, result_customer)
 
     def get_customers_by_collaborator_controller(self, session):
         """
