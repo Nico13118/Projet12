@@ -25,6 +25,16 @@ class TableController:
 
     def save_customer_in_table_controller(self, session, info_name, info_first_name, info_email, info_phone,
                                           info_company_name):
+        """
+        Fonction qui permet d'enregitrer les informations d'un client dans la table customer.
+
+        :param session:
+        :param info_name :
+        :param info_first_name:
+        :param info_email:
+        :param info_phone :
+        :param info_company_name:
+        """
         self.session = session
         database_name = self.json_c.get_database_name_in_json_file()
         password = quote(self.session.password)
@@ -43,6 +53,17 @@ class TableController:
 
     def save_customer_contract_in_table_controller(self, session, contract_description, contract_total_price,
                                                    contract_amount_remaining, custom_id, collaborator_id):
+        """
+        Fonction qui permet d'enregistrer un contrat client dans la table contract.
+
+        :param session:
+        :param contract_description :
+        :param contract_total_price :
+        :param contract_amount_remaining:
+        :param custom_id:
+        :param collaborator_id :
+        """
+
         self.session = session
         database_name = self.json_c.get_database_name_in_json_file()
         password = quote(self.session.password)
@@ -89,6 +110,18 @@ class TableController:
 
     def save_new_event_contract_controller(self, session, event_date_start, event_date_end, location, attendees,
                                            notes, customer_id, contract_id):
+        """
+        Fonction qui permet d'enregistrer un événement dans la table event.
+
+        :param session:
+        :param event_date_start :
+        :param event_date_end:
+        :param location:
+        :param attendees:
+        :param notes:
+        :param customer_id:
+        :param contract_id:
+        """
         self.session = session
         database_name = self.json_c.get_database_name_in_json_file()
         password = quote(self.session.password)
@@ -107,6 +140,12 @@ class TableController:
             session.commit()
 
     def add_contract_status_in_the_table(self, session, database_name):
+        """
+        Fonction qui permet de créer la table contractstatus.
+        :param session:
+        :param database_name:
+
+        """
         self.session = session
         password = quote(self.session.password)
         engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
@@ -288,6 +327,11 @@ class TableController:
             return result_contract
 
     def delete_collaborator_in_table_controller(self, session, user_id):
+        """
+        Fonction qui permet de supprimer un collaborateur de la table collaborator.
+        :param session:
+        :param user_id:
+        """
         self.session = session
         password = quote(self.session.password)
         database_name = self.json_c.get_database_name_in_json_file()
@@ -327,6 +371,11 @@ class TableController:
             return result_commercial
 
     def get_all_contract_controller(self, session):
+        """
+        Fonction qui permet de retourner tous les contrats clients.
+        :param session:
+        :return: result_contract
+        """
         self.session = session
         password = quote(self.session.password)
         database_name = self.json_c.get_database_name_in_json_file()
@@ -377,6 +426,12 @@ class TableController:
             return result_contract
 
     def get_single_contract_controller(self, session, contract_id):
+        """
+        Fonction qui permet de récupérer un contrat avec l'aide de son id.
+        :param session:
+        :param contract_id:
+        :return: result_contract
+        """
         self.session = session
         password = quote(self.session.password)
         database_name = self.json_c.get_database_name_in_json_file()
@@ -392,7 +447,7 @@ class TableController:
 
     def get_a_customer_contracts_controller(self, session, customer_id):
         """
-        Fonction qui permet de retourner un ou plusieurs contrats d'un client.
+        Fonction qui permet de retourner un ou plusieurs contrats d'un client avec l'aide de son id.
 
         :param session:
         :param customer_id:
