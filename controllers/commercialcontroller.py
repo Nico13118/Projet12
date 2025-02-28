@@ -108,6 +108,9 @@ class CommercialController:
                 self.error_messages_v.error_message_empty_field_view()
         self.user_view.display_end_message_event_view()
 
+    def get_contract_signed_and_paid(self, session):
+        return self.user_c.fetch_and_check_table_data(self.table_c.get_all_contract_signed_and_paid_by_collab, session)
+
     def search_for_signed_and_paid_contracts(self, result_contract_list1):
         """
         Fonction qui retourne une liste de contrats signé et payé.
