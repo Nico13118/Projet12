@@ -86,7 +86,7 @@ class ErrorMessagesView:
         console.print(text)
 
     def no_events_to_create_view(self):
-        text = Text("Vous ne pouvez pas créer d'événement pour le moment, car \naucun contrat signé et "
+        text = Text("Vous ne pouvez pas créer d'événement pour le moment.\n Aucun contrat signé et "
                     "payé n'est disponible.")
         text.stylize("bold red")
         console.print(text)
