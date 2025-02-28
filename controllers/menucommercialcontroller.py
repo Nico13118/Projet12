@@ -60,7 +60,7 @@ class MenuCommercialController:
                 self.menu_view.clear_terminal_view()
                 result_contract_list = self.commercial_c.get_collaborator_contract_list(session)
                 if result_contract_list:
-                    self.ask_the_user_to_choose_how_to_display_contracts_controller(session, result_contract_list)
+                    self.ask_the_user_to_choose_how_to_display_contracts_controller(session)
                 else:
                     error = 'error_3'
 
@@ -177,67 +177,63 @@ class MenuCommercialController:
             else:
                 error = True
 
-    def ask_the_user_to_choose_how_to_display_contracts_controller(self, session, result_contract_list):
+    def ask_the_user_to_choose_how_to_display_contracts_controller(self, session):
         """
         Fonction qui permet de gérer un sous menu afin que l'utilisateur puisse avoir la possibilité
         d'afficher et modifier tous les contrats, les contrats non signés ou non soldés.
 
         :param session:
-        :param result_contract_list
-
         """
-        error = False
+        error = ''
         while True:
             self.menu_view.clear_terminal_view()
             self.menu_view.ask_the_user_to_choose_how_to_display_contracts_view()
+
             if error:
-                self.error_messages_v.no_contract_to_display_view()
-                error = False
+                if error == 'error_1':
+                    self.error_messages_v.display_error_message_choice_view()
+                elif error == 'error_2':
+                    self.error_messages_v.no_contract_to_display_view()
+                error = ''
+
             user_input = self.user_view.get_user_input_view()
 
             if user_input == '1':  # Afficher tous les contrats
+                result_contract_list = self.commercial_c.get_collaborator_contract_list(session)
                 self.menu_view.clear_terminal_view()
                 self.user_view.display_list_contract_view(result_contract_list, info_title="Liste des contrats")
                 result_response_y_n = self.user_c.ask_user_if_they_want_to_edit_contract()
                 if result_response_y_n:
                     contract_id = self.user_c.ask_user_to_select_customer_contract_controller(result_contract_list)
                     self.user_c.edit_info_customer_contract_controller(session, contract_id)
-                    break
-                else:
-                    break
 
             elif user_input == '2':  # Afficher seulement les contrats non signés
-                self.menu_view.clear_terminal_view()
-                new_list_contract = self.commercial_c.get_unsigned_contracts(result_contract_list)
-                if new_list_contract:
-                    self.user_view.display_list_contract_view(new_list_contract,
-                                                              info_title="Liste des contrats non signés")
+                result = self.commercial_c.get_unsigned_contracts(session)
+                if result:
+                    self.menu_view.clear_terminal_view()
+                    self.user_view.display_list_contract_view(result, info_title="Liste des contrats non signés")
                     result_response_y_n = self.user_c.ask_user_if_they_want_to_edit_contract()
                     if result_response_y_n:
-                        contract_id = self.user_c.ask_user_to_select_customer_contract_controller(result_contract_list)
+                        contract_id = self.user_c.ask_user_to_select_customer_contract_controller(result)
                         self.user_c.edit_info_customer_contract_controller(session, contract_id)
-                    else:
-                        break
                 else:
-                    error = True
+                    error = 'error_2'
 
             elif user_input == '3':  # Afficher seulement les contrats non soldés
-                self.menu_view.clear_terminal_view()
-                new_list_contract = self.commercial_c.get_unpaid_contracts(result_contract_list)
-                if new_list_contract:
-                    self.user_view.display_list_contract_view(new_list_contract,
-                                                              info_title="Liste des contrats non soldés")
+                result = self.commercial_c.get_unpaid_contracts(session)
+                if result:
+                    self.menu_view.clear_terminal_view()
+                    self.user_view.display_list_contract_view(result, info_title="Liste des contrats non soldés")
                     result_response_y_n = self.user_c.ask_user_if_they_want_to_edit_contract()
                     if result_response_y_n:
-                        contract_id = self.user_c.ask_user_to_select_customer_contract_controller(result_contract_list)
+                        contract_id = self.user_c.ask_user_to_select_customer_contract_controller(result)
                         self.user_c.edit_info_customer_contract_controller(session, contract_id)
-                    else:
-                        break
+
                 else:
-                    error = True
+                    error = 'error_2'
 
             elif user_input == '4':  # Retourner au menu principal
                 break
 
             else:
-                self.error_messages_v.display_error_message_choice_view()
+                error = 'error_1'
