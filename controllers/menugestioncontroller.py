@@ -74,12 +74,14 @@ class MenuGestionController:
                         break
             elif user_input_choice_menu == '4':  # Créer un contrat client
                 self.menu_view.clear_terminal_view()
+                # Récupérer la liste de tous les clients
                 result = self.user_c.get_list_all_customer_controller(session)
                 if result:
                     self.user_view.display_list_customer_view(result)
                     response = self.gestion_c.ask_user_if_wants_create_customer_contract_controller()
                     if response:  # Si Gestion souhaite créer un contrat
-                        self.gestion_c.create_customer_contract_controller(session)
+                        user_input_id = self.gestion_c.ask_user_to_select_customer_id_controller(result)
+                        self.gestion_c.create_customer_contract_controller(session, user_input_id)
                 else:
                     error = "error_4"
 
