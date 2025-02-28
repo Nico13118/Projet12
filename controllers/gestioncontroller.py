@@ -156,7 +156,7 @@ class GestionController:
                                                    info_id=customer_contract.contract_id)
 
     def ask_user_if_wants_create_customer_contract_controller(self):
-        return self.user_c.ask_user_confirmation(self.user_view.display_message_create_customer_contract_view, )
+        return self.user_c.ask_user_confirmation(self.user_view.display_message_create_customer_contract_view)
 
     def create_customer_contract_controller(self, session):
         while True:
