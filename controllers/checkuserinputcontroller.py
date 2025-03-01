@@ -40,10 +40,21 @@ class CheckUserInputController:
         return x
 
     def check_user_input_role_controller(self, role):
+        """
+        Fonction qui permet de contrôler que la saisie du role correspond à la liste de la constante ROLE.
+        :param role:
+        :return: role
+        """
         role = role.upper()
         if role in ROLE:
             return role
 
     def check_input_length(self, user_input, max_length):
+        """
+        Fonction qui permet de contrôler que la saisie utilisateur ne dépasse pas la longueur autorisée.
+        :param user_input:
+        :param max_length:
+        :return: Boolean
+        """
         if len(user_input) <= max_length:
             return True
