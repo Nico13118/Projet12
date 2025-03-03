@@ -212,7 +212,7 @@ class TableController:
         engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
         with engine.connect() as connection:
             result = connection.execute(text(
-                f"SELECT * FROM collaborator JOIN role ON collaborator.role_id = role.id"))
+                "SELECT * FROM collaborator JOIN role ON collaborator.role_id = role.id"))
             return result
 
     def get_single_collaborator_info_with_id_controller(self, user_id, session):
@@ -287,7 +287,7 @@ class TableController:
         engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
         with engine.connect() as connection:
             result_customer = connection.execute(text(
-                f"SELECT * FROM customer JOIN collaborator ON customer.collaborator_id = collaborator.collab_id"))
+                "SELECT * FROM customer JOIN collaborator ON customer.collaborator_id = collaborator.collab_id"))
             return result_customer
 
     def get_customers_by_collaborator(self, session):
@@ -352,7 +352,7 @@ class TableController:
         database_name = self.json_c.get_database_name_in_json_file()
         engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
         with engine.connect() as connection:
-            result_customer = connection.execute(text(f"SELECT * FROM customer WHERE collaborator_id IS NULL"))
+            result_customer = connection.execute(text("SELECT * FROM customer WHERE collaborator_id IS NULL"))
             return result_customer
 
     def get_list_commercial_controller(self, session):
@@ -367,7 +367,7 @@ class TableController:
         database_name = self.json_c.get_database_name_in_json_file()
         engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
         with engine.connect() as connection:
-            result_commercial = connection.execute(text(f"SELECT * FROM collaborator WHERE role_id = 1"))
+            result_commercial = connection.execute(text("SELECT * FROM collaborator WHERE role_id = 1"))
             return result_commercial
 
     def get_all_contract_controller(self, session):
@@ -382,9 +382,9 @@ class TableController:
         engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
         with engine.connect() as connection:
             result_contract = connection.execute(text(
-                f"SELECT * FROM contract "
-                f"JOIN contractstatus ON contract.contract_status_id = contractstatus.contract_status_id "
-                f"JOIN customer ON customer.custom_id = contract.customer_id"))
+                "SELECT * FROM contract "
+                "JOIN contractstatus ON contract.contract_status_id = contractstatus.contract_status_id "
+                "JOIN customer ON customer.custom_id = contract.customer_id"))
             return result_contract
 
     def get_all_contract_by_collaborator(self, session):
@@ -458,10 +458,10 @@ class TableController:
         engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
         with engine.connect() as connection:
             result_contract = connection.execute(text(
-                f"SELECT * From contract "
-                f"JOIN contractstatus ON contract.contract_status_id = contractstatus.contract_status_id "
-                f"JOIN customer ON customer.custom_id = contract.customer_id "
-                f"JOIN collaborator ON collaborator.collab_id = contract.collaborator_id "
+                "SELECT * From contract "
+                "JOIN contractstatus ON contract.contract_status_id = contractstatus.contract_status_id "
+                "JOIN customer ON customer.custom_id = contract.customer_id "
+                "JOIN collaborator ON collaborator.collab_id = contract.collaborator_id "
                 f"WHERE contract_id = {contract_id}"))
             return result_contract
 
@@ -479,14 +479,13 @@ class TableController:
         engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
         with engine.connect() as connection:
             result_contract = connection.execute(text(
-                f"SELECT * From contract "
+                "SELECT * From contract "
                 f"WHERE contract.customer_id = {customer_id}"))
             return result_contract
 
     def get_single_event_controller(self, session, contract_id):
         """
         Fonction qui permet de retourner un événement avec l'aide de l'id d'un contrat.
-         
         :param session
         :param contract_id
         :return result_event
@@ -555,7 +554,6 @@ class TableController:
     def get_list_event_without_support_controller(self, session):
         """
         Fonction qui permet de retourner une liste d'événement sans support assigné.
-
         :param session:
         :return: result_customer
         """
@@ -564,7 +562,7 @@ class TableController:
         database_name = self.json_c.get_database_name_in_json_file()
         engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost/{database_name}')
         with engine.connect() as connection:
-            result_customer = connection.execute(text(f"SELECT * FROM event "
-                                                      f"JOIN customer ON customer.custom_id = event.customer_id "
-                                                      f"WHERE collaborator_supp_id IS NULL "))
+            result_customer = connection.execute(text("SELECT * FROM event "
+                                                      "JOIN customer ON customer.custom_id = event.customer_id "
+                                                      "WHERE collaborator_supp_id IS NULL "))
             return result_customer
