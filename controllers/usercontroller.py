@@ -2,7 +2,8 @@ import re
 
 
 class UserController:
-    def __init__(self, userview, errormessagesview, menuview, tablecontroller, databasecontroller, checkuserinputcontroller):
+    def __init__(self, userview, errormessagesview, menuview, tablecontroller, databasecontroller,
+                 checkuserinputcontroller):
         self.user_v = userview
         self.error_messages_v = errormessagesview
         self.menu_view = menuview
