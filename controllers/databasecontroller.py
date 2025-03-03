@@ -150,7 +150,7 @@ class DatabaseController:
         with engine.connect() as connection:
             connection.execute(text(f"UPDATE mysql.user SET User='{new_username}' WHERE User='{old_username}'"))
             connection.execute(text(f"UPDATE mysql.tables_priv SET User='{new_username}' WHERE User='{old_username}'"))
-            connection.execute(text(f"FLUSH PRIVILEGES"))
+            connection.execute(text("FLUSH PRIVILEGES"))
             connection.commit()
 
     def delete_a_mysql_user_controller(self, session, username):
@@ -165,5 +165,5 @@ class DatabaseController:
         engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost')
         with engine.connect() as connection:
             connection.execute(text(f"DROP USER '{username}'@'localhost'"))
-            connection.execute(text(f"FLUSH PRIVILEGES"))
+            connection.execute(text("FLUSH PRIVILEGES"))
             connection.commit()
