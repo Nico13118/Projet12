@@ -26,9 +26,7 @@ class GestionController:
         """
         Fonction qui permet de récupérer la liste des collaborateurs puis transmet les informations à la vue
         pour être affichées.
-
         :param session
-
         """
         self.menu_view.clear_terminal_view()
         result = self.table_c.get_information_for_all_collaborators_controller(session)
@@ -47,10 +45,8 @@ class GestionController:
         """
         Fonction qui permet de demander à l'utilisateur quel champ souhaite-t-il modifier.
         Deux contrôles sont effectués :
-
         1) Vérification d'une saisie vide
         2) Vérification que la saisie correspond aux choix du menu.
-
         :return: result_choice
         """
         while True:
@@ -67,7 +63,6 @@ class GestionController:
     def create_new_username_controller(self, user_id, session):
         """
         Fonction qui permet de gérer la création d'un nouvel identifiant de connexion.
-
         :param user_id :
         :param session
         :return: new_username
@@ -80,7 +75,6 @@ class GestionController:
     def get_old_username_controller(self, user_id, session):
         """
         Fonction qui permet de gérer la récupération de l'ancien identifiant de connexion.
-
         :param user_id :
         :param session
         :return: old_username
@@ -138,7 +132,6 @@ class GestionController:
     def reassigne_commercial_to_multiple_contracts_controller(self, session, result_custom, commercial_id):
         """
         Fonction qui permet de réassigner les contrats clients au commercial.
-        
         :param session
         :param result_custom
         :param commercial_id
