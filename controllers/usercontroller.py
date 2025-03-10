@@ -1,4 +1,5 @@
 import re
+import bcrypt
 
 
 class UserController:
@@ -458,3 +459,11 @@ class UserController:
     def ask_user_to_select_customer_contract_controller(self, result_contract):
         return self.get_and_validate_entity_id(self.user_v.get_contract_id_view, result_contract)
 
+    def hash_password_controller(self, pwd):
+        """
+        Fonction qui permet de hacher le mot de passe avec bcrypt.
+        :param pwd: Mot de passe en clair
+        :return: Mot de passe haché et formaté en base64 avec le sel inclus.
+        """
+        hashed_password = bcrypt.hashpw(pwd.encode(), bcrypt.gensalt())
+        return hashed_password.decode()
