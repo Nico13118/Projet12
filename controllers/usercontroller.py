@@ -18,7 +18,9 @@ class UserController:
         info_first_name = self.get_first_name_controller()
         info_email = self.get_email_controller()
         info_username = self.get_username_controller(f"{info_name} {info_first_name}")
-        info_password = self.get_password_controller()
+        info_password = self.hash_password_controller(self.get_password_controller)
+        # info_password = self.get_password_controller()
+
         if first_connexion:
             role_id = 2
         else:
@@ -459,11 +461,22 @@ class UserController:
     def ask_user_to_select_customer_contract_controller(self, result_contract):
         return self.get_and_validate_entity_id(self.user_v.get_contract_id_view, result_contract)
 
-    def hash_password_controller(self, pwd):
+    def hash_password_controller(self, message_fonction_pwd):
         """
         Fonction qui permet de hacher le mot de passe avec bcrypt.
-        :param pwd: Mot de passe en clair
+        :param message_fonction_pwd : Mot de passe en clair.
         :return: Mot de passe haché et formaté en base64 avec le sel inclus.
         """
+        pwd = message_fonction_pwd()
         hashed_password = bcrypt.hashpw(pwd.encode(), bcrypt.gensalt())
         return hashed_password.decode()
+
+    def verify_hash_password_controller(self,hashed_pass, user_input_pass):
+        """
+        Fonction qui permet de contrôler le mot de passe haché.
+
+        :param hashed_pass
+        :param user_input_pass:
+        :return: True / False
+        """
+        return bcrypt.checkpw(user_input_pass.encode(), hashed_pass.encode())
