@@ -23,6 +23,7 @@ class FirstStartController:
         self.table_c.create_table_all_controller(session, database_name)  # Création de toutes les tables
         self.first_start_v.display_message_create_user_gestion_view()  # Panneau d'information création user Gestion
         self.user_c.start_create_user_controller(session, first_connexion=True)  # Création de l'utilisateur
+        self.database_c.create_mysql_auth_user(session)
         self.first_start_v.display_message_end_of_setting_view()
         self.user_view.prompt_the_user_to_press_the_enter_key()
 
