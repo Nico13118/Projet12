@@ -26,3 +26,9 @@ class JsonController:
         with open(f"{project_root}/info.json", "r") as f:
             info = json.load(f)
             return info[0]['name']
+
+    def get_info_key_in_json_file(self):
+        with open(f"{project_root}/info.json", "r") as f:
+            info = json.load(f)
+            return info[0]['secret_key']
+        
