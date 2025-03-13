@@ -167,3 +167,19 @@ class DatabaseController:
             connection.execute(text(f"DROP USER '{username}'@'localhost'"))
             connection.execute(text("FLUSH PRIVILEGES"))
             connection.commit()
+
+    def create_mysql_auth_user(self, session):
+        """
+        Fonction qui permet de créer un utilisateur mysql avec une limite de droit pour consulter la table colaborator.
+        :param session:
+        """
+        self.session = session
+        password = quote(self.session.password)
+        database_name = self.json_c.get_database_name_in_json_file()
+        info_key = self.json_c.get_info_key_in_json_file()
+        engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost')
+        with engine.connect() as connection:
+            connection.execute(text(f"CREATE USER 'auth_user'@'localhost' IDENTIFIED BY {info_key}"))
+            connection.execute(text(f"GRANT SELECT ON {database_name}.collaborator "
+                                    "TO auth_user@localhost"))
+            connection.execute(text("FLUSH PRIVILEGES"))
