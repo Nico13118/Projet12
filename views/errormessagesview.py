@@ -116,3 +116,8 @@ class ErrorMessagesView:
         text = Text("Aucun collaborateur disponible pour le moment.")
         text.stylize("bold red")
         console.print(text)
+
+    def display_error_message_auth_user(self):
+        text = Text("Impossible de contrôler les identifiants de connexion. Erreur : auth_user")
+        text.stylize("bold red")
+        console.print(text)
