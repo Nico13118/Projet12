@@ -1,6 +1,8 @@
 import os
 import json
+import jwt
 import time
+from datetime import datetime, timedelta
 from models.jsonmodel import JsonModel
 import secrets
 
@@ -31,4 +33,48 @@ class JsonController:
         with open(f"{project_root}/info.json", "r") as f:
             info = json.load(f)
             return info[0]['secret_key']
-        
+
+    def create_jwt(self, collab_username, collab_password, collab_id, role_id):
+        """
+        Fonction qui permet de créer un token.
+        :param collab_username
+        :param collab_password
+        :param collab_id
+        :param role_id
+        :return: token
+        """
+        now = datetime.now()
+        expiration_time = (now + timedelta(minutes=15)).timestamp()
+        payload = {
+            'collab_username': collab_username,
+            'collab_password': collab_password,
+            'collab_id': collab_id,
+            'role_id': role_id,
+            'exp': expiration_time
+        }
+        token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
+        return token
+
+    def verify_and_refresh_token(self, token):
+        """
+        Fonction qui permet de vérifier et d'actualiser le token.
+        :param token:
+        :return: new_token
+        """
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+            new_token = self.create_jwt(
+                payload['collab_username'],
+                payload['collab_password'],
+                payload['collab_id'],
+                payload['role_id']
+            )
+            return new_token  # On renvoie le token mis à jour
+        except jwt.ExpiredSignatureError:
+            print("Token expiré ! Veuillez vous reconnecter.")
+        except jwt.InvalidTokenError:
+            print("Token invalide !")
+
+
+SECRET_KEY = JsonController.get_info_key_in_json_file
+
