@@ -25,7 +25,8 @@ class MainController:
         self.table_c = TableController(self.json_c)
         self.user_c = UserController(UserView(), ErrorMessagesView(), MenuView(), self.table_c, self.database_c,
                                      self.check_user_input_c)
-        self.login_c = LoginController(UserView(), ErrorMessagesView(), self.user_c, self.database_c, self.table_c)
+        self.login_c = LoginController(UserView(), ErrorMessagesView(), self.user_c, self.database_c, self.table_c,
+                                       self.json_c)
         self.first_start_c = FirstStartController(
             FirstStartView(), UserView(), ErrorMessagesView(), self.user_c, self.json_c, self.database_c,
             self.table_c, self.check_user_input_c)
