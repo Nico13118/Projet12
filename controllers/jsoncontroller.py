@@ -21,7 +21,7 @@ class JsonController:
         jsonmodel = JsonModel(database_name, date_time, info_user, secret_key)
         result_json = jsonmodel.create_json_model()
 
-        with open(f'{project_root}/info2.json', 'w') as file_json:
+        with open(f'{project_root}/info.json', 'w') as file_json:
             json.dump([result_json], file_json)
 
     def get_database_name_in_json_file(self):
@@ -43,16 +43,17 @@ class JsonController:
         :param role_id
         :return: token
         """
+        secret_key = self.get_info_key_in_json_file()
         now = datetime.now()
         expiration_time = (now + timedelta(minutes=15)).timestamp()
         payload = {
             'collab_username': collab_username,
             'collab_password': collab_password,
-            'collab_id': collab_id,
-            'role_id': role_id,
+            'collab_id': str(collab_id),
+            'role_id': str(role_id),
             'exp': expiration_time
         }
-        token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
+        token = jwt.encode(payload, secret_key, algorithm="HS256")
         return token
 
     def verify_and_refresh_token(self, token):
@@ -61,8 +62,9 @@ class JsonController:
         :param token:
         :return: new_token
         """
+        secret_key = self.get_info_key_in_json_file()
         try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+            payload = jwt.decode(token, secret_key, algorithms=["HS256"])
             new_token = self.create_jwt(
                 payload['collab_username'],
                 payload['collab_password'],
@@ -75,6 +77,4 @@ class JsonController:
         except jwt.InvalidTokenError:
             print("Token invalide !")
 
-
-SECRET_KEY = JsonController.get_info_key_in_json_file
 
