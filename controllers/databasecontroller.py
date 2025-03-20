@@ -179,7 +179,7 @@ class DatabaseController:
         info_key = self.json_c.get_info_key_in_json_file()
         engine = create_engine(f'mysql+pymysql://{self.session.username}:{password}@localhost')
         with engine.connect() as connection:
-            connection.execute(text(f"CREATE USER 'auth_user'@'localhost' IDENTIFIED BY {info_key}"))
+            connection.execute(text(f"CREATE USER 'auth_user'@'localhost' IDENTIFIED BY '{info_key}'"))
             connection.execute(text(f"GRANT SELECT ON {database_name}.collaborator "
                                     "TO auth_user@localhost"))
             connection.execute(text("FLUSH PRIVILEGES"))
